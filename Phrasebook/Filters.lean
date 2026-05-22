@@ -11,6 +11,7 @@ import Mathlib
 import Phrasebook.Filters.Tendsto
 import Phrasebook.Filters.Proving
 import Phrasebook.Filters.EpsilonDelta
+import Phrasebook.Filters.Operations
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -92,3 +93,5 @@ The notations `𝓝`, `atTop`, `∀ᶠ` only parse after `open Filter Topology`.
 {include 1 Phrasebook.Filters.Proving}
 
 {include 1 Phrasebook.Filters.EpsilonDelta}
+
+{include 1 Phrasebook.Filters.Operations}
