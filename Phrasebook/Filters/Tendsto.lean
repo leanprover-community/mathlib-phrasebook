@@ -62,6 +62,28 @@ example (f : ℝ → ℝ) (a L : ℝ) :
 ```
 :::
 
+# Punctured vs unpunctured limits
+
+`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a` — it
+forces `f a = L`. The classical "limit as `x → a` with `x ≠ a`",
+which says nothing about the value at `a`, lives on the punctured
+neighbourhood filter `𝓝[≠] a`:
+
+::: leanSection
+```lean -show
+open Filter Topology
+```
+```lean
+example (f : ℝ → ℝ) (a L : ℝ) :
+    Prop := Tendsto f (𝓝[≠] a) (𝓝 L)
+```
+:::
+
+So when you translate `lim_{x → a} f(x) = L` to Mathlib, ask
+yourself whether the classical statement does or does not assume
+continuity at `a`. Continuity-style ↦ `𝓝 a`; deleted-limit ↦
+`𝓝[≠] a`.
+
 # Which filter goes where?
 
 When you translate `lim x → α, f x = β` to `Tendsto f l₁ l₂`, the

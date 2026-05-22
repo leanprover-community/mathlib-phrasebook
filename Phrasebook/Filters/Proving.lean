@@ -19,10 +19,12 @@ set_option pp.rawOnError true
 
 You have a limit statement in `Tendsto` or `∀ᶠ` form (see the
 companion "Limit statements" entry for how to write one). This entry
-covers the four recipes that close almost every proof: algebraic
-combination, composition, `filter_upwards`, and `EventuallyEq`
-substitution. For the ε-δ bridge, see "Bridges to ε-δ and filter
-bases".
+covers four common recipes — algebraic combination, composition,
+`filter_upwards`, and `EventuallyEq` substitution — that handle most
+everyday goals. Other proofs lean on monotonicity
+({name}`Filter.Tendsto.mono_left`, {name}`Filter.Eventually.mono`),
+on `map`/`comap` (see "Operations on filters"), or on the ε-δ /
+filter-basis bridge (see "Bridges to ε-δ and filter bases").
 
 # Combine two convergent sequences
 
