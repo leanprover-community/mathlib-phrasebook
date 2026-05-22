@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Your Name Here. All rights reserved.
+Copyright (c) 2026 The Mathlib Community. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Your Name here
+Authors: The Mathlib Community
 -/
 
 import VersoManual
