@@ -143,8 +143,7 @@ recipe is mechanical:
    `t`).
 
 If you keep this in mind, almost every classical limit translates by
-inspection. The codomain-then-domain confusion is more common than the
-underlying mathematics: it's why the gotcha below exists.
+inspection.
 
 # `∀ᶠ` and `∃ᶠ`: eventually and frequently
 
