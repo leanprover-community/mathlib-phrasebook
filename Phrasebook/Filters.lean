@@ -33,10 +33,12 @@ variable {α : Type*} (l : Filter α)
 ```
 :::
 
-The intuition: an element of `l` is a "large" subset of `α`. Filters are
-upward closed and closed under finite intersections, so "large" behaves
-like you expect — supersets and finite intersections of large sets are
-large.
+The intuition: `s ∈ l` reads "we *eventually* end up in `s`". For
+`𝓝 x` that's "for points sufficiently near `x`"; for `atTop` on `ℕ`,
+"for sufficiently large `n`"; for `μ.ae`, "for almost every point";
+for `cofinite`, "for all but finitely many". The filter axioms —
+`univ ∈ l`, upward-closed, closed under finite intersection — just
+say "eventually" is preserved by supersets and by conjunction.
 
 # The standard filters
 
@@ -80,11 +82,11 @@ large.
 
 * * `⊤`
   * any
-  * always (every set is large)
+  * everywhere (only `Set.univ` is in `⊤`)
 
 * * `⊥`
   * any
-  * vacuously (no set is large enough — see gotchas)
+  * vacuously (every set is in `⊥` — see gotchas)
 
 :::
 
@@ -106,8 +108,8 @@ example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
 ```
 :::
 
-Read it as "`f` sends `l₁` to `l₂`": preimages of large sets in the
-codomain stay large in the domain. That one definition unifies the
+Read it as "`f` sends `l₁` to `l₂`": every `l₂`-eventual set in the
+codomain has an `l₁`-eventual preimage. That one definition unifies the
 limits you would otherwise spell out separately:
 
 ::: leanSection
@@ -229,10 +231,10 @@ order.
 
 ## Recipe: limits depend only on eventual values
 
-`f =ᶠ[l] g` ({name}`Filter.EventuallyEq`) means the set
-`{x | f x = g x}` is large in `l`. Anything that only depends on
-`l`-eventual behaviour transfers from `f` to `g` for free; in
-particular, `Tendsto f l m ↔ Tendsto g l m`.
+`f =ᶠ[l] g` ({name}`Filter.EventuallyEq`) means `f x = g x` holds
+`l`-eventually. Anything that only depends on `l`-eventual behaviour
+transfers from `f` to `g` for free; in particular,
+`Tendsto f l m ↔ Tendsto g l m`.
 
 The two lemmas you'll actually reach for:
 
@@ -261,10 +263,10 @@ used in squeeze theorems and liminf/limsup arguments.
 
 ## Recipe: joint limits with `Filter.prod` (`×ˢ`)
 
-`F ×ˢ G : Filter (α × β)` is the product filter: its large sets are
-those containing a rectangle `s ×ˢ t` with `s ∈ F` and `t ∈ G`. The
-notation `×ˢ` covers both `Set.prod` and `Filter.prod`; the elaborator
-disambiguates from the types.
+`F ×ˢ G : Filter (α × β)` is the product filter: a set is
+`F ×ˢ G`-eventual iff it contains a rectangle `s ×ˢ t` with `s ∈ F`
+and `t ∈ G`. The notation `×ˢ` covers both `Set.prod` and
+`Filter.prod`; the elaborator disambiguates from the types.
 
 The single fact that drives every joint-limit proof:
 
@@ -393,8 +395,8 @@ The five idiomatic shapes you'll encounter:
 
 # The order on filters
 
-`F ≤ G` reads as "`F` is *finer* than `G`": every large set of `G` is
-already large for `F`. Finer filter = more constraints, more like
+`F ≤ G` reads as "`F` is *finer* than `G`": every `G`-eventual set is
+already `F`-eventual. Finer filter = more constraints, more like
 "a single point".
 
 The mnemonic that prevents the sign-flip everyone trips over: on
@@ -427,10 +429,10 @@ The lattice on `Filter α`:
   * eventually for either `F` or `G`
 
 * * `⊥`
-  * every set is large (vacuous; see gotchas)
+  * every set is `⊥`-eventual (vacuous; see gotchas)
 
 * * `⊤`
-  * only `Set.univ` is large
+  * only `Set.univ` is `⊤`-eventual ("everywhere")
 
 :::
 
@@ -457,9 +459,10 @@ contains it, not by what it contains.
 For `f : α → β`:
 
 * {name}`Filter.map` `f F : Filter β` — push-forward. A set `t` is
-  large iff its preimage `f ⁻¹' t` is large in `F`.
+  `map f F`-eventual iff its preimage `f ⁻¹' t` is `F`-eventual.
 * {name}`Filter.comap` `f G : Filter α` — pull-back. A set `s` is
-  large iff it contains the preimage of some `G`-large set.
+  `comap f G`-eventual iff it contains the preimage of some
+  `G`-eventual set.
 
 These are the algebraic content of `Tendsto`. By definition:
 
