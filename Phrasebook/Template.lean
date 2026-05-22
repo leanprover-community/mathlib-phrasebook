@@ -21,9 +21,43 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Tutorial: How to write X using Mathlib" =>
+#doc (Manual) "Tutorial: How to write a polynomial using Mathlib" =>
 
-This page explains how to express X using the definitions in Mathlib.
-We assume basic knowledge of both Lean and X.
+This page explains how to express a polynomial using the definitions in Mathlib.
+We assume basic knowledge of both Lean and polynomials.
 
-Please complete me. You can use `Phrasebook/LinearAlgebra.lean` as a cheat sheet.
+First, let's write the type of all univariate polynomials with coefficients in R, with R a semiring.
+::: leanSection
+```lean
+variable {R : Type*} [Semiring R]
+```
+Now, the type of polynomials over {lean}`R` is {lean}`Polynomial R`.
+
+To say "let f be a polynomial with coefficients in R" you can use
+```lean
+variable (f : Polynomial R)
+```
+The notation `R[X]` for the polynomial ring over {lean}`R` is also available,
+but is _scoped_ in the {lean}`Polynomial` namespace.
+```lean
+open scoped Polynomial
+
+variable (f : R[X])
+```
+The _constant polynomials_ are the image of the coefficient semiring {lean}`R`
+in {lean}`R[X]`.
+```lean
+variable {r : R}
+#check (Polynomial.C r : R[X])
+```
+The variable of the polynomial ring is
+```lean
+#check (Polynomial.X : R[X])
+```
+It is common to simply open the {lean}`Polynomial` namespace, not just the _scoped_ notation, to be able to write
+```lean
+open Polynomial
+
+#check C r + C 2 * X ^ 2 + X ^ 3
+```
+:::
