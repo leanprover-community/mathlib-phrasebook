@@ -1,0 +1,131 @@
+/-
+Copyright (c) 2026 The Mathlib Community. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: The Mathlib community
+-/
+
+import VersoManual
+import Phrasebook.Meta.Lean
+import Mathlib
+
+open Verso.Genre Manual
+open Verso.Genre.Manual.InlineLean
+
+open Phrasebook
+
+set_option pp.rawOnError true
+
+#doc (Manual) "Limit statements: `Tendsto` and `∀ᶠ`" =>
+
+This is the *writing* half of working with filters: how to turn a
+mathematical limit statement — sequence convergence, "x → a", "almost
+everywhere" — into a Mathlib proposition. The companion "Proving
+limits" entry covers how to *prove* such statements once written.
+
+# `Tendsto`: the universal limit
+
+Every limit statement goes through {name}`Filter.Tendsto`:
+
+::: leanSection
+```lean -show
+open Filter Topology
+variable {α β : Type*}
+```
+```lean
+example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
+    Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ :=
+  Filter.tendsto_def
+```
+:::
+
+Read it as "`f` sends `l₁` to `l₂`": every `l₂`-eventual set in the
+codomain has an `l₁`-eventual preimage. That one definition unifies the
+limits you would otherwise spell out separately:
+
+::: leanSection
+```lean -show
+open Filter Topology
+```
+```lean
+-- u : ℕ → ℝ converges to x
+example (u : ℕ → ℝ) (x : ℝ) :
+    Prop := Tendsto u atTop (𝓝 x)
+-- f : ℝ → ℝ has limit L at a
+example (f : ℝ → ℝ) (a L : ℝ) :
+    Prop := Tendsto f (𝓝 a) (𝓝 L)
+-- f tends to +∞ as x → +∞
+example (f : ℝ → ℝ) :
+    Prop := Tendsto f atTop atTop
+-- one-sided limit
+example (f : ℝ → ℝ) (a L : ℝ) :
+    Prop := Tendsto f (𝓝[>] a) (𝓝 L)
+```
+:::
+
+# Which filter goes where?
+
+When you translate `lim x → α, f x = β` to `Tendsto f l₁ l₂`, the
+recipe is mechanical:
+
+1. *Source filter `l₁`*. What does the input `x` approach? "`n → ∞`" is
+   `atTop`. "`x → a` from the right" is `𝓝[>] a`. "`x → a` in `s`" is
+   `𝓝[s] a`. "for almost every `ω`" is `μ.ae`.
+2. *Target filter `l₂`*. What does `f(x)` approach? "→ L" is `𝓝 L`. "→
+   +∞" is `atTop`. "→ value in `t`" is `𝓟 t` (the principal filter on
+   `t`).
+
+If you keep this in mind, almost every classical limit translates by
+inspection.
+
+# `∀ᶠ` and `∃ᶠ`: eventually and frequently
+
+`∀ᶠ x in l, p x` ({name}`Filter.Eventually`) means "the set where `p`
+holds belongs to `l`". `∃ᶠ x in l, p x` ({name}`Filter.Frequently`) is
+its dual.
+
+For the standard filters:
+
+::: table +header
+
+* * Form
+  * Reads as
+
+* * `∀ᶠ x in 𝓝 a, p x`
+  * `p` holds on a neighbourhood of `a`
+
+* * `∀ᶠ n in atTop, p n`
+  * `p` holds for all sufficiently large `n`
+
+* * `∀ᵐ x ∂μ, p x` (= `∀ᶠ x in μ.ae, p x`)
+  * `p` holds almost everywhere
+
+* * `∃ᶠ n in atTop, p n`
+  * `p` holds infinitely often
+
+:::
+
+# Gotchas
+
+*`Tendsto` direction.* Source filter first, target filter second. The
+mnemonic "`f` sends `l₁` to `l₂`" matches the type
+`Filter α → Filter β` (composition direction), not the limit
+arrow `lim x → a`. The trivial filter `⊥` contains every set, so
+`Tendsto f ⊥ l` is _vacuously true_ for any `l` — accidentally
+writing a degenerate source (e.g. `𝓝[s] a` for an `a` outside the
+closure of `s`) leaves you with hypotheses that prove nothing.
+
+*`open` matters.* `𝓝`, `𝓝[s]`, `𝓝[>]`, `𝓝[<]`, `atTop`, `atBot`,
+`∀ᶠ`, `∃ᶠ` all need `open Filter Topology` to parse. Concretely, in
+a fresh section where `Topology` isn't open:
+
+::: leanSection
+```lean +error (name := nhdsNotOpened)
+example : Filter ℝ := 𝓝 (0 : ℝ)
+```
+```leanOutput nhdsNotOpened
+Unknown identifier `𝓝`
+```
+:::
+
+After `open Topology` (and `open Filter` for `∀ᶠ`, `atTop`, etc.) the
+same line elaborates without complaint.
