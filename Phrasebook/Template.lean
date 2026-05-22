@@ -60,4 +60,10 @@ open Polynomial
 
 #check C r + C 2 * X ^ 2 + X ^ 3
 ```
+There is also a specific constructor for monomials, where you specify the
+degree and the constant:
+```lean
+example : monomial 3 r = C r * X ^ 3 := by
+  rw [C_mul_X_pow_eq_monomial]
+```
 :::
