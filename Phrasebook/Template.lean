@@ -66,4 +66,14 @@ degree and the constant:
 example : monomial 3 r = C r * X ^ 3 := by
   rw [C_mul_X_pow_eq_monomial]
 ```
+There are two notions of _degree_ for polynomials, distinguished by the type in
+which they take values:
+```lean
+#check (natDegree : R[X] → ℕ)
+-- and
+#check (degree : R[X] → WithBot ℕ)
+```
+For non-zero polynomials, the `natDegree` and the `degree` agree.
+The polynomial `C 0` has `natDegree` equal to `0`, while it has `degree`
+equal to `⊥`.
 :::
