@@ -20,10 +20,10 @@ set_option pp.rawOnError true
 A *filter* on `α` is Mathlib's universal device for talking about
 "limiting behaviour". A single definition — {name}`Filter` — encodes
 neighbourhoods of a point, "x → ∞", almost-everywhere statements,
-convergence along a subsequence, and the cofinite filter; a single
-relation — {name}`Filter.Tendsto` — covers every limit you would
-otherwise have to redefine. Internalising this collapses a lot of
-analysis API into something you can predict.
+convergence along a subsequence, and "all but finitely many points";
+a single relation — {name}`Filter.Tendsto` — covers every limit you
+would otherwise have to redefine. Internalising this collapses a lot
+of analysis API into something you can predict.
 
 To declare a filter:
 
