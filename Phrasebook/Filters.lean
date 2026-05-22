@@ -40,18 +40,53 @@ large.
 
 # The standard filters
 
-| Filter | Lives on | "Eventually in this filter" means |
-|---|---|---|
-| `𝓝 x` (= {name}`nhds`) | a {name}`TopologicalSpace` | near the point `x` |
-| `𝓝[s] x` (= {name}`nhdsWithin`) | within a subset | near `x`, restricted to `s` |
-| `𝓝[>] x`, `𝓝[<] x` | an order topology | from the right/left of `x` |
-| {name}`Filter.atTop` | a {name}`Preorder` with no top | for sufficiently large input |
-| {name}`Filter.atBot` | a preorder with no bottom | for sufficiently small input |
-| {name}`Filter.cofinite` | any type | for all but finitely many points |
-| `μ.ae` | a measure space | for almost every point |
-| {name}`Filter.principal` `s` | any | exactly inside `s` |
-| `⊤` | any | always (every set is large) |
-| `⊥` | any | vacuously (no set is large enough — see gotchas) |
+::: table +header
+
+* * Filter
+  * Lives on
+  * "Eventually in this filter" means
+
+* * `𝓝 x` (= {name}`nhds`)
+  * a {name}`TopologicalSpace`
+  * near the point `x`
+
+* * `𝓝[s] x` (= {name}`nhdsWithin`)
+  * within a subset
+  * near `x`, restricted to `s`
+
+* * `𝓝[>] x`, `𝓝[<] x`
+  * an order topology
+  * from the right/left of `x`
+
+* * {name}`Filter.atTop`
+  * a {name}`Preorder` with no top
+  * for sufficiently large input
+
+* * {name}`Filter.atBot`
+  * a preorder with no bottom
+  * for sufficiently small input
+
+* * {name}`Filter.cofinite`
+  * any type
+  * for all but finitely many points
+
+* * `μ.ae`
+  * a measure space
+  * for almost every point
+
+* * {name}`Filter.principal` `s`
+  * any
+  * exactly inside `s`
+
+* * `⊤`
+  * any
+  * always (every set is large)
+
+* * `⊥`
+  * any
+  * vacuously (no set is large enough — see gotchas)
+
+:::
 
 The notations `𝓝`, `atTop`, `∀ᶠ` only parse after `open Filter Topology`.
 
@@ -119,12 +154,24 @@ its dual.
 
 For the filters above:
 
-| Form | Reads as |
-|---|---|
-| `∀ᶠ x in 𝓝 a, p x` | `p` holds on a neighbourhood of `a` |
-| `∀ᶠ n in atTop, p n` | `p` holds for all sufficiently large `n` |
-| `∀ᵐ x ∂μ, p x` (= `∀ᶠ x in μ.ae, p x`) | `p` holds almost everywhere |
-| `∃ᶠ n in atTop, p n` | `p` holds infinitely often |
+::: table +header
+
+* * Form
+  * Reads as
+
+* * `∀ᶠ x in 𝓝 a, p x`
+  * `p` holds on a neighbourhood of `a`
+
+* * `∀ᶠ n in atTop, p n`
+  * `p` holds for all sufficiently large `n`
+
+* * `∀ᵐ x ∂μ, p x` (= `∀ᶠ x in μ.ae, p x`)
+  * `p` holds almost everywhere
+
+* * `∃ᶠ n in atTop, p n`
+  * `p` holds infinitely often
+
+:::
 
 The tactic `filter_upwards [h₁, h₂] with x hx₁ hx₂` is the bread and
 butter: it discharges a goal `∀ᶠ x in l, q x` from `∀ᶠ x in l, p₁ x`
@@ -369,12 +416,24 @@ example (s t : Set α) :
 
 The lattice on `Filter α`:
 
-| Filter | "Eventually in this filter" means |
-|---|---|
-| `F ⊓ G` | eventually for both `F` and `G` |
-| `F ⊔ G` | eventually for either `F` or `G` |
-| `⊥` | every set is large (vacuous; see gotchas) |
-| `⊤` | only `Set.univ` is large |
+::: table +header
+
+* * Filter
+  * "Eventually in this filter" means
+
+* * `F ⊓ G`
+  * eventually for both `F` and `G`
+
+* * `F ⊔ G`
+  * eventually for either `F` or `G`
+
+* * `⊥`
+  * every set is large (vacuous; see gotchas)
+
+* * `⊤`
+  * only `Set.univ` is large
+
+:::
 
 This is exactly why `nhdsWithin x s = 𝓝 x ⊓ 𝓟 s`: "near `x` *and* in
 `s`":
