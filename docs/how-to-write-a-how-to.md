@@ -235,5 +235,3 @@ from a recipes entry as if it were another tool.
   catch Markdown-pipe tables, ambiguous parenthetical patterns,
   unrendered code blocks, or broken cross-references. Generic
   Markdown previewers do not behave like Verso.
-- Optionally, export the rendered page to PDF or attach screenshots
-  to the PR description for reviewers.
