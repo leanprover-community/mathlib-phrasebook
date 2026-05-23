@@ -220,8 +220,7 @@ Verso is not Markdown. The conventions that catch people:
 ## Pedagogical idioms vs Mathlib idioms
 
 Some entries exist to translate a non-Mathlib idiom (for example, ε-δ
-statements from textbooks) into the Mathlib idiom. They are used once
-per concept, not as proof tools.
+statements from textbooks) into the Mathlib idiom.
 
 When you write such an entry, say so in the intro: tell the reader to
 stay in the Mathlib idiom and reach for the translation entry only
