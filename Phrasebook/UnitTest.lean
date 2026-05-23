@@ -32,6 +32,14 @@ A newly added file inside the test library {module}`MathlibTest` will automatica
 
 Tests should be accompanied with comments and potentially links or issue numbers which provide enough context to understand what is being tested.
 
+```lean
+/-! This test ensures `existsi` is working -/
+
+example : ∃ x : Nat, x = x := by
+  existsi 42
+  rfl
+```
+
 # Capturing messages
 
 Test file are expected to be silent. Therefore, the main tool for tests is `#guard_msgs`, which allows to ensure the output of Lean (inf form of info, warning, or error) matches a specified content:
