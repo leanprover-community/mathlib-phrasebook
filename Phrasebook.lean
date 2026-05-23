@@ -6,11 +6,12 @@ Author: David Thrane Christiansen
 
 import VersoManual
 import Phrasebook.Meta.Lean
+import Phrasebook.Meta.Lean
 
--- When adding new pages, add them to the `import` statements here,
 -- and to the `{include 1 ...}` lines below.
 import Phrasebook.LinearAlgebra
 import Phrasebook.Template
+import Phrasebook.UnitTest
 
 open Verso.Genre Manual
 
@@ -26,6 +27,8 @@ authors := ["the Mathlib community"]
 The Mathlib phrasebook tells you the answer to questions of the form "How do I say ... using Mathlib?"
 
 {include 1 Phrasebook.LinearAlgebra}
+
+{include 1 Phrasebook.UnitTest}
 
 {include 1 Phrasebook.Template}
 
