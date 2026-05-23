@@ -10,7 +10,7 @@ import Phrasebook.Meta.Lean
 -- When adding new pages, add them to the `import` statements here,
 -- and to the `{include 1 ...}` lines below.
 import Phrasebook.LinearAlgebra
-import Phrasebook.Template
+import Phrasebook.EllipticCurve
 
 open Verso.Genre Manual
 
@@ -27,7 +27,7 @@ The Mathlib phrasebook tells you the answer to questions of the form "How do I s
 
 {include 1 Phrasebook.LinearAlgebra}
 
-{include 1 Phrasebook.Template}
+{include 1 Phrasebook.EllipticCurve}
 
 # Index
 %%%
