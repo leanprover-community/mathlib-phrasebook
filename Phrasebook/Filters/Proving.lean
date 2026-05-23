@@ -76,8 +76,8 @@ example {f : α → β} {g : β → γ}
 :::
 
 Note the order: `(hg.comp hf)`, with the *outer* function's `Tendsto`
-on the left. This matches function composition `g ∘ f`, not diagram
-order.
+on the left. This matches function composition `g ∘ f`, not the
+left-to-right `hf` then `hg` order you might expect.
 
 # Strengthen an "eventually" fact: `filter_upwards`
 
@@ -99,9 +99,9 @@ example {u : ℕ → ℝ}
 :::
 
 The `with n hn1 hn2` clause names the bound variable and the
-strengthened hypotheses; you then prove the pointwise goal `q n`. This
-is the tactic to reach for *every time* you'd otherwise want to use
-`Eventually.and` plus a `.mono`.
+strengthened hypotheses; you then prove the pointwise goal `q n`.
+This is usually cleaner than combining `Eventually.and` and `.mono`
+by hand.
 
 # Limits depend only on eventual values: `EventuallyEq`
 

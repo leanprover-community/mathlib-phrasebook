@@ -71,9 +71,9 @@ example (f : ℝ → ℝ) (a L : ℝ) :
 tag := "filters-punctured"
 %%%
 
-`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a`, so it
-forces `f a = L`. The classical "limit as `x → a` with `x ≠ a`",
-which says nothing about the value at `a`, lives on the punctured
+`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a`, so
+it forces `f a = L`. The *punctured* limit ("`x → a` with `x ≠ a`")
+makes no claim about the value at `a` and lives on the punctured
 neighbourhood filter `𝓝[≠] a`:
 
 ::: leanSection
@@ -89,12 +89,12 @@ example (f : ℝ → ℝ) (a L : ℝ) :
 So when you translate `lim_{x → a} f(x) = L` to Mathlib, ask
 yourself whether the classical statement does or does not assume
 continuity at `a`. If it does (the value at `a` is part of the
-statement), use `𝓝 a`. If it doesn't (the classical deleted limit),
-use `𝓝[≠] a`.
+statement), use `𝓝 a`. If it doesn't (the punctured limit), use
+`𝓝[≠] a`.
 
 # Which filter goes where?
 
-When you translate `lim x → α, f x = β` to `Tendsto f l₁ l₂`, the
+When you translate `lim_{x → x₀} f(x) = L` to `Tendsto f l₁ l₂`, the
 recipe is mechanical:
 
 1. *Source filter `l₁`*. What does the input `x` approach? "`n → ∞`" is
@@ -110,8 +110,10 @@ inspection.
 # `∀ᶠ` and `∃ᶠ`: eventually and frequently
 
 The {name}`Filter.Eventually` relation, written `∀ᶠ x in l, p x`,
-means "the set where `p` holds belongs to `l`". Its dual is
-{name}`Filter.Frequently`, written `∃ᶠ x in l, p x`.
+means "the set where `p` holds belongs to `l`". The dual
+{name}`Filter.Frequently`, written `∃ᶠ x in l, p x`, means "the set
+where `p` fails does *not* belong to `l`" (equivalently, `p` is not
+eventually false).
 
 For the standard filters:
 

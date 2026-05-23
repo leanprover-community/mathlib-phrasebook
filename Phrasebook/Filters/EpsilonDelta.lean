@@ -23,8 +23,8 @@ tag := "filters-epsilon-delta"
 Mathlib states limits and continuity in `Tendsto` form, and you
 should write your proofs that way too. This entry exists for a
 narrow purpose: translating ε-δ statements you encounter in
-classical sources into filter form, so you can then close the proof
-with the recipes in {ref "filters-proving"}[Proving limits]. Don't
+textbooks or papers into filter form, so you can then close the
+proof with the recipes in {ref "filters-proving"}[Proving limits]. Don't
 reach for ε-δ inside Lean if you can avoid it; stay in filter-land.
 ({name}`Filter.HasBasis`, covered below, is a filter-native
 generalisation and is fair game in filter-form proofs.)
@@ -47,9 +47,8 @@ example {f : ℝ → ℝ} {a L : ℝ} :
 ```
 :::
 
-This is *not* the classical deleted-neighbourhood limit; for that,
-work in `𝓝[≠] a` (see {ref "filters-punctured"}[Punctured vs
-unpunctured limits]).
+This is *not* the punctured limit; for that, work in `𝓝[≠] a` (see
+{ref "filters-punctured"}[Punctured vs unpunctured limits]).
 
 Variants you'll reach for when the endpoints aren't both `𝓝 _`:
 
@@ -59,9 +58,9 @@ Variants you'll reach for when the endpoints aren't both `𝓝 _`:
 
 # Filter bases
 
-`Metric.tendsto_nhds_nhds` is one instance of a general pattern. The
-neighbourhood filter `𝓝 x` on a metric space *has basis* the open
-balls around `x`:
+`Metric.tendsto_nhds_nhds` is one instance of the general
+*filter basis* pattern. The neighbourhood filter `𝓝 x` on a metric
+space *has basis* the open balls around `x`:
 
 ::: leanSection
 ```lean -show

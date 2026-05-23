@@ -176,10 +176,10 @@ lemmas (anything that pulls a witness out of a `∀ᶠ`, in particular)
 require it, because over `⊥` everything is vacuously true. Common
 instances fire automatically:
 
-* {name}`Filter.atTop_neBot`: requires `[Nonempty α] [SemilatticeSup α]`.
-* `Filter.NeBot` on `𝓝 x`: automatic in any topological space.
-* `Filter.map_neBot`: pushing a non-trivial filter forward stays
-  non-trivial.
+* `atTop` on a nonempty `[SemilatticeSup α]` (the instance is
+  {name}`Filter.atTop_neBot`).
+* `𝓝 x` in any topological space.
+* `Filter.map f F` whenever `F` is non-trivial.
 
 The instance for `atTop` requires `[Nonempty α]`; forget it and
 typeclass synthesis fails:

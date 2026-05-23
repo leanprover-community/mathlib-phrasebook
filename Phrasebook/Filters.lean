@@ -22,9 +22,9 @@ set_option pp.rawOnError true
 
 #doc (Manual) "How to work with filters in Mathlib" =>
 
-A {name}`Filter` `l` on a type `α` is a uniform notion of "eventually"
-on `α`: for a set `s : Set α`, membership `s ∈ l` reads "we
-*eventually* end up in `s`". The axioms (`univ ∈ l`,
+A {name}`Filter` `l` on a type `α` is a notion of "eventually" on
+`α`: for a set `s : Set α`, membership `s ∈ l` reads "we *eventually*
+end up in `s`". The axioms (`univ ∈ l`,
 upward-closed, closed under finite intersection) say that
 "eventually" is preserved by supersets and by conjunction.
 
