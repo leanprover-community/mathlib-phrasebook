@@ -6,6 +6,9 @@ Author: David Thrane Christiansen
 
 import VersoManual
 import Phrasebook.Meta.Lean
+import Phrasebook.Meta.MathlibCommit
+import Phrasebook.Meta.Now
+import Phrasebook.Meta.VersionString
 
 -- When adding new pages, add them to the `import` statements here,
 -- and to the `{include 1 ...}` lines below.
@@ -24,6 +27,8 @@ authors := ["the Mathlib community"]
 
 {index}[example]
 The Mathlib phrasebook tells you the answer to questions of the form "How do I say ... using Mathlib?"
+
+This document has been last updated at *{now}[]* using Lean *{versionString}[]* and Mathlib commit {mathlibCommit}[].
 
 {include 1 Phrasebook.LinearAlgebra}
 
