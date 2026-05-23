@@ -12,6 +12,7 @@ import Phrasebook.Meta.VersionString
 
 -- When adding new pages, add them to the `import` statements here,
 -- and to the `{include 1 ...}` lines below.
+import Phrasebook.AdditiveCombinatorics
 import Phrasebook.LinearAlgebra
 import Phrasebook.Template
 
@@ -31,6 +32,8 @@ The Mathlib phrasebook tells you the answer to questions of the form "How do I s
 This document has been last updated at *{now}[]* using Lean *{versionString}[]* and Mathlib commit {mathlibCommit}[].
 
 {include 1 Phrasebook.LinearAlgebra}
+
+{include 1 Phrasebook.AdditiveCombinatorics}
 
 {include 1 Phrasebook.Template}
 

@@ -7,6 +7,11 @@ git = "https://github.com/leanprover/verso"
 rev = "v4.30.0-rc2"
 
 [[require]]
+name = "add-combi"
+git = "https://github.com/leanprover-community/add-combi"
+rev = "master"
+
+[[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4"
 rev = "master"
