@@ -16,11 +16,15 @@ open Phrasebook
 set_option pp.rawOnError true
 
 #doc (Manual) "Limit statements: `Tendsto` and `∀ᶠ`" =>
+%%%
+tag := "filters-tendsto"
+%%%
 
 This is the *writing* half of working with filters: how to turn a
-mathematical limit statement — sequence convergence, "x → a", "almost
-everywhere" — into a Mathlib proposition. The companion "Proving
-limits" entry covers how to *prove* such statements once written.
+mathematical limit statement (sequence convergence, "x → a", "almost
+everywhere", and so on) into a Mathlib proposition. The companion
+{ref "filters-proving"}[Proving limits] entry covers how to *prove*
+such statements once written.
 
 # `Tendsto`: the universal limit
 
@@ -47,24 +51,27 @@ limits you would otherwise spell out separately:
 open Filter Topology
 ```
 ```lean
--- u : ℕ → ℝ converges to x
+-- u : ℕ → ℝ converges to x as n → ∞
 example (u : ℕ → ℝ) (x : ℝ) :
     Prop := Tendsto u atTop (𝓝 x)
--- f : ℝ → ℝ has limit L at a
+-- f : ℝ → ℝ has limit L as x → a
 example (f : ℝ → ℝ) (a L : ℝ) :
     Prop := Tendsto f (𝓝 a) (𝓝 L)
--- f tends to +∞ as x → +∞
+-- f x tends to +∞ as x → +∞
 example (f : ℝ → ℝ) :
     Prop := Tendsto f atTop atTop
--- one-sided limit
+-- f has limit L as x → a from the right
 example (f : ℝ → ℝ) (a L : ℝ) :
     Prop := Tendsto f (𝓝[>] a) (𝓝 L)
 ```
 :::
 
 # Punctured vs unpunctured limits
+%%%
+tag := "filters-punctured"
+%%%
 
-`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a` — it
+`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a`, so it
 forces `f a = L`. The classical "limit as `x → a` with `x ≠ a`",
 which says nothing about the value at `a`, lives on the punctured
 neighbourhood filter `𝓝[≠] a`:
@@ -81,8 +88,9 @@ example (f : ℝ → ℝ) (a L : ℝ) :
 
 So when you translate `lim_{x → a} f(x) = L` to Mathlib, ask
 yourself whether the classical statement does or does not assume
-continuity at `a`. Continuity-style ↦ `𝓝 a`; deleted-limit ↦
-`𝓝[≠] a`.
+continuity at `a`. If it does (the value at `a` is part of the
+statement), use `𝓝 a`. If it doesn't (the classical deleted limit),
+use `𝓝[≠] a`.
 
 # Which filter goes where?
 
@@ -101,9 +109,9 @@ inspection.
 
 # `∀ᶠ` and `∃ᶠ`: eventually and frequently
 
-`∀ᶠ x in l, p x` ({name}`Filter.Eventually`) means "the set where `p`
-holds belongs to `l`". `∃ᶠ x in l, p x` ({name}`Filter.Frequently`) is
-its dual.
+The {name}`Filter.Eventually` relation, written `∀ᶠ x in l, p x`,
+means "the set where `p` holds belongs to `l`". Its dual is
+{name}`Filter.Frequently`, written `∃ᶠ x in l, p x`.
 
 For the standard filters:
 
@@ -118,8 +126,8 @@ For the standard filters:
 * * `∀ᶠ n in atTop, p n`
   * `p` holds for all sufficiently large `n`
 
-* * `∀ᵐ x ∂μ, p x` (= `∀ᶠ x in μ.ae, p x`)
-  * `p` holds almost everywhere
+* * `∀ᵐ x ∂μ, p x`
+  * `p` holds almost everywhere (sugar for `∀ᶠ x in μ.ae, p x`)
 
 * * `∃ᶠ n in atTop, p n`
   * `p` holds infinitely often
@@ -132,9 +140,9 @@ For the standard filters:
 mnemonic "`f` sends `l₁` to `l₂`" matches the type
 `Filter α → Filter β` (composition direction), not the limit
 arrow `lim x → a`. The trivial filter `⊥` contains every set, so
-`Tendsto f ⊥ l` is _vacuously true_ for any `l` — accidentally
-writing a degenerate source (e.g. `𝓝[s] a` for an `a` outside the
-closure of `s`) leaves you with hypotheses that prove nothing.
+`Tendsto f ⊥ l` is _vacuously true_ for any `l`. Accidentally writing
+a degenerate source (e.g. `𝓝[s] a` for an `a` outside the closure of
+`s`) leaves you with hypotheses that prove nothing.
 
 *`open` matters.* `𝓝`, `𝓝[s]`, `𝓝[>]`, `𝓝[<]`, `atTop`, `atBot`,
 `∀ᶠ`, `∃ᶠ` all need `open Filter Topology` to parse. Concretely, in

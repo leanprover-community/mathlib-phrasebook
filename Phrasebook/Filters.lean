@@ -20,21 +20,20 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Filters" =>
+#doc (Manual) "How to work with filters in Mathlib" =>
 
-A *filter* on `α` is Mathlib's universal device for talking about
-"limiting behaviour". A single definition — {name}`Filter` — encodes
-neighbourhoods of a point, "x → ∞", almost-everywhere statements,
-convergence along a subsequence, and "all but finitely many points";
-a single relation — {name}`Filter.Tendsto` — covers every limit you
-would otherwise have to redefine.
+A {name}`Filter` `l` on a type `α` is a uniform notion of "eventually"
+on `α`: for a set `s : Set α`, membership `s ∈ l` reads "we
+*eventually* end up in `s`". The axioms (`univ ∈ l`,
+upward-closed, closed under finite intersection) say that
+"eventually" is preserved by supersets and by conjunction.
 
-The intuition: `s ∈ l` reads "we *eventually* end up in `s`". For
-`𝓝 x` that's "for points sufficiently near `x`"; for `atTop` on `ℕ`,
-"for sufficiently large `n`"; for `μ.ae`, "for almost every point";
-for `cofinite`, "for all but finitely many". The filter axioms —
-`univ ∈ l`, upward-closed, closed under finite intersection — just
-say "eventually" is preserved by supersets and by conjunction.
+Different filters carry different notions of "eventually": `𝓝 x`
+means "for points sufficiently near `x`"; `atTop` on `ℕ` means "for
+sufficiently large `n`"; `μ.ae` means "for almost every point";
+`cofinite` means "for all but finitely many". One relation,
+{name}`Filter.Tendsto`, covers sequence convergence, function
+limits at a point, "→ ∞", and almost-everywhere statements uniformly.
 
 # The standard filters
 
@@ -44,11 +43,11 @@ say "eventually" is preserved by supersets and by conjunction.
   * Lives on
   * "Eventually in this filter" means
 
-* * `𝓝 x` (= {name}`nhds`)
+* * `𝓝 x`
   * a {name}`TopologicalSpace`
   * near the point `x`
 
-* * `𝓝[s] x` (= {name}`nhdsWithin`)
+* * `𝓝[s] x`
   * within a subset
   * near `x`, restricted to `s`
 
@@ -57,11 +56,11 @@ say "eventually" is preserved by supersets and by conjunction.
   * from the right/left of `x`
 
 * * {name}`Filter.atTop`
-  * a {name}`Preorder` with no top
+  * a {name}`Preorder`
   * for sufficiently large input
 
 * * {name}`Filter.atBot`
-  * a preorder with no bottom
+  * a {name}`Preorder`
   * for sufficiently small input
 
 * * {name}`Filter.cofinite`
@@ -82,7 +81,8 @@ say "eventually" is preserved by supersets and by conjunction.
 
 * * `⊥`
   * any
-  * vacuously (every set is in `⊥`; see the gotcha in "Limit statements")
+  * vacuously (every set is in `⊥`; see the gotcha in
+    {ref "filters-tendsto"}[Limit statements])
 
 :::
 

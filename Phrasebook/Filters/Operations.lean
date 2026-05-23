@@ -16,6 +16,9 @@ open Phrasebook
 set_option pp.rawOnError true
 
 #doc (Manual) "Operations on filters" =>
+%%%
+tag := "filters-operations"
+%%%
 
 The *reading* half of working with filters: how `≤`, `Filter.map`,
 `Filter.comap`, and `Filter.prod` show up in Mathlib statements and
@@ -30,7 +33,7 @@ already `F`-eventual. Finer filter = more constraints, more like
 
 The mnemonic that prevents the sign-flip everyone trips over: on
 principal filters, the order is just inclusion of the underlying
-sets —
+sets:
 
 ::: leanSection
 ```lean -show
@@ -84,10 +87,10 @@ example (x : X) (s : Set X) :
 
 For `f : α → β`:
 
-* {name}`Filter.map` `f F : Filter β` — push-forward. A set `t` is
-  `map f F`-eventual iff its preimage `f ⁻¹' t` is `F`-eventual.
-* {name}`Filter.comap` `f G : Filter α` — pull-back. A set `s` is
-  `comap f G`-eventual iff it contains the preimage of some
+* {name}`Filter.map` `f F : Filter β` is the *push-forward*. A set
+  `t` is `map f F`-eventual iff its preimage `f ⁻¹' t` is `F`-eventual.
+* {name}`Filter.comap` `f G : Filter α` is the *pull-back*. A set `s`
+  is `comap f G`-eventual iff it contains the preimage of some
   `G`-eventual set.
 
 These are the algebraic content of `Tendsto`. By definition:
@@ -104,7 +107,7 @@ example (f : α → β) (F : Filter α) (G : Filter β) :
 ```
 :::
 
-`map` and `comap` form a Galois connection:
+`map` and `comap` form a {name}`GaloisConnection`:
 
 ::: leanSection
 ```lean -show
@@ -119,9 +122,9 @@ example (f : α → β) (F : Filter α) (G : Filter β) :
 :::
 
 When you read a proof that pivots through `.map` or `.comap`, the
-author is manipulating filters algebraically — no pointwise reasoning.
-A common shape is `Tendsto u (atTop.comap φ) _`, which expresses "a
-limit along the subsequence `φ`" as a `Tendsto` along `atTop`.
+author is manipulating filters algebraically. A common shape is
+`Tendsto u (atTop.comap φ) _`, which expresses "a limit along the
+subsequence `φ`" as a `Tendsto` along `atTop`.
 
 # Joint limits with `Filter.prod` (`×ˢ`)
 
@@ -162,20 +165,20 @@ example (x y : ℝ) :
 :::
 
 This is exactly how Mathlib phrases continuity of two-variable
-operations (`+`, `*`, `•`). To go the other way — package two
-continuous functions *into* a product — reach for
+operations (`+`, `*`, `•`). To go the other way (package two
+continuous functions *into* a product), reach for
 {name}`Continuous.prodMk`.
 
 # `NeBot`: when a filter isn't trivial
 
 `[Filter.NeBot l]` is the typeclass asserting `l ≠ ⊥`. Many limit
-lemmas — anything that pulls a witness out of a `∀ᶠ`, in particular —
+lemmas (anything that pulls a witness out of a `∀ᶠ`, in particular)
 require it, because over `⊥` everything is vacuously true. Common
 instances fire automatically:
 
-* {name}`Filter.atTop_neBot` — under `[Nonempty α] [SemilatticeSup α]`.
-* `Filter.NeBot` on `𝓝 x` — automatic in any topological space.
-* `Filter.map_neBot` — pushing a non-trivial filter forward stays
+* {name}`Filter.atTop_neBot`: requires `[Nonempty α] [SemilatticeSup α]`.
+* `Filter.NeBot` on `𝓝 x`: automatic in any topological space.
+* `Filter.map_neBot`: pushing a non-trivial filter forward stays
   non-trivial.
 
 The instance for `atTop` requires `[Nonempty α]`; forget it and

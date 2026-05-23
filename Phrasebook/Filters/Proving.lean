@@ -16,15 +16,20 @@ open Phrasebook
 set_option pp.rawOnError true
 
 #doc (Manual) "Proving limits" =>
+%%%
+tag := "filters-proving"
+%%%
 
 You have a limit statement in `Tendsto` or `∀ᶠ` form (see the
-companion "Limit statements" entry for how to write one). This entry
-covers four common recipes — algebraic combination, composition,
-`filter_upwards`, and `EventuallyEq` substitution — that handle most
-everyday goals. Other proofs lean on monotonicity
-({name}`Filter.Tendsto.mono_left`, {name}`Filter.Eventually.mono`),
-on `map`/`comap` (see "Operations on filters"), or on the ε-δ /
-filter-basis bridge (see "Bridges to ε-δ and filter bases").
+companion {ref "filters-tendsto"}[Limit statements] entry for how to
+write one). This entry covers four common recipes (algebraic
+combination, composition, `filter_upwards`, and `EventuallyEq`
+substitution) that handle most everyday goals. Other proofs lean on
+monotonicity ({name}`Filter.Tendsto.mono_left`,
+{name}`Filter.Eventually.mono`) or on `map`/`comap` (see
+{ref "filters-operations"}[Operations on filters]). Stay in the
+filter world; reach for ε-δ only when translating from classical
+sources.
 
 # Combine two convergent sequences
 
@@ -77,7 +82,7 @@ order.
 # Strengthen an "eventually" fact: `filter_upwards`
 
 When you have `∀ᶠ x in l, p₁ x` and `∀ᶠ x in l, p₂ x` and want
-`∀ᶠ x in l, q x`, the tactic is `filter_upwards`:
+`∀ᶠ x in l, q x`, the tactic is {name}`Mathlib.Tactic.filterUpwards`:
 
 ::: leanSection
 ```lean -show
@@ -100,18 +105,18 @@ is the tactic to reach for *every time* you'd otherwise want to use
 
 # Limits depend only on eventual values: `EventuallyEq`
 
-`f =ᶠ[l] g` ({name}`Filter.EventuallyEq`) means `f x = g x` holds
-`l`-eventually. Anything that only depends on `l`-eventual behaviour
-transfers from `f` to `g` for free; in particular,
-`Tendsto f l m ↔ Tendsto g l m`.
+The {name}`Filter.EventuallyEq` relation, written `f =ᶠ[l] g`, means
+`f x = g x` holds `l`-eventually. Anything that only depends on
+`l`-eventual behaviour transfers from `f` to `g` for free; in
+particular, `Tendsto f l m ↔ Tendsto g l m`.
 
 The two lemmas you'll actually reach for:
 
-* {name}`Filter.Tendsto.congr` — given `Tendsto f l m` and `f =ᶠ[l] g`,
-  produces `Tendsto g l m`. Use as a one-step rewrite on a `Tendsto`
-  you already have in hand.
-* {name}`Filter.tendsto_congr'` — the same as an iff, when you want to
-  rewrite both directions.
+* {name}`Filter.Tendsto.congr` takes `Tendsto f l m` and `f =ᶠ[l] g`
+  and produces `Tendsto g l m`. Use as a one-step rewrite on a
+  `Tendsto` you already have in hand.
+* {name}`Filter.tendsto_congr'` is the same fact as an iff, when you
+  want to rewrite both directions.
 
 ::: leanSection
 ```lean -show
@@ -145,11 +150,3 @@ example (f : X → Y) (x : X) :
 So every limit lemma is a continuity lemma, and vice versa. When proof
 search for `Continuous` stalls, unfolding through filters often
 unblocks it.
-
-# Search hints
-
-* Tendsto combinators: `Filter.Tendsto.*` (dot notation).
-* Standard limits with no hypothesis: `tendsto_*`.
-* Eventually facts: `Filter.Eventually.*`, `eventually_*`.
-* Congruence by eventual equality: `Filter.Tendsto.congr`,
-  `Filter.Tendsto.congr'`, `Filter.tendsto_congr'`.
