@@ -133,7 +133,7 @@ They differ at the zero polynomial: {name}`Polynomial.natDegree_zero` gives
 {lean}`(0 : R[X]).degree = ⊥`.
 
 Many statements exist in both {name}`degree` and {name}`natDegree` form.
-Sometimes, using {name}`degree` allows to deal uniformly with exceptions around the polynomial `0`.
+Sometimes, using {name}`degree` lets you deal uniformly with exceptions around the polynomial `0`.
 Other times, viewing the polynomial `0` as a constant is exactly what is needed.
 Another important distinction is that {name}`natDegree` takes values in {lean}`ℕ`,
 where more tactics are likely to help close goals.
@@ -244,7 +244,7 @@ Unlike the univariate case — where `R[X]` is a scoped notation in the
 scoped or otherwise: you write {lean}`MvPolynomial σ R` directly,
 even though docstrings and mathematical commentary throughout Mathlib often
 use `R[σ]` or `R[X₁, …, Xₙ]` informally.
-This notation is borrowed from the related concepts of {lean}`AddMonoidAlgebra` and {lean}`MonoidAlgebra` that do have this scoped notation.
+This notation is borrowed from the related types {lean}`AddMonoidAlgebra` and {lean}`MonoidAlgebra`, which do have scoped `R[M]` notation.
 When a particular file uses the same multivariate polynomial ring repeatedly,
 the usual workaround is a `local notation`.
 For example, the Witt-vector files use `𝕄` to denote {lean}`MvPolynomial (Fin 2 × ℕ) ℤ`.
