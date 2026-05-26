@@ -1,8 +1,13 @@
-This is a template for what would become a Mathlib phrasebook.
+# A Mathlib Phrasebook
 
 The documentation is intended to answer the question: "How do I say ... using Mathlib?"
+where "..." stands for a mathematical topic or object.
+As a [how-to guide](https://diataxis.fr/how-to-guides/), the focus is on practical guidance
+that answers a specific question or resolves a specific issue.
 
-To build it, run:
+## Development guide
+
+To build this documentation on your machine, run:
 
 ```
 lake exe cache get
