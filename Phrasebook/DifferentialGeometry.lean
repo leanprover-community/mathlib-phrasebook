@@ -28,38 +28,42 @@ set_option verso.code.warnLineLength 80
 This page explains how to express differential geometry using the definitions in Mathlib.
 We assume basic knowledge of both Lean and differential geometry.
 
-xxx textbook vs mathlib definitions, explain this ... not now!
-topological and smooth manifolds, etc.
+Recall that, intuitively, a smooth manifold is a topological space on which we can do calculus.
+Formally, one commonly found definition is that an $n$-dimensional topological manifold is a topological space that is locally homeomorphic to an open ball in $n$-dimensional Euclidean space. (A smooth manifold imposes further conditions, which we will explain below.)
+
+Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners --- the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
+Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {lean}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
+Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional --- i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
 
 # Topological manifolds
+
+Let's begin with topological manifolds. For topological manifolds, being modelled on some normed space generalises verbatim to any topological space, leading to the notion of `ChartedSpace`.
 
 The following is how to state "let M be a topological manifold" in Lean.
 ```lean
 variable {M H : Type*} [TopologicalSpace H]
   [TopologicalSpace M] [ChartedSpace H M]
 ```
-This definition is fairly abstract: it includes manifolds modelled over any topological space.
-The most common notation of manifolds are modelled on finite-dimensional Euclidean space (without boundary).
-Here is how to define a manifold modelled on $`\mathbb{R}^n`:
+
+An `n`-dimensional topological manifold (without boundary) is just a charted space on `n`-dimensional Euclidean space.
 ```lean
 variable {M : Type*} {n : ℕ} [TopologicalSpace M]
   [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
 ```
-For a (real) manifold with boundary and no corners, we'd write
+For (real) manifolds with boundary (and no corners), the model is {lean}`EuclideanHalfSpace`.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanHalfSpace n) M]
 ```
 Note that such a manifold must have dimension at least one, hence the {lean}`NeZero n` hypothesis.
 
-For an `n`-dimensional real manifold with corners of all orders, you'd write
+Taking products of manifolds with boundary yields manifolds with corners; mathlib allows corners of any order. They can be modelled by on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional real manifold, potentially with corners of all orders.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
 ```
 
 The astute reader may notice there is no difference between topological manifolds with corners and boundary. For smooth manifolds, the situation is different.
-
 
 # Smooth manifolds
 
