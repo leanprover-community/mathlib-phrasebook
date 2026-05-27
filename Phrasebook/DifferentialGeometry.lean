@@ -67,32 +67,32 @@ The astute reader may notice there is no difference between topological manifold
 
 # Smooth manifolds
 
-xxx all of this is explanation, not how to
-A topological manifold is smooth if it has a smooth atlas, i.e. an atlas of coordinate charts whose coordinate changes are smooth maps. If `M` is a smooth manifold with boundary, expressing "this coordinate change is smooth" would naively be a statement about smoothness of a map between subsets of a normed space. The easiest way to define this is by extension.
-We encode this in a model with corners. (XXX terrible explanation!)
-
-Mathlib encodes this concept in a `ModelWithCorners`, encoding the base field (to distinguish e.g. real and complex manifolds: every complex manifold is also a real manifold, but the resulting notions of smoothness are different --- for instance, a one-dimensional complex differentiable manifold is in fact analytic!), the topological space your manifold is modelled on and the underlying normed space.
-
-Smoothness parameter: natural number, ∞ for smooth manifolds or ω for analytic
-
-Lean's theory of manifolds is very general, and also includes manifoldsallows manifolds
-
-
-Lean's manifold library includes manifolds over the real, complex numbers and `p`-adic numbers:
-the notion of `NontriviallyNormedField` encapsulates all we need, and notably includes these three cases.
-Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
-```
+The textbook definition of smooth manifolds is "a topological manifold such that all coordinate changes are smooth".
+Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) --- whereas smoothness requires a normed space.
+For Euclidean quadrants, there is a natural candidate: embed a Euclidean quadrant into its corresponding Euclidean space. (This corresponds to defining a map on Euclidean quadrants as smooth if it admits a smooth extension to the full space.)
+For general manifolds, such an embedding is encoded in a {lean}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
+A `ModelWithCorners` takes three parameters: the base field `k` in which we're working, a `k`-normed space and a topological space on which the manifold is modelled.
+Finally, `IsManifold` encodes that `M` is a smooth manifold, w.r.t. a specified model with corners. Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
+```lean
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M] {k : ℕ}
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
 ```
-To allow $`k=∞` (smooth manifolds) or analytic manifolds, take `k` in the type `ℕ∞ω` (which is notation for {lean}`WithTop ENat`).
+For manifolds without boundary, there is a natural model with corners (taking the identity map on the model normed space), which has special notation.
+```lean
+open scoped Manifold
+variable {𝕜 E M : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E] {k : ℕ}
+  [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(𝕜, E) k M]
 ```
+
+The parameter `k` can be a natural number, `∞` for smooth manifolds, and `ω` for analytic manifolds (whose coordinate changes are analytic). To allow $`k=∞` (smooth manifolds) or analytic manifolds, take `k` in the type `ℕ∞ω` (which is notation for {lean}`WithTop ENat`).
+```lean
+open scoped ContDiff
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
 ```
-
 For smooth manifolds, we can use the notation `∞` in the `ContDiff` namespace.
 ```lean
 open scoped ContDiff
@@ -100,7 +100,6 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M]
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I ∞ M]
 ```
-
 For analytic manifolds, we can use the notation `ω` in the `ContDiff` namespace.
 ```lean
 open scoped ContDiff
@@ -117,14 +116,64 @@ variable {E M H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {I : ModelWithCorners ℝ E H} [ChartedSpace H M] [IsManifold I k M]
 ```
 
-Differentiability of maps between manifolds is stated with respect to models with corners on the domain and co-domain.
+# Differentiability
+
+Let `M` and `N` be smooth manifolds, over the same field (but with potentially different models with corners).
+We define differentiability and continuous differentiability in local charts.
+In particular, this depends on our chosen models with corners.
 :::leanSection
 ```lean
 open scoped ContDiff
-variable {E M H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E]
   [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
-  {I : ModelWithCorners ℝ E H} [ChartedSpace H M] [IsManifold I k M]
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+  {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N]
+  {f : M → N} {s : Set M} {x : M}
 ```
 
--- second manifold and all the definitions we wanted
+This is how to state "f is $`C^n`", "f is $`C^n` on `s`" and "f is $`C^n` at `x`" (and the analogous statements about differentiability), respectively.
+```lean
+#check ContMDiff I J n f
+#check ContMDiffOn I J n f s
+#check ContMDiffAt I J n f x
+#check MDifferentiable I J f
+#check MDifferentiableOn I J f s
+#check MDifferentiableAt I J f x
+```
+In many cases, the model of corners is somewhat obvious from context: in our setting, there is only a single model on `M`, for example (namely `I`). There is special notation to allow omitting the model with corners in most cases. The following is equivalent to the previous block, but shorter.
+
+```lean
+#check CMDiff n f
+#check CMDiff[s] n f
+#check CMDiffAt n f x
+#check MDiff f
+#check MDiff[s] f
+#check MDiffAt f x
+```
+To complete the picture, mathlib also has a definition for being $`C^n` (resp. differentiable) at a point within a set, called {lean}`ContMDiffWithinAt I J n f s x` (with notation {lean}`CMDiffAt[s] n f x`) and {lean}`MDifferentiableWithinAt I J f s x` (with notation {lean}`MDiffAt[s] f x`), respectively.
+
+The differential of a smooth map is called {name}`mfderiv`, the manifold version of the Fréchet derivative {lean}`fderiv`.
+```lean
+#check mfderiv I J f x
+#check mfderiv% f x -- equivalent notation
+
+```
+Its design uses a junk value pattern: even if `f` is not differentiable at `x`, its `mfderiv` is defined (as zero).
+This avoids having to specify differentiability hypotheses all the time, but also implies a little caution is needed when interpreting statements: `mfderiv I J f x = 0` does not imply that `f` is differentiable! The notion {name}`HasMFDerivAt` states that `f` is differentiable at a given point, with given differential.
+```lean
+variable {f' : TangentSpace I x →L[𝕜] TangentSpace J (f x)}
+#check HasMFDerivAt I J f x f'
+#check HasMFDerivAt% f x f' -- equivalent notation
+```
+There are also versions of this concept within a set:
+```lean
+variable {f' : TangentSpace I x →L[𝕜] TangentSpace J (f x)}
+#check mfderivWithin I J f s x
+#check mfderiv[s] f x -- equivalent notation
+#check HasMFDerivWithinAt I J f s x f'
+#check HasMFDerivAt[s] f x f' -- equivalent notation
+```
 :::
