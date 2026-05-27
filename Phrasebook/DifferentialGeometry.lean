@@ -123,6 +123,7 @@ We define differentiability and continuous differentiability in local charts.
 In particular, this depends on our chosen models with corners.
 :::leanSection
 ```lean
+set_option linter.unusedVariables false -- used later in this section
 open scoped ContDiff
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
   [NormedAddCommGroup E] [NormedSpace 𝕜 E]
@@ -175,5 +176,46 @@ variable {f' : TangentSpace I x →L[𝕜] TangentSpace J (f x)}
 #check mfderiv[s] f x -- equivalent notation
 #check HasMFDerivWithinAt I J f s x f'
 #check HasMFDerivAt[s] f x f' -- equivalent notation
+```
+:::
+
+# Constructions and explicit examples of manifolds
+
+Lean knows about various constructions and examples of manifolds.
+:::leanSection
+```lean
+open scoped ContDiff Manifold
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+  [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+  {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J k N]
+```
+
+```lean
+-- The product of two `C^k` manifolds `M` and `N` is a `C^k` manifold.
+example : IsManifold  (I.prod J) k (M × N) := inferInstance
+
+-- The disjoint union of two `C^k` manifolds over the same model with corners
+-- is a `C^k` manifold.
+example {M' : Type*}
+  [TopologicalSpace M'] [ChartedSpace H M'] [IsManifold I k M'] :
+  IsManifold I k (M ⊕ M') := inferInstance
+
+-- A normed space is a smooth manifold (modelled on itself).
+#synth IsManifold 𝓘(𝕜, E) ∞ E
+
+-- The group of units in any Banach space is a smooth manifold
+-- (in fact, even a Lie group).
+example {V : Type*} [NormedAddCommGroup V] [NormedSpace 𝕜 V] [CompleteSpace V]
+  (n : ℕ∞ω) : IsManifold 𝓘(𝕜, V →L[𝕜] V) n (V →L[𝕜] V)ˣ := inferInstance
+
+-- A non-trivial closed real interval is a manifold.
+example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
+  IsManifold (𝓡∂ 1) n (Set.Icc x y) := inferInstance
+
+-- Quotient manifolds will be merged into mathlib soon.
 ```
 :::
