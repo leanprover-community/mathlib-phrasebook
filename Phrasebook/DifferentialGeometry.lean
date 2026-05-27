@@ -273,6 +273,161 @@ example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
 /- The circle is a Lie group -/
 example : LieGroup (𝓡 1) ⊤ Circle := inferInstance
 
-
 -- Quotient manifolds will be merged into mathlib soon.
 ```
+
+# Vector bundles
+
+Mathlib has a well-developed theory of topological and smooth vector bundles.
+The motivating example is the tangent bundle of a smooth manifold, whose fibers are the tangent spaces at each point.
+The `mfderiv` of a differentiable map is a map between tangent spaces.
+:::leanSection
+```lean
+open scoped ContDiff Manifold
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+  [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+  {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J k N]
+variable {f : M → N} {s : Set M} {x : M}
+
+#check (mfderiv% f x : TangentSpace I x →L[𝕜] TangentSpace J (f x))
+
+-- Here is how to state the chain rule.
+example {f g : M → M} (x : M) (hg : MDiffAt g (f x)) (hf : MDiffAt f x) :
+    mfderiv% (g ∘ f) x = (mfderiv% g (f x)).comp (mfderiv% f x) :=
+  mfderiv_comp x hg hf
+```
+
+A differentiable map also induces a map on the tangent bundle. Again, we also have a version within a set.
+```lean
+#check (tangentMap I J f : TangentBundle I M → TangentBundle J N)
+#check tangentMapWithin I J f s
+
+example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ⊤ f) :
+    ContMDiff I.tangent J.tangent ⊤ (tangentMap I J f) :=
+  hf.contMDiff_tangentMap le_rfl
+
+-- TODO: this is missing from mathlib!
+-- example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ⊤ f) :
+--    CMDiff ⊤ (tangentMapWithin I J f s) :=
+--  hf.contMDiff_tangentMapWithin le_rfl
+
+example [AddGroup N] [LieAddGroup J ⊤ N] {f g : M → N} {n : ℕ∞}
+    (hf : CMDiff n f) (hg : CMDiff n g) : CMDiff n (f + g) := hf.add hg
+```
+
+Sections of the tangent bundle are also called *vector fields*.
+Here is how to say "let `V` be a vector field on `M`"; both notations have literally the same meaning.
+```lean
+variable {V : (x : M) → TangentSpace I x} {W : Π (x : M), TangentSpace I x}
+```
+
+A vector field `V` is a dependent function on `M`: to speak about its differentiability or smoothness, we need to convert it to a non-dependent function, by composing with the map into the total space `TM`. The `T%` elaborator does that.
+```lean
+open scoped Bundle
+
+variable {V : (x : M) → TangentSpace I x} [IsManifold I 1 M]
+  (hV : CMDiff ⊤ (T% V)) -- Suppose `V` is smooth.
+  (hV : MDiff (T% V)) -- Suppose `V` is differentiable.
+
+example {V W : (x : M) → TangentSpace I x}
+    (hV : CMDiff ⊤ (T% V)) (hW : CMDiff ⊤ (T% W)) : CMDiff ⊤ (T% (V + W)) :=
+  hV.add_section hW
+```
+
+One interesting operation on vector fields is the Lie bracket. There is also a version within a set.
+```lean
+#check VectorField.mlieBracket
+#check VectorField.mlieBracketWithin
+
+open VectorField
+
+-- The lie bracket is anti-symmetric and alternating.
+example {s : Set M} : mlieBracketWithin I V W s = - mlieBracketWithin I W V s :=
+  mlieBracketWithin_swap
+
+example : mlieBracket I V V = 0 := mlieBracket_self
+
+-- It also satisfies the Jacobi identity
+#check VectorField.leibniz_identity_mlieBracket
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **Product rule for Lie brackets**: given two vector fields `V` and `W`
+on `M` and a function `f : M → 𝕜`, we have `[V, f • W] = (df V) • W + f • [V, W]`. -/
+example [IsManifold I 2 M] [CompleteSpace E]
+    {f : M → 𝕜} (hf : MDiffAt f x) (hW : MDiffAt (T% W) x) :
+    mlieBracket I V (f • W) x =
+      mfderiv% f x (V x) • (W x) + (f x) • mlieBracket I V W x :=
+  mlieBracket_smul_right hf hW
+
+-- Fact (Frobenius' theorem), not in mathlib yet: given two vector fields `X` and `Y`,
+-- their *local flows* commute iff `[X, Y] = 0`.
+```
+:::
+
+Let's turn to general vector and fiber bundles. Here is how to speak about topological fiber bundles:
+"let `E` be a (topological) fiber bundle over a topological space `B`, with standard fibre `F`".
+```lean
+variable {B F : Type*} [TopologicalSpace B] [TopologicalSpace F]
+  (E : B → Type*) [TopologicalSpace (Bundle.TotalSpace F E)]
+  [(b : B) → TopologicalSpace (E b)]
+-- let `s` be a section of `E → B`
+variable {s : Π (b : B), E b}
+```
+-- XXX: trivializations etc!
+
+Mathlib has no theory of smooth fiber bundles yet. TODO: are there other constructions to mention?
+
+
+A vector bundle is a fiber bundle whose standard fiber is a normed space.
+```lean
+-- let `E` be a (topological) vector bundle over a topological space `B`".
+variable {𝕜 B F: Type*} [NontriviallyNormedField 𝕜] [TopologicalSpace B]
+  {E : B → Type*} [(x : B) → AddCommGroup (E x)] [(x : B) → Module 𝕜 (E x)]
+  [NormedAddCommGroup F] [NormedSpace 𝕜 F]
+  [TopologicalSpace (Bundle.TotalSpace F E)] [(x : B) → TopologicalSpace (E x)]
+  [FiberBundle F E] [VectorBundle 𝕜 F E]
+```
+
+For smooth vector bundles, the base must be a smooth manifold.
+:::leanSection
+```lean
+open scoped ContDiff Manifold
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+  [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+```
+
+Suppose `E → M` is a `C^k` vector bundle with model fiber `F`.
+```lean
+variable {F: Type*} {E : M → Type*}
+  [(x : M) → AddCommGroup (E x)] [(x : M) → Module 𝕜 (E x)]
+  [NormedAddCommGroup F] [NormedSpace 𝕜 F]
+  [TopologicalSpace (Bundle.TotalSpace F E)] [(x : M) → TopologicalSpace (E x)]
+  [FiberBundle F E] [VectorBundle 𝕜 F E] [ContMDiffVectorBundle k F E I]
+
+-- Let `s` be a `C^k` section of `E`.
+variable {s : Π x, E x} (hs : CMDiff k (T% s))
+-- Suppose `s` is differentiable on `A ⊆ M`.
+variable {A : Set M} (hs' : MDiff[A] (T% s))
+
+-- The sum of smooth sections is a smooth section.
+example {s t : (x : M) → E x} {hs : CMDiff k (T% s)} {ht : CMDiff k (T% t)} :
+    CMDiff k (T% (s + t)) :=
+  hs.add_section ht
+```
+
+For completeness, we mention that there is also a type of bundled smooth sections, with special notation. (Note that "bundled" has nothing to do with vector or fiber bundles; it refers to the fact that these combine a section with a proof of smoothness.)
+Very often, we work with unbundled sections in mathlib --- this is why it is usually preferred to prove lemmas about unbundled sections first (and deduce the corresponding bundled statements are corollaries).
+```lean
+#check ContMDiffSection
+variable {t : Cₛ^k⟮I; F, E⟯} -- t is a bundled `C^k` section of `E`}
+```
+
+TODO: mention constructions (such as the product, pullback and Hom bundles)
+
+:::
