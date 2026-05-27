@@ -276,6 +276,73 @@ example : LieGroup (𝓡 1) ⊤ Circle := inferInstance
 -- Quotient manifolds will be merged into mathlib soon.
 ```
 
+# Special kinds of maps
+
+Let us highlight some particular kinds of smooth maps, that are often used in the literature.
+
+Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`C^n` diffeomorphism it is is $`C^n` and has an inverse maps which is again $`C^n`. Diffeomorphisms in Lean are bundled, e.g. include a choice of inverse as part of their data.
+```lean
+#check Diffeomorph
+
+-- If `f` is a diffeomorphism, its differential is invertible.
+-- (This follows easily from the chain rule.)
+#check Diffeomorph.mfderivToContinuousLinearEquiv
+```
+
+There is special notation for diffeomorphisms, but this is rarely used.
+```lean
+open scoped ContDiff Manifold
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
+  [NormedAddCommGroup E] [NormedSpace 𝕜 E]
+  [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+  {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J k N]
+
+#check Diffeomorph I J M N k
+open scoped Manifold in #check M ≃ₘ^k⟮I, J⟯ N
+```
+
+Mathlib also knows about local diffeomorphisms: `f` is a local diffeomorphism if for every point `p`, there exist open subsets `U` and `V` of `p` and `f p` and a diffeomorphism `Φ : U ≃ V` which agrees with `f` on `U`.
+```lean
+#check IsLocalDiffeomorph
+#check Diffeomorph.isLocalDiffeomorph
+```
+
+If `M` is finite-dimensional, `f` is an immersion if each differential `mfderiv% f p` is injective. Equivalently, each `p : M` has suitable charts in which `f` looks like a map `u ↦ (u, 0)`. In infinite dimensions, these definitions are no longer equivalent, the second one is the correct condition (and implies the first one).
+Mathlib also knows about smooth embeddings: smooth embeddings are smooth immersions automatically. Being an immersion or embedding is a predicate on a function.
+
+Submersions are in a sense dual to immersions: in finite dimension, `f` is a submersion if each differential `mfderiv% f p` is surjective. An equivalent definition which generalises is that `f` locally (in suitable charts) looks like a projection `(u, v) ↦ v`. There is an open pull request adding submersions to mathlib.
+```lean
+#check Manifold.IsImmersion
+#check Manifold.IsSmoothEmbedding
+#check Manifold.IsSmoothEmbedding.isImmersion
+```
+```lean +error
+#check Manifold.IsSubmersion
+#check Manifold.IsSubmersionAt
+```
+
+As an example of an advanced statement involving these maps, let us mention the sphere eversion. Patrick Massot, Oliver Nash and Floris van Doorn have formalized a result in differential geometry called *Gromov's h-principle* (for open, ample differential relations). In particular, this allows you to abstractly define an eversion of a sphere.
+```lean
+open Manifold Module
+
+variable (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+  [Fact (finrank ℝ E = 3)]
+
+local notation "ℝ³" => E
+local notation "𝕊²" => Metric.sphere (0 : ℝ³) 1
+
+theorem sphere_eversion : ∃ f : ℝ → 𝕊² → ℝ³,
+    (ContMDiff (𝓘(ℝ, ℝ).prod (𝓡 2)) 𝓘(ℝ, ℝ³) ∞ (Function.uncurry f)) ∧
+    (f 0 = fun x : 𝕊² ↦ (x : ℝ³)) ∧
+    (f 1 = fun x : 𝕊² ↦ -(x : ℝ³)) ∧
+    ∀ t, IsImmersion (𝓡 2) 𝓘(ℝ, ℝ³) ⊤ (f t) :=
+  sorry -- not yet in Mathlib
+```
+
+
 # Vector bundles
 
 Mathlib has a well-developed theory of topological and smooth vector bundles.
@@ -380,7 +447,6 @@ variable {s : Π (b : B), E b}
 -- XXX: trivializations etc!
 
 Mathlib has no theory of smooth fiber bundles yet. TODO: are there other constructions to mention?
-
 
 A vector bundle is a fiber bundle whose standard fiber is a normed space.
 ```lean
