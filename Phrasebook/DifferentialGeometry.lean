@@ -140,6 +140,20 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup
 #check IsManifold.maximalAtlas I n M
 ```
 
+A smooth manifold with boundary decomposes into interior and boundary points. {name}`ModelWithCorners.IsInteriorPoint` denotes `x : M` being an interior point (w.r.t. the model `I`), `ModelWithCorners.IsBoundaryPoint` describes points which lie on the boundary (or some corner).
+
+There are two kinds of manifolds without boundary.
+If a model with corners has full range (i.e., the embedding `H → E` of the model space into a normed space is surjective), there can be no boundary points: this is `ModelWithCorners.Boundaryless`.
+A more general condition (which is harder to check) is "every point is an interior point".
+```lean
+#check BoundarylessManifold
+```
+Mathlib knows about the interior and boundary of product manifolds, for example:
+```lean
+#check ModelWithCorners.interior_prod
+```
+There is a definition of "manifolds whose boundary is smooth" (i.e., there are no corners), which is not in mathlib yet.
+
 # Differentiability
 
 Let `M` and `N` be smooth manifolds, over the same field (but with potentially different models with corners).
