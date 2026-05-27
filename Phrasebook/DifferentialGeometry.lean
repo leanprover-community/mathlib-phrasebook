@@ -63,6 +63,20 @@ variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
 ```
 
+A charted space has a corresponding *atlas*, containing a coordinate chart at each point.
+In Lean, every point has a distinguished chart ("the preferred chart" at that point).
+```lean
+variable {M H : Type*} [TopologicalSpace H]
+  [TopologicalSpace M] [ChartedSpace H M]
+
+-- Here's how to access the atlas.
+#check atlas H M
+
+-- The preferred chart at x.
+variable {x : M} in
+#check chartAt H x
+```
+
 The astute reader may notice there is no difference between topological manifolds with corners and boundary. For smooth manifolds, the situation is different.
 
 # Smooth manifolds
@@ -114,6 +128,16 @@ open scoped ContDiff
 variable {E M H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
   {I : ModelWithCorners ℝ E H} [ChartedSpace H M] [IsManifold I k M]
+```
+
+Atlasses are not maximal in general --- but there a maximal atlas, consisting of all charts which are compatible with a given smooth structure, induced by a model with corners.
+```lean
+open scoped ContDiff
+variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
+  [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
+  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+
+#check IsManifold.maximalAtlas I n M
 ```
 
 # Differentiability
@@ -206,6 +230,22 @@ example {M' : Type*}
 
 -- A normed space is a smooth manifold (modelled on itself).
 #synth IsManifold 𝓘(𝕜, E) ∞ E
+```
+:::
+
+```lean
+open Metric Module in
+/- The sphere in a finite-dimensional inner product space is a smooth manifold -/
+example (n : ℕ) (E : Type*) [NormedAddCommGroup E]
+  [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
+  IsManifold (𝓡 n) ω (sphere (0 : E) 1) := inferInstance
+
+#check contMDiff_coe_sphere
+open Metric Module in
+/- The map 𝕊ⁿ ↪ ℝⁿ⁺¹ is smooth -/
+example {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
+  CMDiff ⊤ (fun x ↦ x : sphere (0 : E) 1 → E) := contMDiff_coe_sphere
 
 -- The group of units in any Banach space is a smooth manifold
 -- (in fact, even a Lie group).
@@ -216,6 +256,9 @@ example {V : Type*} [NormedAddCommGroup V] [NormedSpace 𝕜 V] [CompleteSpace V
 example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
   IsManifold (𝓡∂ 1) n (Set.Icc x y) := inferInstance
 
+/- The circle is a Lie group -/
+example : LieGroup (𝓡 1) ⊤ Circle := inferInstance
+
+
 -- Quotient manifolds will be merged into mathlib soon.
 ```
-:::
