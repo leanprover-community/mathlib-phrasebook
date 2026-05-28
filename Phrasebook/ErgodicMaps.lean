@@ -27,9 +27,9 @@ set_option pp.rawOnError true
 
 Given a map `f : α → α` where `α` is a measurable space, equipped with a measure `μ`,
 one says `f` is ergodic if:
-- `f` is measurable (see {lean}`@Measurable`)
-- `f` is measure-preserving (see {lean}`@MeasureTheory.MeasurePreserving`)
-- the only `f`-invariant sets are almost empty or full (see {lean}`@PreErgodic`)
+- `f` is measurable (see {name}`Measurable`)
+- `f` is measure-preserving (see {name}`MeasureTheory.MeasurePreserving`)
+- the only `f`-invariant sets are almost empty or full (see {name}`PreErgodic`)
 
 The following adds an ergodic map to the Lean environment
 ```lean
