@@ -92,6 +92,13 @@ Note that {lean}`(monomial n : R →ₗ[R] R[X])` is itself an {lean}`R`-linear 
 sending a coefficient to the corresponding monomial of degree {lean}`n`,
 rather than a plain function of two arguments.
 This is occasionally relevant when applying lemmas about linear maps to it.
+
+In practice, concrete polynomials are usually written as sums of terms of the form
+{lean}`(C r * X ^ n : R[X])`, rather than as {lean}`(monomial n r : R[X])`:
+the `C`/`X` form composes naturally under `+`, `*` and `^`,
+and most arithmetic and coefficient lemmas are phrased against it.
+The {name}`Polynomial.monomial` form is most useful when you want to manipulate
+a single term abstractly, for instance to use its linearity in the coefficient.
 :::
 
 ## Coefficients
@@ -110,6 +117,21 @@ The basic identities for `C`, `X` and `monomial` are {name}`Polynomial.coeff_C`,
 {name}`Polynomial.coeff_X` and {name}`Polynomial.coeff_monomial`.
 Two polynomials are equal iff all of their coefficients agree,
 via {name}`Polynomial.coeff_inj` and the extensionality lemma {name}`Polynomial.ext`.
+
+Coefficients of polynomials built from `C`, `X` and ring operations
+can be computed term-by-term using {name}`Polynomial.coeff_add`,
+{name}`Polynomial.coeff_C_mul`, {name}`Polynomial.coeff_X_pow`
+(together with {name}`Polynomial.coeff_C` for constants).
+For instance, the coefficients of `C r + C 2 * X ^ 2 + X ^ 3` are
+`r, 0, 2, 1`, then `0` from degree `4` on:
+```lean
+example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 0 = r := by
+  simp [coeff_add, coeff_X_pow, coeff_C]
+example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 2 = 2 := by
+  simp [coeff_add, coeff_C_mul, coeff_X_pow]
+example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 3 = 1 := by
+  simp [coeff_add, coeff_C_mul, coeff_X_pow]
+```
 :::
 
 # Degree
@@ -138,7 +160,16 @@ Other times, viewing the polynomial `0` as a constant is exactly what is needed.
 Another important distinction is that {name}`natDegree` takes values in {lean}`ℕ`,
 where more tactics are likely to help close goals.
 
-Overall, you should expect good coverage for both spellings of most lemmas.
+Coverage of both spellings is generally good, but in practice it varies lemma by lemma:
+if the form you want is missing, look for it under the other name,
+or use {name}`Polynomial.degree_eq_natDegree` to convert between them.
+
+For computing or bounding the degree of a concrete polynomial built from `C`,
+`X` and ring operations, the `compute_degree` tactic
+(and its stronger variant `compute_degree!`) is often the easiest tool:
+```lean
+example : (X ^ 3 + C 2 * X + 1 : R[X]).natDegree ≤ 3 := by compute_degree
+```
 :::
 
 ## Leading coefficient and monic polynomials
@@ -167,6 +198,19 @@ shows that monicity is preserved by multiplication.
 
 # Evaluation
 
+Evaluating a polynomial `p : R[X]` at an element translates into one of three
+different definitions, depending on where the element lives:
+
+* {name}`Polynomial.eval`: `p.eval r` when `r : R`;
+* {name}`Polynomial.eval₂`: `p.eval₂ f a` when `a : A` and `f : R →+* A`,
+  evaluating the polynomial in `A` after pushing its coefficients through `f`;
+* {name}`Polynomial.aeval`: `p.aeval a` when `A` is an `R`-algebra and `a : A`.
+
+These three are related: {name}`Polynomial.aeval_def` shows that `aeval`
+is `eval₂` specialised to the `algebraMap`, and
+{name}`Polynomial.eval_map` rewrites `eval₂` as an ordinary `eval`
+after first {name}`Polynomial.map`-ping the coefficients.
+
 ## Evaluating at a ring element
 
 ::: leanSection
@@ -178,11 +222,6 @@ For {lean}`p` of type {lean}`R[X]` and {lean}`r` of type {lean}`R`,
 the value of {lean}`p` at {lean}`r` is {name}`Polynomial.eval`, written {lean}`p.eval r`:
 ```lean
 example : R := p.eval r
-```
-A point {lean}`r` is a *root* of {lean}`p` when {lean}`p.eval r = 0`.
-This is recorded as {name}`Polynomial.IsRoot`, with named unfolding lemma {name}`Polynomial.IsRoot.def`:
-```lean
-example : p.IsRoot r ↔ p.eval r = 0 := IsRoot.def
 ```
 :::
 
@@ -201,11 +240,26 @@ It is the algebra homomorphism extending the algebra map
 #check (aeval a : R[X] →ₐ[R] A)
 ```
 Use `aeval` (not `eval`) whenever the point of evaluation lives in a ring different
-from the coefficient ring — for instance, evaluating a polynomial in `ℤ[X]` at a
+from the coefficient ring, for instance, evaluating a polynomial in `ℤ[X]` at a
 real number, or at a matrix.
 :::
 
 # Roots
+
+::: leanSection
+```lean -show
+open Polynomial
+variable {R : Type*} [Semiring R] (p : R[X]) (r : R)
+```
+A point {lean}`r` is a *root* of {lean}`p` when {lean}`p.eval r = 0`.
+This is recorded as {name}`Polynomial.IsRoot`, with named unfolding lemma
+{name}`Polynomial.IsRoot.def`:
+```lean
+example : p.IsRoot r ↔ p.eval r = 0 := IsRoot.def
+```
+:::
+
+## Multiset of roots in the coefficient ring
 
 ::: leanSection
 ```lean -show
@@ -226,6 +280,28 @@ The cardinality of `roots` is bounded by the degree:
 see {name}`Polynomial.card_roots` and {name}`Polynomial.card_roots'`.
 :::
 
+## Roots in an extension
+
+::: leanSection
+```lean -show
+open Polynomial
+variable {R S : Type*} [CommRing R] [CommRing S] [IsDomain S] [Algebra R S] (p : R[X])
+```
+When the roots of {lean}`(p : R[X])` should be sought in a (commutative-ring, domain)
+`R`-algebra {lean}`S` rather than in {lean}`R` itself,
+{name}`Polynomial.aroots` returns them as a {lean}`Multiset S`:
+```lean
+#check (p.aroots S : Multiset S)
+```
+The underlying set (without multiplicities) is {name}`Polynomial.rootSet`:
+```lean
+#check (p.rootSet S : Set S)
+```
+By definition, {name}`Polynomial.aroots` is the `roots` of `p.map (algebraMap R S)`,
+and {name}`Polynomial.rootSet` is the coercion of that multiset to a set
+(see {name}`Polynomial.aroots_def` and {name}`Polynomial.rootSet_def`).
+:::
+
 # Multivariate polynomials
 
 ::: leanSection
@@ -239,8 +315,9 @@ For polynomials in several variables, use {name}`MvPolynomial`, parametrised by 
 ```
 The variable indexed by an element {lean}`i` of {lean}`σ` is {lean}`(MvPolynomial.X i : MvPolynomial σ R)`,
 and the constant embedding is {name}`MvPolynomial.C`.
-Unlike the univariate case — where `R[X]` is a scoped notation in the
-`Polynomial` namespace — Mathlib does *not* have notation for {lean}`MvPolynomial σ R`,
+
+Unlike the univariate case, where `R[X]` is a scoped notation in the
+`Polynomial` namespace, Mathlib does *not* have notation for {lean}`MvPolynomial σ R`,
 scoped or otherwise: you write {lean}`MvPolynomial σ R` directly,
 even though docstrings and mathematical commentary throughout Mathlib often
 use `R[σ]` or `R[X₁, …, Xₙ]` informally.
@@ -255,10 +332,63 @@ When "finitely many variables" needs to be stated abstractly,
 the usual idiom is to keep {lean}`σ` generic and add a {name}`Finite` or
 {name}`Fintype` instance assumption on it as a separate hypothesis,
 as is done for example in {name}`MvPolynomial.ringKrullDim_of_isNoetherianRing`.
-The most common concrete choice in Mathlib is `Fin n` — this is what is used,
+The most common concrete choice in Mathlib is `Fin n`: this is what is used,
 for example, to state results about finitely generated algebras in {name}`Algebra.FiniteType` and
 {name}`Algebra.FinitePresentation`.
 Other choices appear too: `Bool` is used internally in the construction of the
 {name}`bernsteinPolynomial`, and `Bool × ℕ` shows up in the structure
 polynomials behind {name}`WittVector`.
+:::
+
+## Coefficients, degree and evaluation
+
+The core operations from the univariate setting have multivariate counterparts,
+with the main difference that a "degree" is now a multidegree,
+a function `σ →₀ ℕ` recording the exponent of each variable.
+
+::: leanSection
+```lean -show
+variable {σ R : Type*} [CommSemiring R] (p : MvPolynomial σ R) (m : σ →₀ ℕ)
+```
+The coefficient of `p` at multidegree `m` is {name}`MvPolynomial.coeff`,
+which takes a `σ →₀ ℕ` rather than a single natural number:
+```lean
+example : R := p.coeff m
+```
+Two multivariate polynomials are equal if and only if all coefficients agree
+(see {name}`MvPolynomial.ext`).
+:::
+
+::: leanSection
+```lean -show
+variable {σ R : Type*} [CommSemiring R] (p : MvPolynomial σ R)
+```
+One notion of degree taking values in `ℕ` is the {name}`MvPolynomial.totalDegree`.
+The `degree`/`natDegree` distinction from the univariate case has no analogue here.
+```lean
+#check (p.totalDegree : ℕ)
+```
+Per-variable degrees are also available via {name}`MvPolynomial.degreeOf`.
+:::
+
+::: leanSection
+```lean -show
+variable {σ R A : Type*} [CommSemiring R] [CommSemiring A] [Algebra R A]
+  (p : MvPolynomial σ R) (f : σ → R) (g : σ → A)
+```
+Evaluating a multivariate polynomial requires specifying a value for *each*
+variable, given as a function indexed by `σ`.
+The three flavours mirror the univariate case:
+
+* {name}`MvPolynomial.eval`: `MvPolynomial.eval f p` when `f : σ → R`;
+* {name}`MvPolynomial.eval₂`: like `eval`, but first pushing the coefficients
+  through a ring homomorphism `R →+* A`;
+* {name}`MvPolynomial.aeval`: `MvPolynomial.aeval g p` when `A` is an
+  `R`-algebra and `g : σ → A`, the algebra homomorphism sending each
+  variable `X i` to `g i`.
+
+```lean
+#check (MvPolynomial.eval f p : R)
+#check (MvPolynomial.aeval g : MvPolynomial σ R →ₐ[R] A)
+```
 :::
