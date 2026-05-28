@@ -54,7 +54,7 @@ variable {α : Type*}
 Mathlib contains proofs that certain maps are ergodic. Here are two examples of maps
 on the circle $`\mathbb{R} / \mathbb{Z}`:
 1. Given given a natural number $`n > 1`, the map $`x ↦ nx` is ergodic.
-   This appears in Mathlib as {lean}`@AddCircle.ergodic_nsmul`.
+   This appears in Mathlib as {name}`AddCircle.ergodic_nsmul`.
 1. Given a point $`a`, the map $`x ↦ x + a` is ergodic iff $`a` is has infinite order
    (i.e., is irrational).
    This appears in Mathlib as {lean}`@AddCircle.ergodic_add_right`.
