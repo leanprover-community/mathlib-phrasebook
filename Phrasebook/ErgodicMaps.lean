@@ -57,4 +57,4 @@ on the circle $`\mathbb{R} / \mathbb{Z}`:
    This appears in Mathlib as {name}`AddCircle.ergodic_nsmul`.
 1. Given a point $`a`, the map $`x ↦ x + a` is ergodic iff $`a` is has infinite order
    (i.e., is irrational).
-   This appears in Mathlib as {lean}`@AddCircle.ergodic_add_right`.
+   This appears in Mathlib as {name}`AddCircle.ergodic_add_right`.
