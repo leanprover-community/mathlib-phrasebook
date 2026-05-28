@@ -41,7 +41,7 @@ variable {A : Finset G}
 The latter is preferred in Mathlib since it gives access to eg {name}`Finset.sum`.
 
 In finite groups, all sets are finite and therefore all sets happen to be finite.
-We tend to prefer working with {name}`Finset` anyway to accexs its API.
+We tend to prefer working with {name}`Finset` anyway to access its API.
 
 The cardinality of a {name}`Set` is {name}`Set.ncard`:
 ```lean (name := setNCard)
