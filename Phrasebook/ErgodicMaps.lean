@@ -66,7 +66,7 @@ the weaker assumption of quasi-ergodicity is sufficient and in these cases the A
 is developed using this weaker assumption.
 
 Examples of such API are:
-* {name}`QuasiErgodic.ae_empty_or_univ₀`: we may weaken strict invariance to weak
+* {name}`QuasiErgodic.ae_empty_or_univ₀`: we may weaken strict invariance to almost
   invariance in the condition for a set to be almost empty or full.
 * {name}`MeasureTheory.MeasurePreserving.preErgodic_conjugate_iff`: ergodicity is
   preserved under conjugation with measure-preserving equivalences.
