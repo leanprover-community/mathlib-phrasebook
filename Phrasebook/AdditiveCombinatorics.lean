@@ -227,7 +227,11 @@ variable [Group G]
 The multiplicative doubling and difference constants {name}`Finset.mulConst` and
 {name}`Finset.divConst` are denote {lean}`σₘ[A]` and {lean}`δₘ[A]`.
 
+One can relate {lean}`σ[A] ≤ K` and {lean}`#(A + A) ≤ K * #A` through
+{name}`Finset.addConst_mul_card`.
+
 Mathlib contains the proof of the Ruzsa triangle and Plünnecke-Ruzsa inequalities.
+See {name}`Finset.pluennecke_ruzsa_inequality_nsmul_sub_nsmul_sub`.
 
 ## Energy
 
