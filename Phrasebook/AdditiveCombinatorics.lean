@@ -24,13 +24,13 @@ We assume basic knowledge of both Lean and additive combinatorics.
 
 ## Sets and finite sets
 
-The basic objects of study in additive combinatorics are' "additive sets", i.e. sets in a group.
-Sets in Mathlib live on a single type. Here is how to declare a set in an abelian group:
+The basic objects of study in additive combinatorics are "additive sets", i.e. sets in a group.
+Sets in Mathlib live on a single type. Here is how to declare a subset of an abelian group:
 ```lean
 variable {G : Type*} [AddCommGroup G] {A : Set G}
 ```
 
-Finite sets can be represented in two ways: Either we work with sets that happen to be finite:
+Finite sets can be represented in two ways. Either we work with sets that happen to be finite:
 ```lean
 variable {A : Set G} (hA : A.Finite)
 ```
@@ -52,14 +52,17 @@ variable {A : Set G}
 ```leanOutput setNCard
 A.ncard : ℕ
 ```
-Similarly, the cardinality of a {name}`Finset` is {name}`Finset.card`:
+Similarly, the cardinality of a {name}`Finset` is {name}`Finset.card`.
+We provide the usual cardinality notation for it:
 ```lean (name := finsetCard)
-variable {A : Set G}
+variable {A : Finset G}
 
-#check A.ncard
+open scoped Finset
+
+#check #A
 ```
-```leanOutput setNCard
-A.ncard : ℕ
+```leanOutput finsetCard
+#A : ℕ
 ```
 
 ## Indicators
@@ -69,6 +72,8 @@ variable {R : Type*} [Zero R] [One R] {A : Set G}
 ```
 The {lean}`R`-valued indicator function of {lean}`(A : Set G)` is written as
 ```lean (name := indicator)
+variable {R : Type*} [Zero R] [One R] {A : Set G}
+
 #check A.indicator (1 : G → R)
 ```
 ```leanOutput indicator
@@ -91,23 +96,26 @@ When no return type is specified, the notation defaults to the {lean}`ℕ`-value
 𝟭_[A] : G → ℕ
 ```
 
+```lean -show
+variable {A : Finset G} {g : G}
+```
 When talking about the indicator function of a {name}`Finset`,
 you might need to help Lean somewhat using a type ascription.
-
+In the following, {lean}`g` has type {lean}`G`, so Lean coerces {lean}`A` to {lean}`Set G`.
 ```lean
 variable {A : Finset G} {g : G}
 
--- `g` has type `G`, so Lean coerces `A` to `Set G`.
 #check 𝟭_[A] g
-
--- Without such unification information,
--- a type ascription is required.
+```
+Without such unification information, a type ascription is required.
+```lean
 #check 𝟭_[(A : Set G)]
 ```
 
 ## Sumsets
 
-Sumsets and product sets enjoy the usual arithmetic notation:
+Sumsets and product sets in an (additive) monoid enjoy the usual arithmetic notation,
+once the `Pointwise` scope is opened:
 ```lean (name := sumset)
 variable {A B : Set ℕ}
 
@@ -138,7 +146,7 @@ A ^ n : Set ℕ
 Careful! In additive combinatorics one also encounters the "dilate set",
 where each element of the set is multiplied by a fixed natural number.
 We currently do not provide a way to write this operation conveniently.
-Dilation by anything else than a natural number uses
+Dilation by anything other than a natural number uses
 the standard scalar multiplication notation:
 ```lean (name := dilateSet)
 variable {A : Set ℝ} {q : ℚ}
@@ -175,6 +183,13 @@ variable {G : Type*} [AddCommGroup G] [DecidableEq G]
 ```
 ```leanOutput sumFinset
 A + B : Finset G
+```
+This extra assumption allows us to perform computations with {name}`Finset`:
+```lean (name := computeSumset)
+#eval ({1, 2} + {4, 7} : Finset ℕ)
+```
+```leanOutput computeSumset
+{5, 8, 6, 9}
 ```
 
 # Quantities
@@ -227,8 +242,9 @@ open scoped Combinatorics.Additive
 Similarly to the doubling constant, the multiplicative energy {name}`Finset.mulEnergy`
 is denoted {lean}`Eₘ[A]`.
 
-Mathlib knows that sets of small doubling have large energy,
-and AddCombi knows the partial converse, namely the Balog-Szemerédi-Gowers theorem.
+Mathlib knows that sets of small doubling have large energy
+(see {name}`Finset.le_card_add_mul_addEnergy`), and AddCombi knows the partial converse,
+namely the Balog-Szemerédi-Gowers theorem (see {name}`BSG`).
 
 ## Covering
 
