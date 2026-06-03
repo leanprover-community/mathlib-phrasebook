@@ -17,7 +17,7 @@ set_option pp.rawOnError true
 #doc (Manual) "Additive combinatorics in Mathlib and AddCombi" =>
 
 This page explains how to express common concepts in additive combinatorics
-using the definitions in Mathlib and AddCombi.
+using the definitions in Mathlib and [AddCombi](https://github.com/leanprover-community/add-combi).
 We assume basic knowledge of both Lean and additive combinatorics.
 
 # Sets
@@ -38,7 +38,7 @@ or we work with bundled finite sets
 ```lean
 variable {A : Finset G}
 ```
-The latter is preferred in Mathlib since it gives access to eg {name}`Finset.sum`.
+The latter is preferred in Mathlib since it gives access to e.g. {name}`Finset.sum`.
 
 In finite groups, all sets are finite and therefore all sets happen to be finite.
 We tend to prefer working with {name}`Finset` anyway to access its API.
