@@ -19,6 +19,11 @@ set_option pp.rawOnError true
 
 This page explains how to express univariate and multivariate polynomials using the definitions in Mathlib.
 We assume basic knowledge of both Lean and polynomials.
+You can find a gentler introduction to polynomials in Mathlib in [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#algebras-and-polynomials).
+In addition to the material covered in that book, this chapter discusses:
+
+* leading coefficients and monic polynomials
+* coefficients and degree of multivariate polynomials
 
 # The polynomial ring
 
