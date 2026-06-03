@@ -130,11 +130,14 @@ can be computed term-by-term using {name}`Polynomial.coeff_add`,
 For instance, the coefficients of `C r + C 2 * X ^ 2 + X ^ 3` are
 `r, 0, 2, 1`, then `0` from degree `4` on:
 ```lean
-example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 0 = r := by
+example (r : R) :
+    (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 0 = r := by
   simp [coeff_add, coeff_X_pow, coeff_C]
-example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 2 = 2 := by
+example (r : R) :
+    (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 2 = 2 := by
   simp [coeff_add, coeff_C_mul, coeff_X_pow]
-example (r : R) : (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 3 = 1 := by
+example (r : R) :
+    (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 3 = 1 := by
   simp [coeff_add, coeff_C_mul, coeff_X_pow]
 ```
 :::
@@ -173,7 +176,8 @@ For computing or bounding the degree of a concrete polynomial built from `C`,
 `X` and ring operations, the `compute_degree` tactic
 (and its stronger variant `compute_degree!`) is often the easiest tool:
 ```lean
-example : (X ^ 3 + C 2 * X + 1 : R[X]).natDegree ≤ 3 := by compute_degree
+example : (X ^ 3 + C 2 * X + 1 : R[X]).natDegree ≤ 3 := by
+  compute_degree
 ```
 :::
 
