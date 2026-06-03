@@ -21,7 +21,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Tutorial: How to write X using Mathlib" =>
+#doc (Manual) "Template: How to write X using Mathlib" =>
 
 This page explains how to express X using the definitions in Mathlib.
 We assume basic knowledge of both Lean and X.
