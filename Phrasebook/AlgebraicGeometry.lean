@@ -519,27 +519,6 @@ example : IsZariskiLocalAtTarget @Flat :=
   inferInstance
 ```
 
-```lean -show
-set_option backward.isDefEq.respectTransparency false in
--- TODO: this should be in mathlib
-/-- If `P = X ×[Z] Y` and `Y ⟶ Z` is an open immersion, then the stalk map
-of `P ⟶ Y` at some `x : P` is isomorphic to the stalk map of `X ⟶ Z` at the image of `x`. -/
-def stalkMapIsoOfIsPullback {X Y Z P : Scheme.{u}} {fst : P ⟶ X} {snd : P ⟶ Y}
-    {f : X ⟶ Z} (g : Y ⟶ Z) (h : IsPullback fst snd f g) [IsOpenImmersion g] (x : P) :
-    Arrow.mk (snd.stalkMap x) ≅ Arrow.mk (f.stalkMap <| fst x) :=
-  haveI : IsOpenImmersion fst := MorphismProperty.of_isPullback h.flip ‹_›
-  Iso.symm <| Arrow.isoMk' _ _
-    ((TopCat.Presheaf.stalkCongr _ <| .of_eq (congr($(h.1.1).base x))) ≪≫
-      (asIso (g.stalkMap <| (snd x))))
-    (asIso (fst.stalkMap <| x)) <| TopCat.Presheaf.stalk_hom_ext _ fun V hxV ↦ by
-      simp only [Scheme.Hom.comp_base, TopCat.hom_comp, ContinuousMap.comp_apply, Iso.trans_hom,
-        TopCat.Presheaf.stalkCongr_hom, asIso_hom, Category.assoc,
-        TopCat.Presheaf.germ_stalkSpecializes_assoc, Scheme.Hom.germ_stalkMap_assoc,
-        Scheme.Hom.germ_stalkMap]
-      simp only [← Category.assoc, ← Scheme.Hom.comp_app_assoc, ← Scheme.Hom.comp_preimage]
-      rw! [h.1.1]
-      rfl
-```
 With these preparations, we can now prove that a morphism that is stalkwise flat is flat:
 ```lean -show
 set_option backward.isDefEq.respectTransparency false
@@ -560,8 +539,8 @@ theorem flat_of_flat_stalkMap (f : X ⟶ Y)
       dsimp at x
       exact pullback.fst f _ x
     · dsimp [Scheme.Cover.pullbackHom]
-      apply stalkMapIsoOfIsPullback (Y.affineCover.f i)
-      apply IsPullback.of_hasPullback
+      apply Iso.symm <| Scheme.stalkMapIsoOfIsPullback
+        (IsPullback.of_hasPullback _ (Y.affineCover.f i)) _
   -- Replace `Y` by `Spec R` in the context and goal.
   obtain ⟨R, rfl⟩ := hY
   wlog hX : ∃ S, X = Spec S generalizing X f
