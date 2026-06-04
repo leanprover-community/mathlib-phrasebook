@@ -69,7 +69,7 @@ example (f : R →+* S) : PrimeSpectrum S → PrimeSpectrum R :=
   PrimeSpectrum.comap f
 ```
 We can construct sets in the prime spectrum with the familiar constructions. For example,
-this is the set `V(s) ∩ D(f)`:
+this is the set $`\mathrm{V}(s) \cap \mathrm{D}(f)`:
 ```lean
 example (s : Set R) (f : R) : Set (PrimeSpectrum R) :=
   PrimeSpectrum.zeroLocus s ∩ PrimeSpectrum.basicOpen f
@@ -169,6 +169,9 @@ Let now `X`, `Y` and `Z` be schemes.
 ```lean
 variable {X Y Z : Scheme}
 ```
+```lean -show
+variable {U V : X.Opens}
+```
 As before, we can compose morphisms of schemes in the same way as we can compose
 morphisms of commutative rings:
 ```lean
@@ -178,24 +181,26 @@ We can apply a morphism of schemes to an element.
 ```lean
 example (f : X ⟶ Y) (x : X) : Y := f x
 ```
-Sections of the structure sheaf `𝒪 = 𝒪_X` over an open can be written with the familiar
-notation `Γ(X, U)`.
+Sections of the structure sheaf $`\mathcal{O} = \mathcal{O}_X` over an open can be written
+with the notation `Γ(X, U)`:
 ```lean
 example (U : X.Opens) : CommRingCat :=
   Γ(X, U)
 ```
-If `U` is contained in `V`, we get a restriction map `𝒪(V) ⟶ 𝒪(U)`:
+If {lean}`U` is contained in {lean}`V`, we get a restriction map $`\mathcal{O}(V) \to \mathcal{O}(U)`:
 ```lean
 example (U V : X.Opens) (hUV : U ≤ V) : Γ(X, V) ⟶ Γ(X, U) :=
   X.presheaf.map (homOfLE hUV).op
 ```
-Given a morphism `f` and an open of `U`, we obtain a morphism `𝒪_Y(U) ⟶ 𝒪_X(f⁻¹(U))`. -/
+Given a morphism `f` and an open `V`, we obtain a morphism
+$`\mathcal{O}_Y(U) ⟶ \mathcal{O}_X(f^{-1}(U))`.
 ```lean
 example (f : X ⟶ Y) (U : Y.Opens) :
     Γ(Y, U) ⟶ Γ(X, f ⁻¹ᵁ U) :=
   f.app U
 ```
-A variant we often encounter is the composition `𝒪_Y(U) ⟶ 𝒪_X(f⁻¹(U)) ⟶ 𝒪_X(V)`.
+A variant we often encounter is the composition
+$`\mathcal{O}_Y(U) \to \mathcal{O}_X(f^{-1}(U)) \to \mathcal{O}_X(V)`.
 ```lean
 example (f : X ⟶ Y) (U : Y.Opens) (V : X.Opens)
     (h : V ≤ f ⁻¹ᵁ U) : Γ(Y, U) ⟶ Γ(X, V) :=
@@ -217,8 +222,8 @@ example (f : X ⟶ Z) (g : Y ⟶ Z) : Scheme :=
   pullback f g
 ```
 To access the projections, use {name}`pullback.fst` and {name}`pullback.snd`.
-Note: `f ∣_ U` is _not_ the projection `X ×[Y] U ⟶ U`, but sometimes
-using `X ×[Y] U` is convenient.
+Note: `f ∣_ U` is _not_ the projection
+$`X \times_{Y} U \to U`.
 
 We have already seen the functorial properties of {lean}`Spec` above. Sometimes we
 have to interact with {lean}`Spec` as a functor:
@@ -228,7 +233,7 @@ example : CommRingCatᵒᵖ ⥤ Scheme :=
 ```
 Note the difference between {lean}`Spec` and {lean}`Scheme.Spec`.
 
-In this language, the `Γ`-`Spec`-adjunction is phrased as:
+In this language, the $`\Gamma`-Spec adjunction is phrased as:
 ```lean
 example : Scheme.Γ.rightOp ⊣ Scheme.Spec :=
   ΓSpec.adjunction
@@ -483,7 +488,9 @@ namespace Example
 variable {X Y : Scheme.{u}}
 ```
 
-Here is a definition of a flat morphism of schemes.
+Here is a definition of a flat morphism of schemes: A morphism of schemes $`f : X \to Y`
+is _flat_ if for every affine open $`U \subseteq Y` and $`V \subseteq f^{-1}(U)`, the
+induced ring homomorphism $`\mathcal{O}_Y(U) \to \mathcal{O}_X(V)` is flat.
 ```lean
 @[mk_iff]
 class Flat (f : X ⟶ Y) : Prop where
