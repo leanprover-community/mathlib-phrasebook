@@ -16,6 +16,7 @@ import Phrasebook.AdditiveCombinatorics
 import Phrasebook.LinearAlgebra
 import Phrasebook.Polynomials
 import Phrasebook.ErgodicMaps
+import Phrasebook.AlgebraicGeometry
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
 -- import Phrasebook.Template
 
@@ -52,6 +53,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.AdditiveCombinatorics}
 
 {include 1 Phrasebook.ErgodicMaps}
+
+{include 1 Phrasebook.AlgebraicGeometry}
 
 # Index
 %%%
