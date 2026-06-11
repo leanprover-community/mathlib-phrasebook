@@ -20,10 +20,11 @@ set_option pp.rawOnError true
 tag := "filters-operations"
 %%%
 
-The *reading* half of working with filters: how `≤`, `Filter.map`,
-`Filter.comap`, and `Filter.prod` show up in Mathlib statements and
-what they mean. You need this much algebra to read other people's
-filter proofs and to recognise `Tendsto` in its native form.
+Sometimes you need to read filter algebra rather than write a limit: a
+proof you are following pivots through `≤`, `Filter.map`, `Filter.comap`,
+or `Filter.prod`, or you want to reshape a `Tendsto` goal into an
+equivalent one. This entry explains what those operations mean and the
+goal each one serves.
 
 # The order on filters
 

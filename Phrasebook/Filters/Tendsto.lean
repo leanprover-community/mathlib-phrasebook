@@ -20,11 +20,11 @@ set_option pp.rawOnError true
 tag := "filters-tendsto"
 %%%
 
-This is the *writing* half of working with filters: how to turn a
-mathematical limit statement (sequence convergence, "x → a", "almost
-everywhere", and so on) into a Mathlib proposition. The companion
-{ref "filters-proving"}[Proving limits] entry covers how to *prove*
-such statements once written.
+This entry is about *writing* limits: how to turn a mathematical
+statement (sequence convergence, "x → a", "almost everywhere", and so on)
+into a Mathlib proposition. The companion
+{ref "filters-proving"}[Proving limits] entry covers how to *prove* such a
+statement once it is written.
 
 # `Tendsto`: the universal limit
 
