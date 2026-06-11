@@ -143,8 +143,8 @@ these structural patterns. Kevin Buzzard's
   Mathlib, say so and point at the in-progress work (an arXiv
   paper, an open PR, a project repository).
 - *Document non-keyboard unicode.* When a snippet uses a character
-  the reader cannot easily type (`⁄`, `⊓`, `𝓝`, `≃ₐ`), give the
-  abbreviation (e.g. `\textf` for `⁄`).
+  the reader cannot easily type (`⧸`, `⊓`, `𝓝`, `≃ₐ`), give the
+  abbreviation (`\/`, `\inf`, `\nhds`, `\~-\_a`).
 - *Reuse `variable` declarations within a `leanSection`.* Declare
   the running context once and let later examples in the same
   section use it.
