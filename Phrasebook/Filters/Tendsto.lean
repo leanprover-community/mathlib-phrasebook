@@ -51,6 +51,10 @@ example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
 ```
 :::
 
+These four are not the only forms; any source-and-target pair of filters
+is a limit statement. The {ref "filters-table"}[reference table at the end
+of the chapter] lists the standard filters you can drop into either slot.
+
 Under the hood, read `Tendsto f l₁ l₂` as "`f` sends `l₁` to `l₂`": every
 set that is eventual for the target `l₂` has a preimage that is eventual
 for the source `l₁`.
