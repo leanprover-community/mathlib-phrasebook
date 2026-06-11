@@ -58,7 +58,7 @@ Variants you'll reach for when the endpoints aren't both `𝓝 _`:
 
 # Filter bases
 
-`Metric.tendsto_nhds_nhds` is one instance of the general
+{name}`Metric.tendsto_nhds_nhds` is one instance of the general
 *filter basis* pattern. The neighbourhood filter `𝓝 x` on a metric
 space *has basis* the open balls around `x`:
 
