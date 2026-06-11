@@ -22,9 +22,10 @@ tag := "filters-proving"
 
 You have a limit statement in `Tendsto` or `∀ᶠ` form (see the
 companion {ref "filters-tendsto"}[Limit statements] entry for how to
-write one). This entry covers four common recipes (algebraic
-combination, composition, `filter_upwards`, and `EventuallyEq`
-substitution) that handle most everyday goals. Other proofs lean on
+write one). This entry covers five common recipes (algebraic
+combination, composition, `filter_upwards`, `EventuallyEq`
+substitution, and unfolding continuity to `Tendsto`) that handle
+most everyday goals. Other proofs lean on
 monotonicity ({name}`Filter.Tendsto.mono_left`,
 {name}`Filter.Eventually.mono`) or on `map`/`comap` (see
 {ref "filters-operations"}[Operations on filters]). Stay in the
