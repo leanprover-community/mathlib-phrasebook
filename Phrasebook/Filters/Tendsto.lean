@@ -37,17 +37,17 @@ open Filter Topology
 ```
 ```lean
 -- u : ℕ → ℝ converges to x as n → ∞
-example (u : ℕ → ℝ) (x : ℝ) :
-    Prop := Tendsto u atTop (𝓝 x)
+example (u : ℕ → ℝ) (x : ℝ) : Prop :=
+  Tendsto u atTop (𝓝 x)
 -- f : ℝ → ℝ has limit L as x → a
-example (f : ℝ → ℝ) (a L : ℝ) :
-    Prop := Tendsto f (𝓝 a) (𝓝 L)
+example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
+  Tendsto f (𝓝 a) (𝓝 L)
 -- f x tends to +∞ as x → +∞
-example (f : ℝ → ℝ) :
-    Prop := Tendsto f atTop atTop
+example (f : ℝ → ℝ) : Prop :=
+  Tendsto f atTop atTop
 -- f has limit L as x → a from the right
-example (f : ℝ → ℝ) (a L : ℝ) :
-    Prop := Tendsto f (𝓝[>] a) (𝓝 L)
+example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
+  Tendsto f (𝓝[>] a) (𝓝 L)
 ```
 :::
 
@@ -82,8 +82,8 @@ neighbourhood filter `𝓝[≠] a`:
 open Filter Topology
 ```
 ```lean
-example (f : ℝ → ℝ) (a L : ℝ) :
-    Prop := Tendsto f (𝓝[≠] a) (𝓝 L)
+example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
+  Tendsto f (𝓝[≠] a) (𝓝 L)
 ```
 :::
 
