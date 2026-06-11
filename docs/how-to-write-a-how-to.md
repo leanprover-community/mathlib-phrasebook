@@ -230,6 +230,9 @@ Verso is not Markdown. The conventions that catch people:
 
 ## Cross-references
 
+- Tag every page, and every section you might link to. A tag is cheap and
+  makes the heading a stable link target; an untagged section cannot be
+  referenced later without editing it first. When in doubt, add the tag.
 - Tag a section with a metadata block right under the heading:
 
    ```
