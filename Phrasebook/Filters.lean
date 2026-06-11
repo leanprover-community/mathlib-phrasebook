@@ -29,15 +29,23 @@ pivots through `𝓝` and `atTop`, this chapter shows how. It assumes you are
 comfortable with Lean and with limits in the usual ε-δ sense, but not that
 you have met filters before.
 
+::: leanSection
+```lean -show
+open Filter Topology MeasureTheory
+variable {α : Type*} {l : Filter α} {s : Set α}
+variable {X : Type*} [TopologicalSpace X] {x : X}
+variable {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
+```
 A {name}`Filter` `l` on a type `α` packages a notion of "eventually": for a
-set `s : Set α`, membership `s ∈ l` reads "we *eventually* land in
-`s`". Different filters carry different notions: `𝓝 x` is "for points
-near `x`", `atTop` is "for sufficiently large input", `μ.ae` is "for
+set `s : Set α`, membership {lean}`s ∈ l` reads "we *eventually* land in
+`s`". Different filters carry different notions: {lean}`𝓝 x` is "for points
+near `x`", `atTop` is "for sufficiently large input", {lean}`ae μ` is "for
 almost every point". You rarely touch the axioms directly; the skill is
 picking the filter that matches the limit you mean and letting the lemmas do
 the work. One relation, {name}`Filter.Tendsto`, then covers sequence
 convergence, function limits at a point, "→ ∞", and almost-everywhere
 statements uniformly.
+:::
 
 # The standard filters
 
