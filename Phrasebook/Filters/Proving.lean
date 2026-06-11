@@ -66,19 +66,19 @@ makes sense. {name}`Filter.Tendsto.add`,
 ```lean -show
 open Filter Topology
 variable {α β γ : Type*}
+variable {f : α → β} {g : β → γ}
+variable {l₁ : Filter α} {l₂ : Filter β} {l₃ : Filter γ}
+variable (hf : Tendsto f l₁ l₂) (hg : Tendsto g l₂ l₃)
 ```
 ```lean
-example {f : α → β} {g : β → γ}
-    {l₁ : Filter α} {l₂ : Filter β} {l₃ : Filter γ}
-    (hf : Tendsto f l₁ l₂) (hg : Tendsto g l₂ l₃) :
-    Tendsto (g ∘ f) l₁ l₃ :=
+example : Tendsto (g ∘ f) l₁ l₃ :=
   hg.comp hf
 ```
-:::
 
-Note the order: `(hg.comp hf)`, with the *outer* function's `Tendsto`
-on the left. This matches function composition `g ∘ f`, not the
+Note the order: {lean}`hg.comp hf`, with the *outer* function's `Tendsto`
+on the left. This matches function composition {lean}`g ∘ f`, not the
 left-to-right `hf` then `hg` order you might expect.
+:::
 
 # Strengthen an "eventually" fact: `filter_upwards`
 
