@@ -31,8 +31,8 @@ generalisation and is fair game in filter-form proofs.)
 
 # Continuity-style ε-δ for `𝓝 a`
 
-For functions between metric spaces, `Tendsto f (𝓝 a) (𝓝 L)` unfolds
-to the *unpunctured* ε-δ statement. The quantifier `∀ x` includes
+For functions between metric spaces, the *unpunctured* ε-δ statement
+translates to `Tendsto f (𝓝 a) (𝓝 L)`. The quantifier `∀ x` includes
 `x = a`, so this is the continuity-style form (it forces `f a = L`):
 
 ::: leanSection
