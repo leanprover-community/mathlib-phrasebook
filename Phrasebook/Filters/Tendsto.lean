@@ -86,15 +86,30 @@ example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
 ```
 :::
 
+# Which filter goes where?
+
+When you translate `lim_{x → x₀} f(x) = L` to `Tendsto f l₁ l₂`, the
+recipe is mechanical:
+
+1. *Source filter `l₁`*. What does the input `x` approach? "`n → ∞`" is
+   `atTop`. "`x → a` from the right" is `𝓝[>] a`. "`x → a` in `s`" is
+   `𝓝[s] a`. "for almost every `ω`" is `ae μ`.
+2. *Target filter `l₂`*. What does `f(x)` approach? "→ L" is `𝓝 L`. "→
+   +∞" is `atTop`. "→ value in `t`" is `𝓟 t` (the principal filter on
+   `t`).
+
+If you keep this in mind, almost every classical limit translates by
+inspection.
+
 # Punctured vs unpunctured limits
 %%%
 tag := "filters-punctured"
 %%%
 
-`Tendsto f (𝓝 a) (𝓝 L)` includes the behaviour of `f` *at* `a`, so
-it forces `f a = L`. The *punctured* limit ("`x → a` with `x ≠ a`")
-makes no claim about the value at `a` and lives on the punctured
-neighbourhood filter `𝓝[≠] a`:
+There is one choice the mechanical recipe leaves open. `Tendsto f (𝓝 a)
+(𝓝 L)` includes the behaviour of `f` *at* `a`, so it forces `f a = L`. The
+*punctured* limit ("`x → a` with `x ≠ a`") makes no claim about the value
+at `a` and lives on the punctured neighbourhood filter `𝓝[≠] a`:
 
 ::: leanSection
 ```lean -show
@@ -111,21 +126,6 @@ yourself whether the classical statement does or does not assume
 continuity at `a`. If it does (the value at `a` is part of the
 statement), use `𝓝 a`. If it doesn't (the punctured limit), use
 `𝓝[≠] a`.
-
-# Which filter goes where?
-
-When you translate `lim_{x → x₀} f(x) = L` to `Tendsto f l₁ l₂`, the
-recipe is mechanical:
-
-1. *Source filter `l₁`*. What does the input `x` approach? "`n → ∞`" is
-   `atTop`. "`x → a` from the right" is `𝓝[>] a`. "`x → a` in `s`" is
-   `𝓝[s] a`. "for almost every `ω`" is `μ.ae`.
-2. *Target filter `l₂`*. What does `f(x)` approach? "→ L" is `𝓝 L`. "→
-   +∞" is `atTop`. "→ value in `t`" is `𝓟 t` (the principal filter on
-   `t`).
-
-If you keep this in mind, almost every classical limit translates by
-inspection.
 
 # `∀ᶠ` and `∃ᶠ`: eventually and frequently
 
