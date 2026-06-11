@@ -28,23 +28,8 @@ statement once it is written.
 
 # Write limits using `Tendsto`
 
-Every limit statement goes through {name}`Filter.Tendsto`:
-
-::: leanSection
-```lean -show
-open Filter Topology
-variable {α β : Type*}
-```
-```lean
-example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
-    Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ :=
-  Filter.tendsto_def
-```
-:::
-
-Read it as "`f` sends `l₁` to `l₂`": every `l₂`-eventual set in the
-codomain has an `l₁`-eventual preimage. That one definition unifies the
-limits you would otherwise spell out separately:
+Every limit statement goes through {name}`Filter.Tendsto`. That one
+definition unifies the limits you would otherwise spell out separately:
 
 ::: leanSection
 ```lean -show
@@ -63,6 +48,22 @@ example (f : ℝ → ℝ) :
 -- f has limit L as x → a from the right
 example (f : ℝ → ℝ) (a L : ℝ) :
     Prop := Tendsto f (𝓝[>] a) (𝓝 L)
+```
+:::
+
+Under the hood, read `Tendsto f l₁ l₂` as "`f` sends `l₁` to `l₂`": every
+set that is eventual for the target `l₂` has a preimage that is eventual
+for the source `l₁`.
+
+::: leanSection
+```lean -show
+open Filter Topology
+variable {α β : Type*}
+```
+```lean
+example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
+    Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ :=
+  Filter.tendsto_def
 ```
 :::
 
