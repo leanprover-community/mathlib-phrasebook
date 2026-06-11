@@ -36,7 +36,7 @@ definition unifies the limits you would otherwise spell out separately:
 open Filter Topology
 ```
 ```lean
--- u : ℕ → ℝ converges to x as n → ∞
+-- The sequence u : ℕ → ℝ converges to x as n → ∞
 example (u : ℕ → ℝ) (x : ℝ) : Prop :=
   Tendsto u atTop (𝓝 x)
 -- f : ℝ → ℝ has limit L as x → a
