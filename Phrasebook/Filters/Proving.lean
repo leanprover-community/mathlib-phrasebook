@@ -29,8 +29,8 @@ most everyday goals. Other proofs lean on
 monotonicity ({name}`Filter.Tendsto.mono_left`,
 {name}`Filter.Eventually.mono`) or on `map`/`comap` (see
 {ref "filters-operations"}[Operations on filters]). Stay in the
-filter world; reach for ε-δ only when translating from classical
-sources.
+filter world; reach for {ref "filters-epsilon-delta"}[ε-δ] only when
+translating from classical sources.
 
 # Combine two convergent sequences
 
