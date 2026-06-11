@@ -26,7 +26,7 @@ into a Mathlib proposition. The companion
 {ref "filters-proving"}[Proving limits] entry covers how to *prove* such a
 statement once it is written.
 
-# `Tendsto`: the universal limit
+# Write limits using `Tendsto`
 
 Every limit statement goes through {name}`Filter.Tendsto`:
 
