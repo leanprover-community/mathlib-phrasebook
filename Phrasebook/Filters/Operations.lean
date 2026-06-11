@@ -209,3 +209,61 @@ Hint: Type class instance resolution failures can be inspected with the `set_opt
 
 Adding `[Nonempty α]` to the variables makes {name}`Filter.atTop_neBot`
 fire and the proof goes through.
+
+# Reference: the standard filters
+%%%
+tag := "filters-table"
+%%%
+
+Every limit in this chapter is a `Tendsto` (or `∀ᶠ`) between two of the
+filters below. To translate a classical statement, read off the source
+and target from this table.
+
+::: table +header
+
+* * Filter
+  * Lives on
+  * "Eventually in this filter" means
+
+* * `𝓝 x`
+  * a {name}`TopologicalSpace`
+  * near the point `x`
+
+* * `𝓝[s] x`
+  * within a subset
+  * near `x`, restricted to `s`
+
+* * `𝓝[>] x`, `𝓝[<] x`
+  * an order topology
+  * from the right/left of `x`
+
+* * {name}`Filter.atTop`
+  * a {name}`Preorder`
+  * for sufficiently large input
+
+* * {name}`Filter.atBot`
+  * a {name}`Preorder`
+  * for sufficiently small input
+
+* * {name}`Filter.cofinite`
+  * any type
+  * for all but finitely many points
+
+* * `μ.ae`
+  * a measure space
+  * for almost every point
+
+* * {name}`Filter.principal` `s`
+  * any
+  * exactly inside `s`
+
+* * `⊤`
+  * any
+  * everywhere (only `Set.univ` is in `⊤`)
+
+* * `⊥`
+  * any
+  * vacuously (every set is in `⊥`; see the
+    {ref "filters-tendsto"}[Limit statements] gotcha)
+
+:::
