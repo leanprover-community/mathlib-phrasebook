@@ -42,7 +42,7 @@ example (u : ℕ → ℝ) (x : ℝ) : Prop :=
 -- The function f : ℝ → ℝ has limit L as x → a
 example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
   Tendsto f (𝓝 a) (𝓝 L)
--- f x tends to +∞ as x → +∞
+-- The function f x tends to +∞ as x → +∞
 example (f : ℝ → ℝ) : Prop :=
   Tendsto f atTop atTop
 -- f has limit L as x → a from the right
