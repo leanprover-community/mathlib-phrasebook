@@ -249,7 +249,7 @@ and target from this table.
   * any type
   * for all but finitely many points
 
-* * `μ.ae`
+* * `ae μ`
   * a measure space
   * for almost every point
 
