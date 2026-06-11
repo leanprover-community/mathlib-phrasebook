@@ -35,6 +35,8 @@ and then list how your chapter goes beyond that level.
 
 ## Development guide
 
+To write a new phrasebook entry, see [How to write a how-to](docs/how-to-write-a-how-to.md).
+
 To build this documentation on your machine, run:
 
 ```
