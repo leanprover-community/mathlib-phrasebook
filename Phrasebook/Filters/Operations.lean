@@ -29,8 +29,15 @@ goal each one serves.
 # The order on filters
 
 `F ≤ G` reads as "`F` is *finer* than `G`": every `G`-eventual set is
-already `F`-eventual. Finer filter = more constraints, more like
-"a single point".
+already `F`-eventual. A finer filter carries more constraints and sits
+closer to "a single point".
+
+This order is what lets you weaken a limit. Say you have
+`Tendsto f G (𝓝 L)` and want `Tendsto f F (𝓝 L)` for a finer source
+`F ≤ G`. Then {name}`Filter.Tendsto.mono_left` reduces the goal to proving
+`F ≤ G`: convergence along a coarser filter implies convergence along any
+finer one. For instance a two-sided limit gives the one-sided limit,
+because `𝓝[>] a ≤ 𝓝 a`.
 
 The mnemonic that prevents the sign-flip everyone trips over: on
 principal filters, the order is just inclusion of the underlying
