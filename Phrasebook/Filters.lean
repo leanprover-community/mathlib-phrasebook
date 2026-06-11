@@ -29,18 +29,15 @@ pivots through `𝓝` and `atTop`, this chapter shows how. It assumes you are
 comfortable with Lean and with limits in the usual ε-δ sense, but not that
 you have met filters before.
 
-A {name}`Filter` `l` on a type `α` is a notion of "eventually" on
-`α`: for a set `s : Set α`, membership `s ∈ l` reads "we *eventually*
-end up in `s`". The axioms (`univ ∈ l`,
-upward-closed, closed under finite intersection) say that
-"eventually" is preserved by supersets and by conjunction.
-
-Different filters carry different notions of "eventually": `𝓝 x`
-means "for points sufficiently near `x`"; `atTop` on `ℕ` means "for
-sufficiently large `n`"; `μ.ae` means "for almost every point";
-`cofinite` means "for all but finitely many". One relation,
-{name}`Filter.Tendsto`, covers sequence convergence, function
-limits at a point, "→ ∞", and almost-everywhere statements uniformly.
+A {name}`Filter` `l` on a type `α` packages a notion of "eventually": for a
+set `s : Set α`, membership `s ∈ l` reads "we *eventually* land in
+`s`". Different filters carry different notions: `𝓝 x` is "for points
+near `x`", `atTop` is "for sufficiently large input", `μ.ae` is "for
+almost every point". You rarely touch the axioms directly; the skill is
+picking the filter that matches the limit you mean and letting the lemmas do
+the work. One relation, {name}`Filter.Tendsto`, then covers sequence
+convergence, function limits at a point, "→ ∞", and almost-everywhere
+statements uniformly.
 
 # The standard filters
 
