@@ -161,10 +161,14 @@ For the standard filters:
 
 # Gotchas
 
-*`Tendsto` direction.* Source filter first, target filter second. The
-mnemonic "`f` sends `l₁` to `l₂`" matches the type
-`Filter α → Filter β` (composition direction), not the limit
-arrow `lim x → a`. The trivial filter `⊥` contains every set, so
-`Tendsto f ⊥ l` is _vacuously true_ for any `l`. Accidentally writing
-a degenerate source (e.g. `𝓝[s] a` for an `a` outside the closure of
-`s`) leaves you with hypotheses that prove nothing.
+*Source first, target second.* `Tendsto f l₁ l₂` takes the source filter
+`l₁` before the target `l₂`, the opposite order from the arrow in
+`lim_{x → a} f(x) = L`, where you name the target `L` last. When in doubt,
+recall the meaning "`f` sends `l₁` to `l₂`" and push the source forward to
+the target: a sequence limit is `Tendsto u atTop (𝓝 x)`, with `atTop`
+(where `n` lives) first.
+
+*The trivial filter proves nothing.* `⊥` contains every set, so
+`Tendsto f ⊥ l` is _vacuously true_ for any `l`. A degenerate source
+(for instance `𝓝[s] a` for an `a` outside the closure of `s`, which equals
+`⊥`) leaves you with hypotheses that prove nothing.
