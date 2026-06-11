@@ -69,6 +69,36 @@ If a topic exceeds five printed pages, split it. Write a short parent
 page (intro plus a reference table) and include focused child entries
 via `{include 1 Phrasebook.X.Y}`.
 
+A *reference table* is a compact lookup the reader can scan instead of
+reading prose: each row maps one piece of notation or one concept to its
+meaning. A parent page is then just a one-paragraph intro, such a table,
+and the child includes:
+
+```
+#doc (Manual) "How to work with X in Mathlib" =>
+
+One paragraph: what this chapter covers and who it is for.
+
+::: table +header
+
+* * Object
+  * What it means
+
+* * `foo`
+  * the first thing
+
+* * {name}`Bar.baz`
+  * the second thing
+
+:::
+
+{include 1 Phrasebook.X.Y}
+{include 1 Phrasebook.X.Z}
+```
+
+The table can open the chapter as an overview or close it as a summary,
+whichever the reader will reach for.
+
 To register a child: add `import Phrasebook.X.Y` to the **parent**
 file (not to `Phrasebook.lean`) and put the `{include 1 ...}` line
 where the child should render. Tag each child with
