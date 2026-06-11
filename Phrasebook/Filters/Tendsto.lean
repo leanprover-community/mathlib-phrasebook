@@ -129,11 +129,14 @@ statement), use `𝓝 a`. If it doesn't (the punctured limit), use
 
 # `∀ᶠ` and `∃ᶠ`: eventually and frequently
 
-The {name}`Filter.Eventually` relation, written `∀ᶠ x in l, p x`,
-means "the set where `p` holds belongs to `l`". The dual
-{name}`Filter.Frequently`, written `∃ᶠ x in l, p x`, means "the set
-where `p` fails does *not* belong to `l`" (equivalently, `p` is not
-eventually false).
+`∀ᶠ x in l, p x` says `p` holds *eventually* along `l`: on a neighbourhood
+of the point, for all sufficiently large `n`, almost everywhere — whichever
+notion `l` carries. `∃ᶠ x in l, p x` is the dual, "`p` holds *frequently*":
+infinitely often, or on arbitrarily large inputs. Concretely, `∀ᶠ x in l,
+p x` means the set where `p` holds lies in `l`, and `∃ᶠ x in l, p x` means
+the set where `p` fails does not (equivalently, `p` is not eventually
+false); the underlying relations are {name}`Filter.Eventually` and
+{name}`Filter.Frequently`.
 
 For the standard filters:
 
@@ -149,7 +152,7 @@ For the standard filters:
   * `p` holds for all sufficiently large `n`
 
 * * `∀ᵐ x ∂μ, p x`
-  * `p` holds almost everywhere (sugar for `∀ᶠ x in μ.ae, p x`)
+  * `p` holds almost everywhere (sugar for `∀ᶠ x in ae μ, p x`)
 
 * * `∃ᶠ n in atTop, p n`
   * `p` holds infinitely often
