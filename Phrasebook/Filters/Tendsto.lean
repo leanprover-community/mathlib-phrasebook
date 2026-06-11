@@ -26,6 +26,21 @@ into a Mathlib proposition. The companion
 {ref "filters-proving"}[Proving limits] entry covers how to *prove* such a
 statement once it is written.
 
+Before anything parses you need `open Filter Topology` in scope: the
+notations `𝓝`, `𝓝[s]`, `𝓝[>]`, `𝓝[<]`, `atTop`, `atBot`, `∀ᶠ`, `∃ᶠ` are
+all defined there. Without it you get an "unknown identifier":
+
+::: leanSection
+```lean +error (name := nhdsNotOpened)
+example : Filter ℝ := 𝓝 (0 : ℝ)
+```
+```leanOutput nhdsNotOpened
+Unknown identifier `𝓝`
+```
+:::
+
+Every example below assumes the `open` has happened.
+
 # Write limits using `Tendsto`
 
 Every limit statement goes through {name}`Filter.Tendsto`. That one
@@ -150,19 +165,3 @@ arrow `lim x → a`. The trivial filter `⊥` contains every set, so
 `Tendsto f ⊥ l` is _vacuously true_ for any `l`. Accidentally writing
 a degenerate source (e.g. `𝓝[s] a` for an `a` outside the closure of
 `s`) leaves you with hypotheses that prove nothing.
-
-*`open` matters.* `𝓝`, `𝓝[s]`, `𝓝[>]`, `𝓝[<]`, `atTop`, `atBot`,
-`∀ᶠ`, `∃ᶠ` all need `open Filter Topology` to parse. Concretely, in
-a fresh section where `Topology` isn't open:
-
-::: leanSection
-```lean +error (name := nhdsNotOpened)
-example : Filter ℝ := 𝓝 (0 : ℝ)
-```
-```leanOutput nhdsNotOpened
-Unknown identifier `𝓝`
-```
-:::
-
-After `open Topology` (and `open Filter` for `∀ᶠ`, `atTop`, etc.) the
-same line elaborates without complaint.
