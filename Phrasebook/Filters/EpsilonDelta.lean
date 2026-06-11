@@ -58,9 +58,12 @@ Variants you'll reach for when the endpoints aren't both `𝓝 _`:
 
 # Filter bases
 
-{name}`Metric.tendsto_nhds_nhds` is one instance of the general
-*filter basis* pattern. The neighbourhood filter `𝓝 x` on a metric
-space *has basis* the open balls around `x`:
+You reach for {name}`Filter.HasBasis` in two situations: when you need an
+ε-δ characterization that Mathlib does not already package as a named
+lemma, and when you read a proof that unpacks a filter membership into
+concrete witnesses. Both rest on the same *filter basis* pattern, of which
+{name}`Metric.tendsto_nhds_nhds` is one instance. The neighbourhood filter
+`𝓝 x` on a metric space *has basis* the open balls around `x`:
 
 ::: leanSection
 ```lean -show
