@@ -39,7 +39,7 @@ open Filter Topology
 -- The sequence u : ℕ → ℝ converges to x as n → ∞
 example (u : ℕ → ℝ) (x : ℝ) : Prop :=
   Tendsto u atTop (𝓝 x)
--- f : ℝ → ℝ has limit L as x → a
+-- The function f : ℝ → ℝ has limit L as x → a
 example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
   Tendsto f (𝓝 a) (𝓝 L)
 -- f x tends to +∞ as x → +∞
