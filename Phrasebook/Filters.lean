@@ -22,6 +22,13 @@ set_option pp.rawOnError true
 
 #doc (Manual) "How to work with filters in Mathlib" =>
 
+Mathlib states every limit, "eventually", and "almost everywhere" claim
+through *filters*. If you want to write `lim_{x → 0} sin x / x = 1` as a
+Lean proposition, prove that a sequence converges, or read a proof that
+pivots through `𝓝` and `atTop`, this chapter shows how. It assumes you are
+comfortable with Lean and with limits in the usual ε-δ sense, but not that
+you have met filters before.
+
 A {name}`Filter` `l` on a type `α` is a notion of "eventually" on
 `α`: for a set `s : Set α`, membership `s ∈ l` reads "we *eventually*
 end up in `s`". The axioms (`univ ∈ l`,
@@ -85,6 +92,18 @@ limits at a point, "→ ∞", and almost-everywhere statements uniformly.
     {ref "filters-tendsto"}[Limit statements])
 
 :::
+
+The chapter has four entries:
+
+* {ref "filters-tendsto"}[Limit statements] — turn a mathematical limit into
+  a Mathlib proposition.
+* {ref "filters-proving"}[Proving limits] — prove such a statement once it is
+  written.
+* {ref "filters-epsilon-delta"}[ε-δ and filter bases] — translate textbook
+  ε-δ statements into filter form.
+* {ref "filters-operations"}[Operations on filters] — read the `≤`,
+  `Filter.map`, `Filter.comap`, and `Filter.prod` algebra in other people's
+  proofs.
 
 The notations `𝓝`, `atTop`, `∀ᶠ` only parse after `open Filter Topology`.
 
