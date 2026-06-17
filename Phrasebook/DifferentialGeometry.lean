@@ -23,7 +23,7 @@ set_option pp.rawOnError true
 
 set_option verso.code.warnLineLength 80
 
-#doc (Manual) "Tutorial: How to do differential geometry using Mathlib" =>
+#doc (Manual) "How to do differential geometry using Mathlib" =>
 
 This page explains how to express differential geometry using the definitions in Mathlib.
 We assume basic knowledge of both Lean and differential geometry.
@@ -32,12 +32,12 @@ Recall that, intuitively, a smooth manifold is a topological space on which we c
 Formally, one commonly found definition is that an $n$-dimensional topological manifold is a topological space that is locally homeomorphic to an open ball in $n$-dimensional Euclidean space. (A smooth manifold imposes further conditions, which we will explain below.)
 
 Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners — the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
-Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {lean}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
+Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed space, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {lean}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
 Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional — i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
 
 # Topological manifolds
 
-Let's begin with topological manifolds. For topological manifolds, being modelled on some normed space generalises verbatim to any topological space, leading to the notion of `ChartedSpace`.
+Let's begin with topological manifolds. For topological manifolds, being modelled on some normed space generalises verbatim to any topological space, leading to the notion of {name}`ChartedSpace`.
 
 The following is how to state "let M be a topological manifold" in Lean.
 ```lean
@@ -57,7 +57,7 @@ variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
 ```
 Note that such a manifold must have dimension at least one, hence the {lean}`NeZero n` hypothesis.
 
-Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled by on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional real manifold, potentially with corners of all orders.
+Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional manifold, potentially with corners of all orders.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
@@ -85,7 +85,7 @@ The textbook definition of smooth manifolds is "a topological manifold such that
 Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) — whereas smoothness requires a normed space.
 For Euclidean quadrants, there is a natural candidate: embed a Euclidean quadrant into its corresponding Euclidean space. (This corresponds to defining a map on Euclidean quadrants as smooth if it admits a smooth extension to the full space.)
 For general manifolds, such an embedding is encoded in a {lean}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
-A `ModelWithCorners` takes three parameters: the base field `k` in which we're working, a `k`-normed space and a topological space on which the manifold is modelled.
+A `ModelWithCorners` takes three parameters: the base field `𝕜` in which we're working, a `𝕜`-normed space and a topological space on which the manifold is modelled.
 Finally, `IsManifold` encodes that `M` is a smooth manifold, w.r.t. a specified model with corners. Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
 ```lean
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
@@ -281,7 +281,7 @@ example : LieGroup (𝓡 1) ω Circle := inferInstance
 
 Let us highlight some particular kinds of smooth maps, that are often used in the literature.
 
-Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`C^n` diffeomorphism it is is $`C^n` and has an inverse maps which is again $`C^n`. Diffeomorphisms in Lean are bundled, e.g. include a choice of inverse as part of their data.
+Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`C^n` diffeomorphism if it is $`C^n` and has an inverse map which is again $`C^n`. Diffeomorphisms in Lean are bundled, e.g. include a choice of inverse as part of their data.
 ```lean
 #check Diffeomorph
 
@@ -494,7 +494,7 @@ For completeness, we mention that there is also a type of bundled smooth section
 Very often, we work with unbundled sections in Mathlib — this is why it is usually preferred to prove lemmas about unbundled sections first (and deduce the corresponding bundled statements are corollaries).
 ```lean
 #check ContMDiffSection
-variable {t : Cₛ^k⟮I; F, E⟯} -- t is a bundled `C^k` section of `E`}
+variable {t : Cₛ^k⟮I; F, E⟯} -- `t` is a bundled `C^k` section of `E`
 ```
 
 TODO: mention constructions (such as the product, pullback and Hom bundles)
