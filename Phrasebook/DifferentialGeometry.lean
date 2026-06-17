@@ -248,35 +248,39 @@ example {M' : Type*}
 ```
 :::
 
+The sphere in a finite-dimensional inner product space is a smooth manifold.
 ```lean
 open Metric Module in
-/- The sphere in a finite-dimensional inner product space
-is a smooth manifold -/
 example (n : ℕ) (E : Type*) [NormedAddCommGroup E]
   [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
   IsManifold (𝓡 n) ∞ (sphere (0 : E) 1) := inferInstance
 
-#check contMDiff_coe_sphere
 open Metric Module in
 /- The map 𝕊ⁿ ↪ ℝⁿ⁺¹ is smooth -/
 example {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
   CMDiff ∞ (fun x ↦ x : sphere (0 : E) 1 → E) := contMDiff_coe_sphere
+```
 
--- The group of units in any Banach space is a smooth manifold
--- (in fact, even a Lie group).
+The group of units in any Banach space is a smooth manifold (in fact, even a Lie group).
+```lean
 example {V : Type*} [NormedAddCommGroup V] [NormedSpace 𝕜 V] [CompleteSpace V]
   (n : ℕ∞ω) : IsManifold 𝓘(𝕜, V →L[𝕜] V) n (V →L[𝕜] V)ˣ := inferInstance
+```
 
--- A non-trivial closed real interval is a manifold.
+A non-trivial closed real interval is a manifold.
+```lean
 example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
   IsManifold (𝓡∂ 1) n (Set.Icc x y) := inferInstance
-
-/- The circle is an analytic Lie group -/
-example : LieGroup (𝓡 1) ω Circle := inferInstance
-
--- Quotient manifolds will be merged into Mathlib soon.
 ```
+
+ The circle is an analytic Lie group.
+```lean
+example : LieGroup (𝓡 1) ω Circle := inferInstance
+```
+
+Quotient manifolds will be merged into Mathlib soon, and will then also be mentioned here.
+
 
 # Special kinds of maps
 
@@ -366,8 +370,10 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
 variable {f : M → N} {s : Set M} {x : M}
 
 #check (mfderiv% f x : TangentSpace I x →L[𝕜] TangentSpace J (f x))
+```
 
--- Here is how to state the chain rule.
+Here is how to state the chain rule.
+```lean
 example {f g : M → M} (x : M) (hg : MDiffAt g (f x)) (hf : MDiffAt f x) :
     mfderiv% (g ∘ f) x = (mfderiv% g (f x)).comp (mfderiv% f x) :=
   mfderiv_comp x hg hf
@@ -414,32 +420,34 @@ One interesting operation on vector fields is the Lie bracket. There is also a v
 ```lean
 #check VectorField.mlieBracket
 #check VectorField.mlieBracketWithin
+```
 
+The lie bracket is anti-symmetric and alternating.
+```lean
 open VectorField
 
--- The lie bracket is anti-symmetric and alternating.
 example {s : Set M} : mlieBracketWithin I V W s = - mlieBracketWithin I W V s :=
   mlieBracketWithin_swap
 
 example : mlieBracket I V V = 0 := mlieBracket_self
+```
 
--- It also satisfies the Jacobi identity
+It also satisfies the Jacobi identity
+```lean
 #check VectorField.leibniz_identity_mlieBracket
+```
 
+Mathlib also knows the product rule for Lie brackets: given two vector fields `V` and `W` on `M` and a function `f : M → 𝕜`, we have $`[V, f • W] = (df V) • W + f • [V, W]`.
+```lean
 set_option backward.isDefEq.respectTransparency false in
-/-- **Product rule for Lie brackets**: given two vector fields `V` and `W`
-on `M` and a function `f : M → 𝕜`, we have
-`[V, f • W] = (df V) • W + f • [V, W]`. -/
 example [IsManifold I 2 M] [CompleteSpace E]
     {f : M → 𝕜} (hf : MDiffAt f x) (hW : MDiffAt (T% W) x) :
     mlieBracket I V (f • W) x =
       mfderiv% f x (V x) • (W x) + (f x) • mlieBracket I V W x :=
   mlieBracket_smul_right hf hW
-
--- **Fact (Frobenius' theorem)**, not in Mathlib yet:
--- given two vector fields `X` and `Y`,
--- their *local flows* commute iff `[X, Y] = 0`.
 ```
+
+Another nice fact about Lie brackets is Frobenius' theorem, which is not in Mathlib yet: given two vector fields `X` and `Y`, their *local flows* commute iff `[X, Y] = 0`.
 :::
 
 Let's turn to general vector and fiber bundles. Here is how to speak about topological fiber bundles:
