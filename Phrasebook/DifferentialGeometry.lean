@@ -85,8 +85,8 @@ The textbook definition of smooth manifolds is "a topological manifold such that
 Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) — whereas smoothness requires a normed space.
 For Euclidean quadrants, there is a natural candidate: embed a Euclidean quadrant into its corresponding Euclidean space. (This corresponds to defining a map on Euclidean quadrants as smooth if it admits a smooth extension to the full space.)
 For general manifolds, such an embedding is encoded in a {name}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
-A `ModelWithCorners` takes three parameters: the base field `𝕜` in which we're working, a `𝕜`-normed space and a topological space on which the manifold is modelled.
-Finally, `IsManifold` encodes that `M` is a smooth manifold, w.r.t. a specified model with corners. Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
+A {name}`ModelWithCorners` takes three parameters: the base field `𝕜` in which we're working, a `𝕜`-normed space and a topological space on which the manifold is modelled.
+Finally, {name}`IsManifold` encodes that `M` is a smooth manifold, w.r.t. a specified model with corners. Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
 ```lean
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M] {k : ℕ}
@@ -107,14 +107,14 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
 ```
-For smooth manifolds, we can use the notation `∞` in the `ContDiff` namespace.
+For smooth manifolds, we can use the notation `∞` in the {name}`ContDiff` namespace.
 ```lean
 open scoped ContDiff
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
   [NormedSpace 𝕜 E] [TopologicalSpace H] [TopologicalSpace M]
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I ∞ M]
 ```
-For analytic manifolds, we can use the notation `ω` in the `ContDiff` namespace.
+For analytic manifolds, we can use the notation `ω` in the {name}`ContDiff` namespace.
 ```lean
 open scoped ContDiff
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
@@ -122,7 +122,7 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I ω M]
 ```
 
-For a real manifold, we can drop the parameter `𝕜` (and just speak about `ℝ` instead).
+For a real manifold, we can drop the parameter `𝕜` (and just speak about $`\mathbb{R}` instead).
 ```lean
 open scoped ContDiff
 variable {E M H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -140,10 +140,10 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup
 #check IsManifold.maximalAtlas I n M
 ```
 
-A smooth manifold with boundary decomposes into interior and boundary points. {name}`ModelWithCorners.IsInteriorPoint` denotes `x : M` being an interior point (w.r.t. the model `I`), `ModelWithCorners.IsBoundaryPoint` describes points which lie on the boundary (or some corner).
+A smooth manifold with boundary decomposes into interior and boundary points. {name}`ModelWithCorners.IsInteriorPoint` denotes `x : M` being an interior point (w.r.t. the model `I`), {name}`ModelWithCorners.IsBoundaryPoint` describes points which lie on the boundary (or some corner).
 
 There are two kinds of manifolds without boundary.
-If a model with corners has full range (i.e., the embedding `H → E` of the model space into a normed space is surjective), there can be no boundary points: this is `ModelWithCorners.Boundaryless`.
+If a model with corners has full range (i.e., the embedding `H → E` of the model space into a normed space is surjective), there can be no boundary points: this is {name}`ModelWithCorners.Boundaryless`.
 A more general condition (which is harder to check) is "every point is an interior point".
 ```lean
 #check BoundarylessManifold
@@ -200,8 +200,8 @@ The differential of a smooth map is called {name}`mfderiv`, the manifold version
 #check mfderiv% f x -- equivalent notation
 
 ```
-Its design uses a junk value pattern: even if `f` is not differentiable at `x`, its `mfderiv` is defined (as zero).
-This avoids having to specify differentiability hypotheses all the time, but also implies a little caution is needed when interpreting statements: `mfderiv I J f x = 0` does not imply that `f` is differentiable! The notion {name}`HasMFDerivAt` states that `f` is differentiable at a given point, with given differential.
+Its design uses a junk value pattern: even if `f` is not differentiable at `x`, its {name}`mfderiv` is defined (as zero).
+This avoids having to specify differentiability hypotheses all the time, but also implies a little caution is needed when interpreting statements: {lean}`mfderiv I J f x = 0` does not imply that `f` is differentiable! The notion {name}`HasMFDerivAt` states that `f` is differentiable at a given point, with given differential.
 ```lean
 variable {f' : TangentSpace I x →L[𝕜] TangentSpace J (f x)}
 #check HasMFDerivAt I J f x f'
@@ -281,7 +281,7 @@ example : LieGroup (𝓡 1) ω Circle := inferInstance
 
 Let us highlight some particular kinds of smooth maps, that are often used in the literature.
 
-Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`C^n` diffeomorphism if it is $`C^n` and has an inverse map which is again $`C^n`. Diffeomorphisms in Lean are bundled, e.g. include a choice of inverse as part of their data.
+Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`C^n` diffeomorphism if it is $`C^n` and has an inverse map which is again $`C^n`. Diffeomorphisms in Lean are bundled, i.e. include a choice of inverse as part of their data.
 ```lean
 #check Diffeomorph
 
@@ -348,7 +348,7 @@ theorem sphere_eversion : ∃ f : ℝ → 𝕊² → ℝ³,
 
 Mathlib has a well-developed theory of topological and smooth vector bundles.
 The motivating example is the tangent bundle of a smooth manifold, whose fibers are the tangent spaces at each point.
-The `mfderiv` of a differentiable map is a map between tangent spaces.
+The {name}`mfderiv` of a differentiable map is a map between tangent spaces.
 :::leanSection
 ```lean
 open scoped ContDiff Manifold
