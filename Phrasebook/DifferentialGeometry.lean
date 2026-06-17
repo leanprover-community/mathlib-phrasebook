@@ -29,10 +29,10 @@ This page explains how to express differential geometry using the definitions in
 We assume basic knowledge of both Lean and differential geometry.
 
 Recall that, intuitively, a smooth manifold is a topological space on which we can do calculus.
-Formally, one commonly found definition is that an $n$-dimensional topological manifold is a topological space that is locally homeomorphic to an open ball in $n$-dimensional Euclidean space. (A smooth manifold imposes further conditions, which we will explain below.)
+Formally, one commonly found definition is that an $`n`-dimensional topological manifold is a topological space that is locally homeomorphic to an open ball in $`n`-dimensional Euclidean space. (A smooth manifold imposes further conditions, which we will explain below.)
 
 Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners — the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
-Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed space, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {lean}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
+Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed space, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {name}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
 Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional — i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
 
 # Topological manifolds
@@ -50,14 +50,14 @@ An `n`-dimensional topological manifold (without boundary) is just a charted spa
 variable {M : Type*} {n : ℕ} [TopologicalSpace M]
   [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
 ```
-For (real) manifolds with boundary (and no corners), the model is {lean}`EuclideanHalfSpace`.
+For (real) manifolds with boundary (and no corners), the model is {name}`EuclideanHalfSpace`.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanHalfSpace n) M]
 ```
 Note that such a manifold must have dimension at least one, hence the {lean}`NeZero n` hypothesis.
 
-Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional manifold, potentially with corners of all orders.
+Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled on a {name}`EuclideanQuadrant`. The following defines a real `n`-dimensional manifold, potentially with corners of all orders.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
@@ -84,7 +84,7 @@ The astute reader may notice there is no difference between topological manifold
 The textbook definition of smooth manifolds is "a topological manifold such that all coordinate changes are smooth".
 Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) — whereas smoothness requires a normed space.
 For Euclidean quadrants, there is a natural candidate: embed a Euclidean quadrant into its corresponding Euclidean space. (This corresponds to defining a map on Euclidean quadrants as smooth if it admits a smooth extension to the full space.)
-For general manifolds, such an embedding is encoded in a {lean}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
+For general manifolds, such an embedding is encoded in a {name}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
 A `ModelWithCorners` takes three parameters: the base field `𝕜` in which we're working, a `𝕜`-normed space and a topological space on which the manifold is modelled.
 Finally, `IsManifold` encodes that `M` is a smooth manifold, w.r.t. a specified model with corners. Here is how to say "let `M` be a $`C^k` manifold" (for $`k\in\mathbb{N}`).
 ```lean
@@ -194,7 +194,7 @@ In many cases, the model of corners is somewhat obvious from context: in our set
 ```
 To complete the picture, Mathlib also has a definition for being $`C^n` (resp. differentiable) at a point within a set, called {lean}`ContMDiffWithinAt I J n f s x` (with notation {lean}`CMDiffAt[s] n f x`) and {lean}`MDifferentiableWithinAt I J f s x` (with notation {lean}`MDiffAt[s] f x`), respectively.
 
-The differential of a smooth map is called {name}`mfderiv`, the manifold version of the Fréchet derivative {lean}`fderiv`.
+The differential of a smooth map is called {name}`mfderiv`, the manifold version of the Fréchet derivative {name}`fderiv`.
 ```lean
 #check mfderiv I J f x
 #check mfderiv% f x -- equivalent notation
