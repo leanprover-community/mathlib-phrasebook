@@ -249,17 +249,18 @@ example {M' : Type*}
 
 ```lean
 open Metric Module in
-/- The sphere in a finite-dimensional inner product space is a smooth manifold -/
+/- The sphere in a finite-dimensional inner product space
+is a smooth manifold -/
 example (n : ℕ) (E : Type*) [NormedAddCommGroup E]
   [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
-  IsManifold (𝓡 n) ω (sphere (0 : E) 1) := inferInstance
+  IsManifold (𝓡 n) ∞ (sphere (0 : E) 1) := inferInstance
 
 #check contMDiff_coe_sphere
 open Metric Module in
 /- The map 𝕊ⁿ ↪ ℝⁿ⁺¹ is smooth -/
 example {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [Fact (finrank ℝ E = n + 1)] :
-  CMDiff ⊤ (fun x ↦ x : sphere (0 : E) 1 → E) := contMDiff_coe_sphere
+  CMDiff ∞ (fun x ↦ x : sphere (0 : E) 1 → E) := contMDiff_coe_sphere
 
 -- The group of units in any Banach space is a smooth manifold
 -- (in fact, even a Lie group).
@@ -270,8 +271,8 @@ example {V : Type*} [NormedAddCommGroup V] [NormedSpace 𝕜 V] [CompleteSpace V
 example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
   IsManifold (𝓡∂ 1) n (Set.Icc x y) := inferInstance
 
-/- The circle is a Lie group -/
-example : LieGroup (𝓡 1) ⊤ Circle := inferInstance
+/- The circle is an analytic Lie group -/
+example : LieGroup (𝓡 1) ω Circle := inferInstance
 
 -- Quotient manifolds will be merged into Mathlib soon.
 ```
@@ -338,7 +339,7 @@ theorem sphere_eversion : ∃ f : ℝ → 𝕊² → ℝ³,
     (ContMDiff (𝓘(ℝ, ℝ).prod (𝓡 2)) 𝓘(ℝ, ℝ³) ∞ (Function.uncurry f)) ∧
     (f 0 = fun x : 𝕊² ↦ (x : ℝ³)) ∧
     (f 1 = fun x : 𝕊² ↦ -(x : ℝ³)) ∧
-    ∀ t, IsImmersion (𝓡 2) 𝓘(ℝ, ℝ³) ⊤ (f t) :=
+    ∀ t, IsImmersion (𝓡 2) 𝓘(ℝ, ℝ³) ∞ (f t) :=
   sorry -- not yet in Mathlib
 ```
 
@@ -373,16 +374,16 @@ A differentiable map also induces a map on the tangent bundle. Again, we also ha
 #check (tangentMap I J f : TangentBundle I M → TangentBundle J N)
 #check tangentMapWithin I J f s
 
-example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ⊤ f) :
-    ContMDiff I.tangent J.tangent ⊤ (tangentMap I J f) :=
+example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ∞ f) :
+    ContMDiff I.tangent J.tangent ∞ (tangentMap I J f) :=
   hf.contMDiff_tangentMap le_rfl
 
 -- TODO: this is missing from mathlib!
--- example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ⊤ f) :
---    CMDiff ⊤ (tangentMapWithin I J f s) :=
+-- example [IsManifold I 1 M] [IsManifold J 1 N] (f : M → N) (hf : CMDiff ∞ f) :
+--    CMDiff ∞ (tangentMapWithin I J f s) :=
 --  hf.contMDiff_tangentMapWithin le_rfl
 
-example [AddGroup N] [LieAddGroup J ⊤ N] {f g : M → N} {n : ℕ∞}
+example [AddGroup N] [LieAddGroup J ∞ N] {f g : M → N} {n : ℕ∞}
     (hf : CMDiff n f) (hg : CMDiff n g) : CMDiff n (f + g) := hf.add hg
 ```
 
@@ -397,11 +398,11 @@ A vector field `V` is a dependent function on `M`: to speak about its differenti
 open scoped Bundle
 
 variable {V : (x : M) → TangentSpace I x} [IsManifold I 1 M]
-  (hV : CMDiff ⊤ (T% V)) -- Suppose `V` is smooth.
+  (hV : CMDiff ∞ (T% V)) -- Suppose `V` is smooth.
   (hV : MDiff (T% V)) -- Suppose `V` is differentiable.
 
 example {V W : (x : M) → TangentSpace I x}
-    (hV : CMDiff ⊤ (T% V)) (hW : CMDiff ⊤ (T% W)) : CMDiff ⊤ (T% (V + W)) :=
+    (hV : CMDiff ∞ (T% V)) (hW : CMDiff ∞ (T% W)) : CMDiff ∞ (T% (V + W)) :=
   hV.add_section hW
 ```
 
@@ -423,14 +424,16 @@ example : mlieBracket I V V = 0 := mlieBracket_self
 
 set_option backward.isDefEq.respectTransparency false in
 /-- **Product rule for Lie brackets**: given two vector fields `V` and `W`
-on `M` and a function `f : M → 𝕜`, we have `[V, f • W] = (df V) • W + f • [V, W]`. -/
+on `M` and a function `f : M → 𝕜`, we have
+`[V, f • W] = (df V) • W + f • [V, W]`. -/
 example [IsManifold I 2 M] [CompleteSpace E]
     {f : M → 𝕜} (hf : MDiffAt f x) (hW : MDiffAt (T% W) x) :
     mlieBracket I V (f • W) x =
       mfderiv% f x (V x) • (W x) + (f x) • mlieBracket I V W x :=
   mlieBracket_smul_right hf hW
 
--- Fact (Frobenius' theorem), not in Mathlib yet: given two vector fields `X` and `Y`,
+-- **Fact (Frobenius' theorem)**, not in Mathlib yet:
+-- given two vector fields `X` and `Y`,
 -- their *local flows* commute iff `[X, Y] = 0`.
 ```
 :::
@@ -444,7 +447,7 @@ variable {B F : Type*} [TopologicalSpace B] [TopologicalSpace F]
 -- let `s` be a section of `E → B`
 variable {s : Π (b : B), E b}
 ```
--- XXX: trivializations etc!
+-- TODO: mention trivializations etc!
 
 Mathlib has no theory of smooth fiber bundles yet. TODO: are there other constructions to mention?
 
