@@ -40,9 +40,7 @@ The exposition is split in the following subsections:
 
 # Prime spectrum
 
-```lean -show
-section PrimeSpectrum
-```
+::: leanSection
 Let `R` and `S` be commutative rings.
 ```lean
 variable {R S : Type} [CommRing R] [CommRing S]
@@ -74,9 +72,7 @@ this is the set $`\mathrm{V}(s) \cap \mathrm{D}(f)`:
 example (s : Set R) (f : R) : Set (PrimeSpectrum R) :=
   PrimeSpectrum.zeroLocus s ∩ PrimeSpectrum.basicOpen f
 ```
-```lean -show
-end PrimeSpectrum
-```
+:::
 
 # The unbundled vs. bundled barrier.
 
@@ -146,10 +142,8 @@ example (R S : CommRingCat) (f : R ⟶ S) : R ⟶ S :=
 Note: This requires `open CategoryTheory`!
 
 # Schemes
-```lean -show
-section Definition
-```
 
+::: leanSection
 As you would expect, a {name}`Scheme` is defined as a locally ringed space that is locally
 isomorphic to the spectrum of a ring.
 ```lean
@@ -238,8 +232,15 @@ In this language, the $`\Gamma`-Spec adjunction is phrased as:
 example : Scheme.Γ.rightOp ⊣ Scheme.Spec :=
   ΓSpec.adjunction
 ```
+:::
 
 # Affine schemes
+
+::: leanSection
+
+```lean -show
+variable (X Y Z : Scheme)
+```
 
 Among all schemes, the affine schemes take an important role and we use
 the predicate {name}`IsAffine` to say a scheme is affine. For example,
@@ -260,15 +261,11 @@ example (f : X ⟶ Z) (g : Y ⟶ Z)
     IsAffine (pullback f g) :=
   inferInstance
 ```
-```lean -show
-end Definition
-```
+:::
 
 # Stalks, residue fields and fibres
 
-```lean -show
-namespace MyFiber
-```
+::: leanSection
 To get acquainted with the scheme API, let us consider an example: Let us define
 the fibre of a morphism of schemes.
 ```lean
@@ -318,21 +315,17 @@ def fiberToSpecResidueField (y : Y) :
 In `Mathlib` these are called {lean}`Scheme.Hom.fiber`, {lean}`Scheme.Hom.fiberι` and
 {lean}`Scheme.Hom.fiberToSpecResidueField` and we can
 for example write {lean}`f.fiber`.
-```lean -show
-end MyFiber
-```
+:::
 
 # Subschemes
 
-```lean -show
-section Subschemes
-```
 `Mathlib` does not have a definition of subschemes, we simply use morphisms `Z ⟶ X`
 with the relevant properties. We give two prominent examples of such properties
 and how to construct them.
 
 ## Open subschemes
 
+::: leanSection
 ```lean -show
 variable {U V X Y : Scheme}
 ```
@@ -354,6 +347,7 @@ example (f : U ⟶ V) (g : V ⟶ X)
     IsOpenImmersion (f ≫ g) :=
   inferInstance
 ```
+:::
 
 ## Closed subschemes
 
@@ -378,16 +372,8 @@ example :
   IsClosedImmersion.overEquivIdealSheafData X
 ```
 
-```lean -show
-end Subschemes
-```
-
 # Properties of morphisms
 
-```lean -show
-section Properties
-variable {X Y Z : Scheme}
-```
 We have already seen two properties of morphisms in the previous section. `Mathlib` knows many
 properties of morphisms. Browsing the `AlgebraicGeometry/Morphisms` folder
 gives an overview. The properties are defined as type classes, so many basic proofs
@@ -421,16 +407,8 @@ Besides properties of properties, we also use abstract constructions of properti
 #check MorphismProperty.diagonal
 #check topologically
 ```
-```lean -show
-end Properties
-```
 
 # Reduction to the affine case
-
-```lean -show
-section ReductionToAffine
-variable (X Y Z : Scheme) (R : CommRingCat)
-```
 
 The most important technique in scheme theory is certainly the reduction to
 affine situations and commutative algebra. We first explain a few of the
@@ -438,6 +416,11 @@ basic tools for this and then give an example how these can be used
 to prove a standard fact.
 
 ## (Open) covers
+
+::: leanSection
+```lean -show
+variable (X Y Z : Scheme) (R : CommRingCat)
+```
 
 Any reduction to a local problem starts with an (affine) open cover. These
 can be pulled back along morphisms, refined, etc.
@@ -467,6 +450,7 @@ example (X : Scheme) (i : X.affineCover.I₀) :
     ∃ R, X.affineCover.X i = Spec R :=
   ⟨_, rfl⟩
 ```
+:::
 
 ## Example
 
@@ -567,12 +551,6 @@ theorem flat_of_flat_stalkMap (f : X ⟶ Y)
   specialize H ⟨P, hP⟩
   rwa [RingHom.Flat.respectsIso.arrow_mk_iso_iff
     (Scheme.arrowStalkMapSpecIso φ _)] at H
-```
-
-```lean -show
-end Example
-
-end ReductionToAffine
 ```
 
 # More topics
