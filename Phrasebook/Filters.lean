@@ -39,7 +39,7 @@ variable {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
 A {name}`Filter` `l` on a type `α` packages a notion of "eventually": for a
 set `s : Set α`, membership {lean}`s ∈ l` reads "we *eventually* land in
 `s`". Different filters carry different notions: {lean}`𝓝 x` is "for points
-near `x`", `atTop` is "for sufficiently large input", {lean}`ae μ` is "for
+near `x`", {name}`atTop` is "for sufficiently large input", {lean}`ae μ` is "for
 almost every point". You rarely touch the axioms directly; the skill is
 picking the filter that matches the limit you mean and letting the lemmas do
 the work. One relation, {name}`Filter.Tendsto`, then covers sequence
@@ -56,7 +56,7 @@ The chapter has four entries:
 * {ref "filters-epsilon-delta"}[ε-δ and filter bases] — translate textbook
   ε-δ statements into filter form.
 * {ref "filters-operations"}[Operations on filters] — read the `≤`,
-  `Filter.map`, `Filter.comap`, and `Filter.prod` algebra in other people's
+  {name}`Filter.map`, {name}`Filter.comap`, and `×ˢ` algebra in other people's
   proofs.
 
 The notations `𝓝`, `atTop`, `∀ᶠ` only parse after `open Filter Topology`.

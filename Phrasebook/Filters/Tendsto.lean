@@ -102,7 +102,11 @@ inspection.
 tag := "filters-punctured"
 %%%
 
-There is one choice the mechanical recipe leaves open. `Tendsto f (𝓝 a) (𝓝 L)`
+::: leanSection
+```lean -show
+variable (f : ℝ → ℝ) (a L : ℝ)
+```
+There is one choice the mechanical recipe leaves open. {lean}`Tendsto f (𝓝 a) (𝓝 L)`
 includes the behaviour of `f` *at* `a`, so it forces `f a = L`. The
 *punctured* limit ("`x → a` with `x ≠ a`") makes no claim about the value
 at `a` and lives on the punctured neighbourhood filter `𝓝[≠] a`:
@@ -153,14 +157,19 @@ For the standard filters:
 
 # Gotchas
 
-*Source first, target second.* `Tendsto f l₁ l₂` takes the source filter
+:::leanSection
+```lean -show
+variable (f : ℝ → ℝ) (l l₁ l₂ : Filter ℝ) (u : ℕ → ℝ) (x : ℝ)
+```
+*Source first, target second.* {lean}`Tendsto f l₁ l₂` takes the source filter
 `l₁` before the target `l₂`, the opposite order from the arrow in
 `lim_{x → a} f(x) = L`, where you name the target `L` last. When in doubt,
 recall the meaning "`f` sends `l₁` to `l₂`" and push the source forward to
-the target: a sequence limit is `Tendsto u atTop (𝓝 x)`, with `atTop`
+the target: a sequence limit is {lean}`Tendsto u atTop (𝓝 x)`, with {name}`atTop`
 (where `n` lives) first.
 
 *The trivial filter proves nothing.* `⊥` contains every set, so
-`Tendsto f ⊥ l` is _vacuously true_ for any `l`. A degenerate source
+{lean}`Tendsto f ⊥ l` is _vacuously true_ for any `l`. A degenerate source
 (for instance `𝓝[s] a` for an `a` outside the closure of `s`, which equals
 `⊥`) leaves you with hypotheses that prove nothing.
+:::

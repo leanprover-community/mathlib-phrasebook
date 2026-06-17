@@ -24,21 +24,21 @@ tag := "filters-proving"
 open Filter Topology
 ```
 
-You have a limit statement in `Tendsto` or `∀ᶠ` form (see the
+You have a limit statement in {name}`Tendsto` or `∀ᶠ` form (see the
 companion {ref "filters-tendsto"}[Limit statements] entry for how to
 write one). This entry covers five common recipes (algebraic
-combination, composition, `filter_upwards`, `EventuallyEq`
-substitution, and unfolding continuity to `Tendsto`) that handle
+combination, composition, {tactic}`filter_upwards`, {name}`EventuallyEq`
+substitution, and unfolding continuity to {name}`Tendsto`) that handle
 most everyday goals. Other proofs lean on
 monotonicity ({name}`Filter.Tendsto.mono_left`,
-{name}`Filter.Eventually.mono`) or on `map`/`comap` (see
+{name}`Filter.Eventually.mono`) or on {name}`map`/{name}`comap` (see
 {ref "filters-operations"}[Operations on filters]). Stay in the
 filter world; reach for {ref "filters-epsilon-delta"}[ε-δ] only when
 translating from classical sources.
 
 # Combine two convergent sequences
 
-Algebraic operations on limits are all dot-style on `Tendsto`:
+Algebraic operations on limits are all dot-style on {name}`Tendsto`:
 
 ::: leanSection
 ```lean
@@ -61,7 +61,7 @@ makes sense. {name}`Filter.Tendsto.add`,
 {name}`Filter.Tendsto.neg`. Constants come from
 {name}`tendsto_const_nhds`.
 
-# Composition: `Tendsto.comp`
+# Composition: {name}`Tendsto.comp`
 
 ::: leanSection
 ```lean -show
@@ -75,12 +75,12 @@ example : Tendsto (g ∘ f) l₁ l₃ :=
   hg.comp hf
 ```
 
-Note the order: {lean}`hg.comp hf`, with the *outer* function's `Tendsto`
+Note the order: {lean}`hg.comp hf`, with the *outer* function's {name}`Tendsto`
 on the left. This matches function composition {lean}`g ∘ f`, not the
 left-to-right `hf` then `hg` order you might expect.
 :::
 
-# Strengthen an "eventually" fact: `filter_upwards`
+# Strengthen an "eventually" fact: {tactic}`filter_upwards`
 
 When you have `∀ᶠ x in l, p₁ x` and `∀ᶠ x in l, p₂ x` and want
 `∀ᶠ x in l, q x`, the tactic is {name}`Mathlib.Tactic.filterUpwards`:
@@ -96,23 +96,28 @@ example {u : ℕ → ℝ}
 
 The `with n hn1 hn2` clause names the bound variable and the
 strengthened hypotheses; you then prove the pointwise goal `q n`.
-This is usually cleaner than combining `Eventually.and` and `.mono`
+This is usually cleaner than combining {name}`Eventually.and` and {name}`Eventually.mono`
 by hand.
 
-# Limits depend only on eventual values: `EventuallyEq`
+# Limits depend only on eventual values: {name}`EventuallyEq`
 
-The {name}`Filter.EventuallyEq` relation, written `f =ᶠ[l] g`, means
-`f x = g x` holds `l`-eventually. Anything that only depends on
+:::leanSection
+```lean -show
+variable {α β : Type*} (f g : α → β) (l : Filter α) (m : Filter β) (x : α)
+```
+The {name}`Filter.EventuallyEq` relation, written {lean}`f =ᶠ[l] g`, means
+{lean}`f x = g x` holds `l`-eventually. Anything that only depends on
 `l`-eventual behaviour transfers from `f` to `g` for free; in
-particular, `Tendsto f l m ↔ Tendsto g l m`.
+particular, {lean}`Tendsto f l m ↔ Tendsto g l m`.
 
 The two lemmas you'll actually reach for:
 
-* {name}`Filter.Tendsto.congr` takes `Tendsto f l m` and `f =ᶠ[l] g`
-  and produces `Tendsto g l m`. Use as a one-step rewrite on a
+* {name}`Filter.Tendsto.congr` takes {lean}`Tendsto f l m` and {lean}`f =ᶠ[l] g`
+  and produces {lean}`Tendsto g l m`. Use as a one-step rewrite on a
   `Tendsto` you already have in hand.
 * {name}`Filter.tendsto_congr'` is the same fact as an iff, when you
   want to rewrite both directions.
+:::
 
 ```lean
 example {f g : ℕ → ℝ} {a : ℝ}
@@ -124,12 +129,13 @@ example {f g : ℕ → ℝ} {a : ℝ}
 
 # Continuity at a point as a `Tendsto`
 
-`ContinuousAt f x` *is* `Tendsto f (𝓝 x) (𝓝 (f x))`:
-
 ::: leanSection
 ```lean -show
 variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+variable (f : X → Y) (x : X)
 ```
+{lean}`ContinuousAt f x` *is* {lean}`Tendsto f (𝓝 x) (𝓝 (f x))`:
+
 ```lean
 example (f : X → Y) (x : X) :
     ContinuousAt f x ↔ Tendsto f (𝓝 x) (𝓝 (f x)) :=
@@ -138,5 +144,5 @@ example (f : X → Y) (x : X) :
 :::
 
 So every limit lemma is a continuity lemma, and vice versa. When proof
-search for `Continuous` stalls, unfolding through filters often
+search for {name}`Continuous` stalls, unfolding through filters often
 unblocks it.
