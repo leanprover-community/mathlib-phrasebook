@@ -132,6 +132,7 @@ example (R S : CommRingCat) (f : R ⟶ S) (x : R) : S := f x
 ```
 The type of commutative rings is endowed with a category structure.
 ```lean
+open CategoryTheory -- required for category notation
 example : Category CommRingCat := inferInstance
 ```
 This allows us to write `𝟙 _` for the identity and `_ ≫ _` for composition:
@@ -139,7 +140,6 @@ This allows us to write `𝟙 _` for the identity and `_ ≫ _` for composition:
 example (R S : CommRingCat) (f : R ⟶ S) : R ⟶ S :=
   𝟙 R ≫ f ≫ 𝟙 S
 ```
-Note: This requires `open CategoryTheory`!
 
 # Schemes
 
