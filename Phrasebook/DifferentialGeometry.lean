@@ -225,11 +225,12 @@ Lean knows about various constructions and examples of manifolds.
 open scoped ContDiff Manifold
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
   [NormedAddCommGroup E] [NormedSpace 𝕜 E]
-  [TopologicalSpace H] [TopologicalSpace M] {k : ℕ∞ω}
-  {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
+  [TopologicalSpace H] [TopologicalSpace M] [ChartedSpace H M]
+  {k : ℕ∞ω} {I : ModelWithCorners 𝕜 E H} [IsManifold I k M]
   {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
-  {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
-  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J k N]
+  {H' : Type*} [TopologicalSpace H']
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N]
+  (J : ModelWithCorners 𝕜 E' H') [IsManifold J k N]
 ```
 
 ```lean
@@ -342,6 +343,9 @@ theorem sphere_eversion : ∃ f : ℝ → 𝕊² → ℝ³,
     ∀ t, IsImmersion (𝓡 2) 𝓘(ℝ, ℝ³) ∞ (f t) :=
   sorry -- not yet in Mathlib
 ```
+
+You can read more about the project on [its dedicated webpage](https://leanprover-community.github.io/sphere-eversion/).
+There is also a published paper ([open access](https://doi.org/10.1145/3573105.3575688)) about the local parts of the project.
 
 
 # Vector bundles
