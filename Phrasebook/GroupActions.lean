@@ -19,7 +19,7 @@ set_option pp.rawOnError true
 
 #doc (Manual) "How to write standard group actions using Mathlib" =>
 
-This page assumes you have already read [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#group-actions).
+This page assumes you have already read the [Mathematics in Lean section about group actions](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#group-actions).
 
 # The left multiplication action
 
@@ -28,7 +28,7 @@ This page assumes you have already read [Mathematics in Lean](https://leanprover
 variable {G X : Type*} [Monoid G] (g : G) (x : X) [MulAction G X]
 ```
 
-As mentioned in Mathematics in Lean, the typeclass {lean}`MulAction G X` allows us to write {lean}`g • x` for the action of a group element `g : G` on an element `x : X`. Given types `G` and `X`, only one action can be inferred (since we need an unambiguous value for {lean}`g • x`). In the case where the literature has multiple actions one of them is chosen as the default action. For instance, given `G = X` and `[Group G]` the action of `G` on itself by left multiplication is chosen as the default action.
+As mentioned in Mathematics in Lean, the typeclass {lean}`MulAction G X` allows us to write {lean}`g • x` for the action of a group element `g : G` on an element `x : X`. Given types `G` and `X`, only one action can be inferred (since we need an unambiguous value for {lean}`g • x`). In the case where the literature has multiple actions, one of them is chosen as the default action. For instance, given `G = X` and `[Group G]` the action of `G` on itself by left multiplication is chosen as the default action.
 
 ```lean
 example {G} [Group G] (g s : G) : g • s = g * s :=
@@ -62,10 +62,10 @@ example {G} [Group G] (g : ConjAct G) (s : G) :
 variable {G X : Type*} [Monoid G] (x : X) [MulAction G X]
 ```
 
-A group acts on its subsets by left multiplication. Recall that given a group structure {lean}`Group G` on a type `G`, the type of subsets of `G` is {lean}`Set G`. Mathlib provides an instance {name}`Set.mulActionSet` `:` {lean}`MulAction G (Set G)` for this action, and a notation `g • S` for the action of `g : G` on `S : Set G`, which is enabled in the `Pointwise` namespace.
+A group acts on its subsets by left multiplication. Recall that given a group structure {lean}`Group G` on a type `G`, the type of subsets of `G` is {lean}`Set G`. Mathlib provides an instance {name}`Set.mulActionSet` `:` {lean}`MulAction G (Set G)` for this action, and notation `g • S` for the action of `g : G` on `S : Set G`, which is enabled in the `Pointwise` namespace.
 
 ```lean
-open Pointwise
+open scoped Pointwise
 open DihedralGroup
 
 def S : Set (DihedralGroup 3) := {.r 0, .r 1}
