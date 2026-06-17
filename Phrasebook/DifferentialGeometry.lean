@@ -31,9 +31,9 @@ We assume basic knowledge of both Lean and differential geometry.
 Recall that, intuitively, a smooth manifold is a topological space on which we can do calculus.
 Formally, one commonly found definition is that an $n$-dimensional topological manifold is a topological space that is locally homeomorphic to an open ball in $n$-dimensional Euclidean space. (A smooth manifold imposes further conditions, which we will explain below.)
 
-Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners --- the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
+Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners — the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
 Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {lean}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
-Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional --- i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
+Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional — i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
 
 # Topological manifolds
 
@@ -57,7 +57,7 @@ variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
 ```
 Note that such a manifold must have dimension at least one, hence the {lean}`NeZero n` hypothesis.
 
-Taking products of manifolds with boundary yields manifolds with corners; mathlib allows corners of any order. They can be modelled by on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional real manifold, potentially with corners of all orders.
+Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled by on a {lean}`EuclideanQuadrant`. The following defines a real `n`-dimensional real manifold, potentially with corners of all orders.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
@@ -82,7 +82,7 @@ The astute reader may notice there is no difference between topological manifold
 # Smooth manifolds
 
 The textbook definition of smooth manifolds is "a topological manifold such that all coordinate changes are smooth".
-Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) --- whereas smoothness requires a normed space.
+Making sense of this for manifolds with boundary or corners requires thinking: naively, one would obtain coordinate changes which are defined on *topological spaces* (such as, Euclidean quadrants) — whereas smoothness requires a normed space.
 For Euclidean quadrants, there is a natural candidate: embed a Euclidean quadrant into its corresponding Euclidean space. (This corresponds to defining a map on Euclidean quadrants as smooth if it admits a smooth extension to the full space.)
 For general manifolds, such an embedding is encoded in a {lean}`ModelWithCorners`; smoothness is defined in terms of the resulting map after composition with the model with corners.
 A `ModelWithCorners` takes three parameters: the base field `k` in which we're working, a `k`-normed space and a topological space on which the manifold is modelled.
@@ -130,7 +130,7 @@ variable {E M H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {I : ModelWithCorners ℝ E H} [ChartedSpace H M] [IsManifold I k M]
 ```
 
-Atlasses are not maximal in general --- but there a maximal atlas, consisting of all charts which are compatible with a given smooth structure, induced by a model with corners.
+Atlasses are not maximal in general — but there a maximal atlas, consisting of all charts which are compatible with a given smooth structure, induced by a model with corners.
 ```lean
 open scoped ContDiff
 variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜] [NormedAddCommGroup E]
@@ -152,7 +152,7 @@ Mathlib knows about the interior and boundary of product manifolds, for example:
 ```lean
 #check ModelWithCorners.interior_prod
 ```
-There is a definition of "manifolds whose boundary is smooth" (i.e., there are no corners), which is not in mathlib yet.
+There is a definition of "manifolds whose boundary is smooth" (i.e., there are no corners), which is not in Mathlib yet.
 
 # Differentiability
 
@@ -192,7 +192,7 @@ In many cases, the model of corners is somewhat obvious from context: in our set
 #check MDiff[s] f
 #check MDiffAt f x
 ```
-To complete the picture, mathlib also has a definition for being $`C^n` (resp. differentiable) at a point within a set, called {lean}`ContMDiffWithinAt I J n f s x` (with notation {lean}`CMDiffAt[s] n f x`) and {lean}`MDifferentiableWithinAt I J f s x` (with notation {lean}`MDiffAt[s] f x`), respectively.
+To complete the picture, Mathlib also has a definition for being $`C^n` (resp. differentiable) at a point within a set, called {lean}`ContMDiffWithinAt I J n f s x` (with notation {lean}`CMDiffAt[s] n f x`) and {lean}`MDifferentiableWithinAt I J f s x` (with notation {lean}`MDiffAt[s] f x`), respectively.
 
 The differential of a smooth map is called {name}`mfderiv`, the manifold version of the Fréchet derivative {lean}`fderiv`.
 ```lean
@@ -273,7 +273,7 @@ example (x y : ℝ) [Fact (x < y)] {n : ℕ∞ω} :
 /- The circle is a Lie group -/
 example : LieGroup (𝓡 1) ⊤ Circle := inferInstance
 
--- Quotient manifolds will be merged into mathlib soon.
+-- Quotient manifolds will be merged into Mathlib soon.
 ```
 
 # Special kinds of maps
@@ -430,7 +430,7 @@ example [IsManifold I 2 M] [CompleteSpace E]
       mfderiv% f x (V x) • (W x) + (f x) • mlieBracket I V W x :=
   mlieBracket_smul_right hf hW
 
--- Fact (Frobenius' theorem), not in mathlib yet: given two vector fields `X` and `Y`,
+-- Fact (Frobenius' theorem), not in Mathlib yet: given two vector fields `X` and `Y`,
 -- their *local flows* commute iff `[X, Y] = 0`.
 ```
 :::
@@ -488,7 +488,7 @@ example {s t : (x : M) → E x} {hs : CMDiff k (T% s)} {ht : CMDiff k (T% t)} :
 ```
 
 For completeness, we mention that there is also a type of bundled smooth sections, with special notation. (Note that "bundled" has nothing to do with vector or fiber bundles; it refers to the fact that these combine a section with a proof of smoothness.)
-Very often, we work with unbundled sections in mathlib --- this is why it is usually preferred to prove lemmas about unbundled sections first (and deduce the corresponding bundled statements are corollaries).
+Very often, we work with unbundled sections in Mathlib — this is why it is usually preferred to prove lemmas about unbundled sections first (and deduce the corresponding bundled statements are corollaries).
 ```lean
 #check ContMDiffSection
 variable {t : Cₛ^k⟮I; F, E⟯} -- t is a bundled `C^k` section of `E`}
