@@ -33,7 +33,7 @@ Formally, one commonly found definition is that an $`n`-dimensional topological 
 
 Mathlib's definition generalises this notion in three ways. Firstly, we also consider manifolds with boundary and corners — the local model for a manifold can also be the upper half of an open ball, or a quadrant in such a ball.
 Secondly, we allow manifolds over different fields: real manifolds are modelled on real Euclidean space, complex manifolds on a complex normed space, but there are also manifolds over the `p`-adic numbers $`\mathbb{Q}_p`. In fact, a lot of manifold theory works over any {name}`NontriviallyNormedField`, i.e. a normed field endowed with a norm which does not only take value zero or one.
-Finally, manifolds need not be `n`-dimensional, but can also be infinite-dimensional — i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
+Finally, manifolds need not be $`n`-dimensional, but can also be infinite-dimensional — i.e., modelled by open balls in any normed space (which need not be Banach), not just Euclidean space. Mathlib does not require manifolds to be Hausdorff nor second countable (though a number of theorems require this).
 
 # Topological manifolds
 
@@ -45,7 +45,7 @@ variable {M H : Type*} [TopologicalSpace H]
   [TopologicalSpace M] [ChartedSpace H M]
 ```
 
-An `n`-dimensional topological manifold (without boundary) is just a charted space on `n`-dimensional Euclidean space.
+An $`n`-dimensional topological manifold (without boundary) is just a charted space on $`n`-dimensional Euclidean space.
 ```lean
 variable {M : Type*} {n : ℕ} [TopologicalSpace M]
   [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
@@ -57,7 +57,7 @@ variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
 ```
 Note that such a manifold must have dimension at least one, hence the {lean}`NeZero n` hypothesis.
 
-Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled on a {name}`EuclideanQuadrant`. The following defines a real `n`-dimensional manifold, potentially with corners of all orders.
+Taking products of manifolds with boundary yields manifolds with corners; Mathlib allows corners of any order. They can be modelled on a {name}`EuclideanQuadrant`. The following defines a real $`n`-dimensional manifold, potentially with corners of all orders.
 ```lean
 variable {M : Type*} {n : ℕ} [NeZero n] [TopologicalSpace M]
   [ChartedSpace (EuclideanQuadrant n) M]
