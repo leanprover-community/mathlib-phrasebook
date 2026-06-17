@@ -20,6 +20,10 @@ set_option pp.rawOnError true
 tag := "filters-epsilon-delta"
 %%%
 
+```lean -show
+open Filter Topology
+```
+
 Mathlib states limits and continuity in `Tendsto` form, and you
 should write your proofs that way too. This entry exists for a
 narrow purpose: translating ε-δ statements you encounter in
@@ -35,17 +39,12 @@ For functions between metric spaces, the *unpunctured* ε-δ statement
 translates to `Tendsto f (𝓝 a) (𝓝 L)`. The quantifier `∀ x` includes
 `x = a`, so this is the continuity-style form (it forces `f a = L`):
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example {f : ℝ → ℝ} {a L : ℝ} :
     Tendsto f (𝓝 a) (𝓝 L) ↔
       ∀ ε > 0, ∃ δ > 0, ∀ x, |x - a| < δ → |f x - L| < ε :=
   Metric.tendsto_nhds_nhds
 ```
-:::
 
 This is *not* the punctured limit; for that, work in `𝓝[≠] a` (see
 {ref "filters-punctured"}[Punctured vs unpunctured limits]).
@@ -65,16 +64,11 @@ concrete witnesses. Both rest on the same *filter basis* pattern, of which
 {name}`Metric.tendsto_nhds_nhds` is one instance. The neighbourhood filter
 `𝓝 x` on a metric space *has basis* the open balls around `x`:
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example {X : Type*} [PseudoMetricSpace X] (x : X) :
     (𝓝 x).HasBasis (fun ε : ℝ => 0 < ε) (Metric.ball x) :=
   Metric.nhds_basis_ball
 ```
-:::
 
 Read `HasBasis l p s` as: a set `t` is in `l` iff it contains some
 `s i` with `p i`. The data `(p, s)` is a parametric ε-style

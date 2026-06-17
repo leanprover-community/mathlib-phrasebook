@@ -40,6 +40,9 @@ Unknown identifier `𝓝`
 :::
 
 Every example below assumes the `open` has happened.
+```lean -show
+open Filter Topology
+```
 
 # Write limits using `Tendsto`
 
@@ -47,9 +50,6 @@ Every limit statement goes through {name}`Filter.Tendsto`. That one
 definition unifies the limits you would otherwise spell out separately:
 
 ::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 -- The sequence u : ℕ → ℝ converges to x as n → ∞
 example (u : ℕ → ℝ) (x : ℝ) : Prop :=
@@ -75,10 +75,6 @@ set that is eventual for the target `l₂` has a preimage that is eventual
 for the source `l₁`.
 
 ::: leanSection
-```lean -show
-open Filter Topology
-variable {α β : Type*}
-```
 ```lean
 example (f : α → β) (l₁ : Filter α) (l₂ : Filter β) :
     Tendsto f l₁ l₂ ↔ ∀ s ∈ l₂, f ⁻¹' s ∈ l₁ :=
@@ -106,15 +102,11 @@ inspection.
 tag := "filters-punctured"
 %%%
 
-There is one choice the mechanical recipe leaves open. `Tendsto f (𝓝 a)
-(𝓝 L)` includes the behaviour of `f` *at* `a`, so it forces `f a = L`. The
+There is one choice the mechanical recipe leaves open. `Tendsto f (𝓝 a) (𝓝 L)`
+includes the behaviour of `f` *at* `a`, so it forces `f a = L`. The
 *punctured* limit ("`x → a` with `x ≠ a`") makes no claim about the value
 at `a` and lives on the punctured neighbourhood filter `𝓝[≠] a`:
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example (f : ℝ → ℝ) (a L : ℝ) : Prop :=
   Tendsto f (𝓝[≠] a) (𝓝 L)

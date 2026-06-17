@@ -20,6 +20,10 @@ set_option pp.rawOnError true
 tag := "filters-operations"
 %%%
 
+```lean -show
+open Filter Topology
+```
+
 Sometimes you need to read filter algebra rather than write a limit: a
 proof you are following pivots through `≤`, `Filter.map`, `Filter.comap`,
 or `Filter.prod`, or you want to reshape a `Tendsto` goal into an
@@ -45,7 +49,6 @@ sets:
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {α : Type*}
 ```
 ```lean
@@ -81,7 +84,6 @@ This is exactly why `nhdsWithin x s = 𝓝 x ⊓ 𝓟 s`: "near `x` *and* in
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {X : Type*} [TopologicalSpace X]
 ```
 ```lean
@@ -105,7 +107,6 @@ These are the algebraic content of `Tendsto`. By definition:
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {α β : Type*}
 ```
 ```lean
@@ -119,7 +120,6 @@ example (f : α → β) (F : Filter α) (G : Filter β) :
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {α β : Type*}
 ```
 ```lean
@@ -145,7 +145,6 @@ The single fact that drives every joint-limit proof:
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {α β : Type*} [TopologicalSpace α] [TopologicalSpace β]
 ```
 ```lean
@@ -158,10 +157,6 @@ example (x : α) (y : β) :
 So a two-variable continuity statement is just a `Tendsto` on a
 product filter:
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example (x y : ℝ) :
     Tendsto (fun p : ℝ × ℝ => p.1 + p.2)
@@ -170,7 +165,6 @@ example (x y : ℝ) :
   -- New goal: Tendsto _ (𝓝 x ×ˢ 𝓝 y) (𝓝 (x + y))
   exact tendsto_fst.add tendsto_snd
 ```
-:::
 
 This is exactly how Mathlib phrases continuity of two-variable
 operations (`+`, `*`, `•`). To go the other way (package two

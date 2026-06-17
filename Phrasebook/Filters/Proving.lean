@@ -20,6 +20,10 @@ set_option pp.rawOnError true
 tag := "filters-proving"
 %%%
 
+```lean -show
+open Filter Topology
+```
+
 You have a limit statement in `Tendsto` or `∀ᶠ` form (see the
 companion {ref "filters-tendsto"}[Limit statements] entry for how to
 write one). This entry covers five common recipes (algebraic
@@ -37,9 +41,6 @@ translating from classical sources.
 Algebraic operations on limits are all dot-style on `Tendsto`:
 
 ::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example {u v : ℕ → ℝ} {a b : ℝ}
     (hu : Tendsto u atTop (𝓝 a))
@@ -64,7 +65,6 @@ makes sense. {name}`Filter.Tendsto.add`,
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {α β γ : Type*}
 variable {f : α → β} {g : β → γ}
 variable {l₁ : Filter α} {l₂ : Filter β} {l₃ : Filter γ}
@@ -85,10 +85,6 @@ left-to-right `hf` then `hg` order you might expect.
 When you have `∀ᶠ x in l, p₁ x` and `∀ᶠ x in l, p₂ x` and want
 `∀ᶠ x in l, q x`, the tactic is {name}`Mathlib.Tactic.filterUpwards`:
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example {u : ℕ → ℝ}
     (h1 : ∀ᶠ n in atTop, 0 ≤ u n)
@@ -97,7 +93,6 @@ example {u : ℕ → ℝ}
   filter_upwards [h1, h2] with n hn1 hn2
   exact ⟨hn1, hn2⟩
 ```
-:::
 
 The `with n hn1 hn2` clause names the bound variable and the
 strengthened hypotheses; you then prove the pointwise goal `q n`.
@@ -119,10 +114,6 @@ The two lemmas you'll actually reach for:
 * {name}`Filter.tendsto_congr'` is the same fact as an iff, when you
   want to rewrite both directions.
 
-::: leanSection
-```lean -show
-open Filter Topology
-```
 ```lean
 example {f g : ℕ → ℝ} {a : ℝ}
     (hf : Tendsto f atTop (𝓝 a))
@@ -130,7 +121,6 @@ example {f g : ℕ → ℝ} {a : ℝ}
     Tendsto g atTop (𝓝 a) :=
   hf.congr' hfg
 ```
-:::
 
 # Continuity at a point as a `Tendsto`
 
@@ -138,7 +128,6 @@ example {f g : ℕ → ℝ} {a : ℝ}
 
 ::: leanSection
 ```lean -show
-open Filter Topology
 variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 ```
 ```lean
