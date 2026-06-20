@@ -2,8 +2,7 @@
 
 The Mathlib phrasebook is the *how-to* quadrant of
 [Mathlib's documentation](https://leanprover-community.github.io/documentation.html),
-in the sense of the [Diátaxis](https://diataxis.fr/) (originally
-[Divio](https://docs.divio.com/documentation-system/)) four-quadrant
+in the sense of the [Diátaxis](https://diataxis.fr/) four-quadrant
 framework: tutorials, how-to guides, reference, and explanation.
 A phrasebook entry is a *problem-oriented* guide for someone who
 already knows the mathematics and some Lean and wants to start
@@ -19,11 +18,33 @@ The reader already knows the mathematics and some Lean. They will not
 read paragraphs to get to the answer. Give them the idiomatic Mathlib
 patterns directly.
 
+## Organize by the task, not by Mathlib internals
+
+Start from the mathematical object the entry is about and show how to
+write it in Mathlib. Don't structure the entry as a list of Mathlib
+definitions.
+
+- Name sections for tasks, not types. Prefer "Write limits using
+  `Tendsto`" over "`Tendsto`: the universal limit". The heading should
+  name the problem the section solves.
+- Show the usable pattern first; put theory later. Cut background that
+  doesn't change what the reader types. A definition being unifying or
+  elegant is worth a mention after the examples, not before them.
+- Use the words a mathematician would search for: "on a neighbourhood",
+  "for sufficiently large `n`", "almost everywhere", not the internal
+  Mathlib names.
+- Reference tables are indexed by Mathlib name, so put them at the end
+  of a chapter as a summary, not before the examples.
+- Order examples so each one compiles using only earlier setup. If an
+  example needs an `open` or a hypothesis, introduce it first, so
+  someone trying the examples in order doesn't hit an error.
+
 ## Title format
 
 Chapter titles take the form `"How to write X using Mathlib"` or
 `"How to work with X in Mathlib"`. Use the same form as the existing
-chapters.
+chapters. A phrasebook page is a how-to, not a tutorial or a reference:
+don't title it `"Tutorial: ..."`, and don't write it as one.
 
 ## Creating a new entry
 
@@ -120,7 +141,24 @@ it:
 - Use `+error` blocks to show what a common mistake actually looks
   like in Lean, then give the one-line fix. See the `negError`
   example in `Phrasebook/LinearAlgebra.lean`.
-- One sentence per idea. No flourishes.
+- Write Mathlib identifiers as Verso roles, not plain backticks, so
+  the rendered page links to the declaration and shows its type on
+  hover. Use `` {name}`Foo.bar` `` for a declaration name; it hides
+  implicit arguments, so don't write `` {name}`@Foo` ``. Use
+  `` {lean}`expr` `` for an expression Lean should elaborate in
+  context, for example to show implicit arguments being filled in.
+  Plain backticks are for text that isn't a Lean identifier.
+- Put anything that should hover in Verso prose, not a Lean comment.
+  A `-- Set G` comment is plain text; writing `` {name}`Set` `` in a
+  sentence gives the same information with a link and a type.
+- Use one notation per object, throughout the entry. Don't use `𝕜`
+  for the base field and `k` for a smoothness exponent in the same
+  file, and don't write the same object two ways (`ω` here, `⊤`
+  there). Use Mathlib's conventional notation (`𝕜` for a base field,
+  not `k`).
+- Write mathematical variables in prose with Verso inline math,
+  `` $`n` ``. Don't mix bare backticks and inline math for variables.
+- Write "Mathlib" with a capital M.
 
 ## Patterns that work well in longer entries
 
@@ -139,9 +177,10 @@ these structural patterns. Kevin Buzzard's
 - *Live demos with `#eval` and `#check`.* These show Lean acting as
   a computer algebra system or type-checker, not just a proof
   assistant.
-- *Be honest about gaps.* If something is not yet formalized in
-  Mathlib, say so and point at the in-progress work (an arXiv
-  paper, an open PR, a project repository).
+- *Show what Mathlib does well.* Prefer examples that are short and
+  idiomatic. When something is missing or still awkward to use, say so
+  and link the in-progress work (an open PR, a project repository, 
+  an arXiv paper); don't spend the entry cataloguing what's missing.
 - *Document non-keyboard unicode.* When a snippet uses a character
   the reader cannot easily type (`⧸`, `⊓`, `𝓝`, `≃ₐ`), give the
   abbreviation (`\/`, `\inf`, `\nhds`, `\~-\_a`).
@@ -152,7 +191,7 @@ these structural patterns. Kevin Buzzard's
 
 ## Writing pitfalls
 
-Concrete things that have tripped people up:
+Concrete things to get right:
 
 - Introduce notation before use. If you write `s ∈ l`, the reader
   should already know `l : Filter α` and `s : Set α`.
@@ -170,10 +209,16 @@ Concrete things that have tripped people up:
 - Use one term consistently for each concept. Do not switch between
   "deleted limit", "classical deleted limit", and
   "deleted-neighbourhood limit".
+- Say whether a claim is true in Mathlib now or is future work. "You
+  should expect good coverage" states a current fact; if it's a goal,
+  say so.
+- If a list of recipes or variants isn't complete, say so and link the
+  full set. Get the count right: don't write "three recipes" above a
+  list of five.
 
 ## Verso mechanics
 
-Verso is not Markdown. The conventions that catch people:
+Verso is not Markdown. The conventions to know:
 
 - Bold is `*x*`, single asterisk. The linter rejects `**x**`.
 - Italics is `_x_`.
@@ -209,7 +254,13 @@ Verso is not Markdown. The conventions that catch people:
    :::
    ```
 
-   The `-show` flag hides setup code from the rendered output.
+   The `-show` flag hides setup code from the rendered output. Hide
+   only boilerplate (`open`s, `variable` blocks, imports). If a line
+   matters to the example, show it.
+
+- Keep code lines short. A line wider than the page gives the rendered
+  code block a horizontal scroll bar that hides its end. Wrap long
+  signatures and `variable` blocks across several lines.
 
 - Show an expected error with `+error (name := foo)` and a matching
   `leanOutput foo` block:
@@ -268,3 +319,7 @@ from a recipes entry as if it were another tool.
   catch Markdown-pipe tables, ambiguous parenthetical patterns,
   unrendered code blocks, or broken cross-references. Generic
   Markdown previewers do not behave like Verso.
+- Remove leftovers from editing: `TODO`/`XXX` markers, stray characters
+  (an unmatched `}` at the end of a comment), and copy-paste mistakes.
+  Duplicated `variable` blocks and mismatched `leanOutput` names are the
+  common ones. Check that each example still matches the prose around it.
