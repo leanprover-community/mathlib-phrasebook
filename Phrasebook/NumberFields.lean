@@ -178,6 +178,31 @@ The finite set of primes lying over {lean}`p` is
 `∑ over P of (e P * f P) = [L : K]` is {name}`sum_ramification_inertia_eq_finrank`.
 :::
 
+# The discriminant
+
+::: leanSection
+```lean -show
+open NumberField Module
+variable {K : Type*} [Field K] [NumberField K]
+```
+The *(absolute) discriminant* of a number field is {name}`NumberField.discr`, an integer computed from
+an integral basis of {lean}`𝓞 K`:
+```lean
+#check (NumberField.discr K : ℤ)
+```
+It is never zero, {name}`NumberField.discr_ne_zero`:
+```lean
+example : discr K ≠ 0 := discr_ne_zero K
+```
+Two theorems connect the discriminant to the other invariants on this page.
+The Hermite–Minkowski bound {name}`NumberField.abs_discr_gt_two` states that any number
+field other than {lean}`ℚ` has `|discr K| > 2`.
+The Minkowski bound
+{name}`NumberField.exists_ne_zero_mem_ideal_of_norm_le_mul_sqrt_discr` produces, in every
+ideal class, an ideal whose norm is bounded in terms of `√|discr K|`; this is exactly the
+input that makes the class group finite.
+:::
+
 # Units
 
 ::: leanSection
@@ -252,29 +277,4 @@ example :
 ```
 To produce elements of the class group from ideals, use {name}`ClassGroup.mk0`, which sends
 a nonzero ideal to its class.
-:::
-
-# The discriminant
-
-::: leanSection
-```lean -show
-open NumberField Module
-variable {K : Type*} [Field K] [NumberField K]
-```
-The *(absolute) discriminant* of a number field is {name}`NumberField.discr`, an integer computed from
-an integral basis of {lean}`𝓞 K`:
-```lean
-#check (NumberField.discr K : ℤ)
-```
-It is never zero, {name}`NumberField.discr_ne_zero`:
-```lean
-example : discr K ≠ 0 := discr_ne_zero K
-```
-Two theorems connect the discriminant to the other invariants on this page.
-The Hermite–Minkowski bound {name}`NumberField.abs_discr_gt_two` states that any number
-field other than {lean}`ℚ` has `|discr K| > 2`.
-The Minkowski bound
-{name}`NumberField.exists_ne_zero_mem_ideal_of_norm_le_mul_sqrt_discr` produces, in every
-ideal class, an ideal whose norm is bounded in terms of `√|discr K|`; this is exactly the
-input that makes the class group finite.
 :::
