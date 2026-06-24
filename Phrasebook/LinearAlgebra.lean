@@ -18,7 +18,7 @@ set_option pp.rawOnError true
 
 
 
-#doc (Manual) "How to write linear algebra using Mathlib" =>
+#doc (Manual) "Linear algebra" =>
 
 This chapter explains how to express common concepts in linear algebra using the definitions in Mathlib.
 We assume basic knowledge of both Lean and linear algebra.

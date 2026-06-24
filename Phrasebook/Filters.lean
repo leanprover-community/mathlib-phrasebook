@@ -20,7 +20,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "How to work with filters in Mathlib" =>
+#doc (Manual) "Filters" =>
 
 Mathlib states every limit, "eventually", and "almost everywhere" claim
 through *filters*. If you want to write `lim_{x → 0} sin x / x = 1` as a

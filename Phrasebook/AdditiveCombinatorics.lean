@@ -14,7 +14,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Additive combinatorics in Mathlib and AddCombi" =>
+#doc (Manual) "Additive combinatorics" =>
 
 This page explains how to express common concepts in additive combinatorics
 using the definitions in Mathlib and [AddCombi](https://github.com/leanprover-community/add-combi).

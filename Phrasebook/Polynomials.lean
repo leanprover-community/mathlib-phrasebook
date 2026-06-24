@@ -15,7 +15,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "How to write polynomials using Mathlib" =>
+#doc (Manual) "Polynomials" =>
 
 This page explains how to express univariate and multivariate polynomials using the definitions in Mathlib.
 We assume basic knowledge of both Lean and polynomials.

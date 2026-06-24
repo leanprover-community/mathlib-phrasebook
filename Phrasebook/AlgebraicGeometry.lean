@@ -13,7 +13,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Schemes in Mathlib" =>
+#doc (Manual) "Schemes" =>
 
 This page explains how to express common concepts in scheme theory
 using the definitions in Mathlib.

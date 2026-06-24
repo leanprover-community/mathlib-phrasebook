@@ -17,7 +17,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "How to write standard group actions using Mathlib" =>
+#doc (Manual) "Group actions" =>
 
 This page assumes you have already read the [Mathematics in Lean section about group actions](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#group-actions).
 
