@@ -158,14 +158,19 @@ The norm of a principal ideal is the absolute value of the element norm,
 
 ## Splitting of primes in an extension
 
+An extension `L`/`K` of number fields is set up as:
 ::: leanSection
+```lean
+variable {K L : Type*} [Field K] [Field L]
+  [NumberField K] [NumberField L] [Algebra K L]
+```
+
 ```lean -show
 open NumberField Ideal
-variable {K L : Type*} [Field K] [Field L] [NumberField K] [NumberField L] [Algebra K L]
 variable (p : Ideal (𝓞 K)) (P : Ideal (𝓞 L))
 ```
-For an extension of number fields {lean}`K`/{lean}`L` (more precisely an {lean}`Algebra K L`),
-a prime {lean}`p` of {lean}`𝓞 K` decomposes into primes
+
+A prime {lean}`p` of {lean}`𝓞 K` decomposes into primes
 {lean}`P` of {lean}`𝓞 L` lying over it.
 Each such {lean}`P` carries two invariants:
 
