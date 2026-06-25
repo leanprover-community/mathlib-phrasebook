@@ -27,7 +27,7 @@ We outline some features of Mathlib's covering space theory in the sections belo
 
 # Basic setup
 
-The following code expresses the fact that a map $`f : E → X` between topological spaces, is a
+The following code expresses the fact that a map $`f : E → X` between topological spaces is a
 covering map:
 ```lean
 variable (E X : Type*)
@@ -49,7 +49,7 @@ Mathlib knows numerous facts about covering maps, including that they are:
 - *Separated maps*: {name}`IsCoveringMap.isSeparatedMap`
 
 Mathlib also has API to support the situation when a map is only a covering map over some subset of
-the the base (this allows support for branched coverings). This captured in {name}`IsCoveringMapOn`
+the the base (this allows support for branched coverings). This is captured in {name}`IsCoveringMapOn`
 and the related API.
 
 # Constructing covering maps
