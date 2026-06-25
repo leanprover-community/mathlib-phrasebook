@@ -56,7 +56,7 @@ example {G} [Group G] (g : ConjAct G) (s : G) :
 
 Often it is more convenient to work directly with the conjugation automorphism of `G` instead of using a type synonym.
 
-For this we have the homomorphism {lean}`MulAut.conj` from `G` to its automorphism group {lean}`MulAut G`.
+For this we have the homomorphism {name}`MulAut.conj` from `G` to its automorphism group {lean}`MulAut G`.
 
 ```lean
 example {G} [Group G] (g : G) (s : G) :
