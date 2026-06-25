@@ -228,7 +228,7 @@ abelian group, the product of a finite torsion subgroup and a free part of rank
 The unit group is written *multiplicatively*, but Dirichlet's theorem is a statement about
 it as a {lean}`ℤ`-module, so Mathlib phrases the rank through {name}`Additive`, which
 reinterprets a multiplicative group additively.
-Finiteness as a mudule is an instance,
+Finiteness as a module is an instance,
 ```lean
 example : Module.Finite ℤ (Additive (𝓞 K)ˣ) :=
   inferInstance
