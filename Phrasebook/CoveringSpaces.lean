@@ -75,7 +75,7 @@ closed, local homeomorphism, with finite fibers. Mathlib knows this fact as
 
 If $`E` is compact and Hausdorff and $`X` is Hausdorff, then a map $`f : E → X` is a local
 homeomorphism iff it is a covering map. Mathlib knows this fact as
-`isLocalHomeomorph_iff_isCoveringMap`.
+{name}`isLocalHomeomorph_iff_isCoveringMap`.
 
 # Quotient by properly discontinuous, free group actions
 
@@ -94,4 +94,4 @@ following facts:
   space then we have a quotient covering map
   {name}`Topology.IsQuotientMap.isQuotientCoveringMap_of_properlyDiscontinuousSMul`.
 - If $`E` is simply connected and $`f` is a quotient covering map, then the fundamental group of
-  $`X` is $`G`, `IsQuotientCoveringMap.fundamentalGroupEquiv`.
+  $`X` is $`G`, {name}`IsQuotientCoveringMap.fundamentalGroupEquiv`.
