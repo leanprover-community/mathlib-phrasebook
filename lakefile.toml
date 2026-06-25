@@ -7,7 +7,7 @@ linter.unusedVariables = false # Disabled because it gives false positives when 
 [[require]]
 name = "verso"
 git = "https://github.com/leanprover/verso"
-rev = "v4.30.0-rc2"
+rev = "v4.32.0-rc1"
 
 [[require]]
 name = "add-combi"

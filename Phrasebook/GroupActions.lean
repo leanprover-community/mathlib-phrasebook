@@ -53,6 +53,16 @@ example {G} [Group G] (g : ConjAct G) (s : G) :
     g • s = ofConjAct g * s * (ofConjAct g)⁻¹ :=
   smul_def g s
 ```
+
+Often it is more convenient to work directly with the conjugation automorphism of `G` instead of using a type synonym.
+
+For this we have the homomorphism {name}`MulAut.conj` from `G` to its automorphism group {lean}`MulAut G`.
+
+```lean
+example {G} [Group G] (g : G) (s : G) :
+    MulAut.conj g s = g * s * g⁻¹ :=
+  MulAut.conj_apply g s
+```
 :::
 
 # The left multiplication action on subsets

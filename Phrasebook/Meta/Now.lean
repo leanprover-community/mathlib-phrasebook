@@ -13,6 +13,6 @@ open Lean Verso.Doc.Elab
 @[role_expander now]
 def now : RoleExpander
   | #[], #[] => do
-    let now := (← Std.Time.ZonedDateTime.now) |>.format "uuuu-MM-dd HH:mm (ZZ)"
+    let now := (← Std.Time.DateTime.now) |>.format "uuuu-MM-dd HH:mm (ZZ)"
     pure #[← ``(Verso.Doc.Inline.text $(quote now))]
   | _, _ => throwError "Unexpected arguments"

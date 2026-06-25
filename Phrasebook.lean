@@ -23,6 +23,7 @@ import Phrasebook.Groups
 import Phrasebook.HaarMeasure
 import Phrasebook.LieAlgebras
 import Phrasebook.LinearAlgebra
+import Phrasebook.NumberFields
 import Phrasebook.Polynomials
 import Phrasebook.RootSystems
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
@@ -75,6 +76,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.LieAlgebras}
 
 {include 1 Phrasebook.LinearAlgebra}
+
+{include 1 Phrasebook.NumberFields}
 
 {include 1 Phrasebook.Polynomials}
 
