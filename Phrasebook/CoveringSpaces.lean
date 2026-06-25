@@ -69,7 +69,7 @@ An convenience variant of this also exists as {name}`FiberBundle.isCoveringMap` 
 
 If $`E` is Hausdorff, a sufficient condition for $`f : E → X` to be a covering map is that it is a
 closed, local homeomorphism, with finite fibers. Mathlib knows this fact as
-{name}`IsClosedMap.isCoveringMapOn_of_openPartialHomeomorph`.
+{name}`IsClosedMap.isCoveringMapOn_of_isLocalHomeomorphOn`.
 
 ## Local homeomorphims from a compact space
 

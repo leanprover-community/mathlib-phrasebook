@@ -15,7 +15,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "How to work with number fields using Mathlib" =>
+#doc (Manual) "Number fields" =>
 
 This page explains how to express the basic objects of algebraic number theory using
 the definitions in Mathlib: number fields, their rings of integers, ideals, units, the

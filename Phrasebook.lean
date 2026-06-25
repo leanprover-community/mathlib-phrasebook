@@ -13,7 +13,7 @@ import Phrasebook.Meta.VersionString
 -- When adding new pages, add them to the `import` statements here,
 -- and to the `{include 1 ...}` lines below.
 import Phrasebook.AdditiveCombinatorics
-import Phrasebook.AlgebraicGeometry
+import Phrasebook.Asymptotics
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
 import Phrasebook.ErgodicMaps
@@ -26,6 +26,7 @@ import Phrasebook.LinearAlgebra
 import Phrasebook.NumberFields
 import Phrasebook.Polynomials
 import Phrasebook.RootSystems
+import Phrasebook.Schemes
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
 -- import Phrasebook.Template
 
@@ -57,7 +58,7 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 
 {include 1 Phrasebook.AdditiveCombinatorics}
 
-{include 1 Phrasebook.AlgebraicGeometry}
+{include 1 Phrasebook.Asymptotics}
 
 {include 1 Phrasebook.CoveringSpaces}
 
@@ -82,6 +83,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.Polynomials}
 
 {include 1 Phrasebook.RootSystems}
+
+{include 1 Phrasebook.Schemes}
 
 # Index
 %%%

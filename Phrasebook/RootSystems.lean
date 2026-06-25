@@ -21,7 +21,7 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Root systems and root data" =>
+#doc (Manual) "Root systems" =>
 
 We describe Mathlib's theory of root systems and root data in the sections below.
 
