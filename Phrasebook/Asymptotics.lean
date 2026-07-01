@@ -39,7 +39,7 @@ example (a b : ℕ → ℝ) :
       ∃ C N, ∀ n ≥ N, ‖a n‖ ≤ C * ‖b n‖ := by
   simp_rw [isBigO_iff, eventually_atTop]
 ```
-If instead we functions have $`f, g : ℝ → ℝ`, the same notation works:
+If instead we have functions $`f, g : ℝ → ℝ`, the same notation works:
 ```lean
 example (f g : ℝ → ℝ) :
     f =O[atTop] g ↔
