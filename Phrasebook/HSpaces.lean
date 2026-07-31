@@ -87,7 +87,7 @@ example (g h : G) :
 ## Loops
 
 If $`X` is a topological space, Mathlib knows that the space of loops based at
-a point $`x` is an H-space (in the compact-open topology) with the expect product:
+a point $`x` is an H-space (in the compact-open topology) with the expected product:
 ```lean
 variable (X : Type*) [TopologicalSpace X] (x : X)
 
