@@ -1,325 +1,247 @@
-# How to write a how-to
+# Writing your first phrasebook entry
 
-The Mathlib phrasebook is the *how-to* quadrant of
-[Mathlib's documentation](https://leanprover-community.github.io/documentation.html),
-in the sense of the [Diátaxis](https://diataxis.fr/) four-quadrant
-framework: tutorials, how-to guides, reference, and explanation.
-A phrasebook entry is a *problem-oriented* guide for someone who
-already knows the mathematics and some Lean and wants to start
-working on a topic in Mathlib.
+This guide takes you from a question that came up in a Lean project to a
+rendered phrasebook entry. By the end, you should have a small page that
+answers that question with checked Lean examples and is ready for review.
 
-A typical entry covers the first few steps of working with one Mathlib
-area, in around one to five printed pages. If a topic is longer, split
-it (see *Length and structure* below).
+The project [README](../README.md) explains what belongs in the phrasebook.
+The short version is: write for a reader who knows the mathematics and some
+Lean, is in the middle of a project, and wants to know how to express or use
+one mathematical idea in Mathlib.
 
-## Audience
+## 1. Start with the reader's question
 
-The reader already knows the mathematics and some Lean. They will not
-read paragraphs to get to the answer. Give them the idiomatic Mathlib
-patterns directly.
+Good entries usually begin with a problem you actually encountered. Write the
+question down in mathematical language before looking at Mathlib's names. For
+example, "How do I state that a sequence converges?" is a better starting
+point than "How does `Filter.Tendsto` work?"
 
-## Organize by the task, not by Mathlib internals
+Before writing, search the existing phrasebook and
+[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
+A phrasebook entry may link to existing introductory material
+and start where it stops.
 
-Start from the mathematical object the entry is about and show how to
-write it in Mathlib. Don't structure the entry as a list of Mathlib
-definitions.
+When preparing a phrasebook entry, you should have in mind
+* the type of problem the reader is working on
+* the background knowledge they already have or don't have
+* what they are trying to achieve
+* what new skills they will have after reading the entry.
 
-- Name sections for tasks, not types. Prefer "Write limits using
-  `Tendsto`" over "`Tendsto`: the universal limit". The heading should
-  name the problem the section solves.
-- Show the usable pattern first; put theory later. Cut background that
-  doesn't change what the reader types. A definition being unifying or
-  elegant is worth a mention after the examples, not before them.
-- Use the words a mathematician would search for: "on a neighbourhood",
-  "for sufficiently large `n`", "almost everywhere", not the internal
-  Mathlib names.
-- Reference tables are indexed by Mathlib name, so put them at the end
-  of a chapter as a summary, not before the examples.
-- Order examples so each one compiles using only earlier setup. If an
-  example needs an `open` or a hypothesis, introduce it first, so
-  someone trying the examples in order doesn't hit an error.
+Begin by turning this into a short outline. Typically a phrasebook entry will have a few sections that can be
+consulted independently. Name each section after the task it solves, using
+words a mathematician would search for. For example, prefer "State that a sequence
+converges" to "The `Tendsto` definition". Page titles can simply name the
+mathematical topic, as the existing chapters do.
 
-## Title format
+If the entry translates a familiar but non-idiomatic formulation into the
+usual Mathlib formulation, say that in the introduction. Show the translation,
+then tell the reader which formulation to use in subsequent work.
 
-Chapter titles take the form `"How to write X using Mathlib"` or
-`"How to work with X in Mathlib"`. Use the same form as the existing
-chapters. A phrasebook page is a how-to, not a tutorial or a reference:
-don't title it `"Tutorial: ..."`, and don't write it as one.
+## 2. Make a compiling skeleton
 
-## Creating a new entry
+Copy the repository's starter file and give the copy a module name for your
+topic:
 
-1. Add a file `Phrasebook/X.lean`. The header should look like:
-
-   ```lean
-   import VersoManual
-   import Phrasebook.Meta.Lean
-   import Mathlib
-
-   open Verso.Genre Manual
-   open Verso.Genre.Manual.InlineLean
-   open Phrasebook
-
-   set_option pp.rawOnError true
-
-   #doc (Manual) "How to write X using Mathlib" =>
-
-   One-sentence scope statement.
-
-   # First topic
-
-   ...
-   ```
-
-2. Register the entry in `Phrasebook.lean`: add
-   `import Phrasebook.X` to the imports and
-   `{include 1 Phrasebook.X}` where you want the page to appear in
-   the book.
-3. Build and render:
-
-   ```bash
-   lake build Phrasebook
-   lake exe phrasebook
-   ```
-
-4. Open `_out/html-multi/index.html` in a browser and confirm the
-   entry appears in the table of contents.
-
-## Length and structure
-
-If a topic exceeds five printed pages, split it. Write a short parent
-page (intro plus a reference table) and include focused child entries
-via `{include 1 Phrasebook.X.Y}`.
-
-A *reference table* is a compact lookup the reader can scan instead of
-reading prose: each row maps one piece of notation or one concept to its
-meaning. A parent page is then just a one-paragraph intro, such a table,
-and the child includes:
-
+```bash
+cp Phrasebook/Template.lean Phrasebook/YourTopic.lean
 ```
-#doc (Manual) "How to work with X in Mathlib" =>
 
-One paragraph: what this chapter covers and who it is for.
+In the new file, replace the copyright holder, author, title, tag, scope
+statement, and first section. The scope statement should say what the page
+helps the reader do and what it assumes. Leave later ideas out for now: the
+first useful section is enough to establish the shape of the entry.
 
-::: table +header
+Register the page in `Phrasebook.lean` in two places:
 
-* * Object
-  * What it means
+1. Add `import Phrasebook.YourTopic` with the other page imports.
+2. Add `{include 1 Phrasebook.YourTopic}` where the page should appear in the
+   book.
 
-* * `foo`
-  * the first thing
+Check the skeleton immediately:
 
-* * {name}`Bar.baz`
-  * the second thing
+```bash
+lake build Phrasebook.YourTopic
+lake exe phrasebook
+```
 
+On a new checkout, run `lake exe cache get` first. To view the result, run:
+
+```bash
+python3 -m http.server 8000 -d _out/html-multi
+```
+
+and open <http://localhost:8000>. Confirm that the new page appears in the
+table of contents before writing more.
+
+## 3. Finish one useful section
+
+Start the section with the Lean form the reader came to find. Introduce its
+required variables, imports, namespaces, and notation before the example, then
+explain only what the reader needs to adapt it.
+
+A first section will often have this shape:
+
+````text
+# State the first kind of X
+%%%
+tag := "your-topic-first-kind"
+%%%
+
+To state ..., write:
+
+::: leanSection
+```lean -show
+-- Put boilerplate needed by the visible example here.
+```
+```lean
+-- Put a small, usable example here.
+```
 :::
 
-{include 1 Phrasebook.X.Y}
-{include 1 Phrasebook.X.Z}
+The important arguments are ...
+````
+
+The example should compile in the context established immediately above it.
+A reader copying examples in order should not discover a missing `open`,
+variable, typeclass assumption, or hypothesis.
+
+As you write:
+
+- Put the usable pattern before background about why Mathlib is designed that
+  way. Link to longer explanations instead of delaying the answer.
+- Use one notation and one term for each object throughout the entry.
+- Put `-- New goal: ...` comments inside a proof when the next step is not
+  obvious. Make comments precise enough to stand on their own.
+- Use a small expected-error example when seeing the actual error helps the
+  reader recognize and fix a common mistake.
+- Give the editor abbreviation for unusual Unicode used in code, such as
+  `⧸` (`\/`), `⊓` (`\inf`), `𝓝` (`\nhds`), or `≃ₐ` (`\~-\_a`).
+- Say whether descriptions of Mathlib's coverage are true now or are future
+  work.
+
+Render again after this first section. Check the code width, prose flow,
+identifier links, and any error output before repeating the pattern for the
+remaining sections.
+
+## 4. Complete the entry as a collection of answers
+
+Add the remaining sections from your outline. Each section should make sense
+to a reader who arrived there from search or the table of contents. State any
+prerequisites it needs and avoid relying on a long narrative from earlier
+sections.
+
+When several names or notations need a compact lookup, add a reference table
+after the examples as a summary. Do not make the reader decode the table
+before seeing how the main patterns are used.
+
+If the entry becomes too large to navigate easily, split it into focused child
+pages. The parent should briefly introduce the topic, link the children, and
+optionally summarize them in a table. Import each child from the parent file
+and include it with `{include 1 Phrasebook.YourTopic.Child}`; only the parent
+needs to be registered in `Phrasebook.lean`.
+
+Before polishing sentences, read only the title, introduction, and headings.
+They should tell a coherent story about what the reader can now do. Then check
+each section separately: its first example should answer the task named in its
+heading.
+
+Useful models in the repository are:
+
+- `Phrasebook/LinearAlgebra.lean` for checked examples, expected errors, and
+  concise explanations.
+- `Phrasebook/Filters/Tendsto.lean` for task-oriented sections.
+- `Phrasebook/Filters.lean` for a parent page that links focused child pages.
+
+## 5. Check the rendered entry before opening a PR
+
+- `lake build Phrasebook.YourTopic` succeeds without unexpected errors.
+- `lake exe phrasebook` succeeds.
+- The page appears in the table of contents at the intended location.
+- Every section's heading states a reader task or recognizable mathematical
+  topic.
+- Examples compile with only the setup shown earlier in their section.
+- Long code lines do not require horizontal scrolling.
+- Every sibling reference works, and every `{name}` reference links to a
+  declaration and shows useful hover information.
+- The rendered output contains no raw table syntax, broken code blocks, or
+  stale expected-error text.
+- Placeholders, `TODO`/`XXX` markers, duplicated setup, and copy-paste
+  leftovers are gone.
+
+## Verso quick reference
+
+Verso is not Markdown. These are the pieces most entries need.
+
+### Checked code and hidden setup
+
+Put related code in a `leanSection`. A `-show` block is elaborated but hidden
+in the rendered page, so use it for boilerplate only:
+
+````text
+::: leanSection
+```lean -show
+open Filter Topology
+```
+```lean
+example (x : ℕ) : x + 0 = x := Nat.add_zero x
+```
+:::
+````
+
+### Identifiers and mathematical expressions
+
+- Write a declaration as `` {name}`Foo.bar` ``. It links to the declaration
+  and shows its type on hover.
+- Write an expression Lean should elaborate as `` {lean}`f x` ``.
+- Write a mathematical variable in prose with inline math, `` $`x` ``.
+- Use plain backticks only for text that is not a Lean identifier or
+  expression.
+
+### Tags and links
+
+Give every page and every section that may be linked a stable tag directly
+under its heading:
+
+```text
+%%%
+tag := "your-topic-first-kind"
+%%%
 ```
 
-The table can open the chapter as an overview or close it as a summary,
-whichever the reader will reach for.
+Link to it with `{ref "your-topic-first-kind"}[the first kind of X]`.
 
-To register a child: add `import Phrasebook.X.Y` to the **parent**
-file (not to `Phrasebook.lean`) and put the `{include 1 ...}` line
-where the child should render. Tag each child with
-`%%% tag := "..." %%%` right under its heading so siblings can
-cross-link.
+### Tables
 
-## House style
+Use a Verso table, not Markdown pipes:
 
-The reference is `Phrasebook/LinearAlgebra.lean` (Anne Baanen). Match
-it:
+```text
+::: table +header
 
-- Start with the type, goal, or lemma signature before any prose
-  explanation.
-- Use annotated examples. Put `-- New goal: ...` comments inside
-  example blocks at the points where the next step is not obvious.
-- For variant syntaxes of a single tactic or lemma, use a bullet list
-  with verbatim syntax on the left and a one-line description on the
-  right.
-- Use `+error` blocks to show what a common mistake actually looks
-  like in Lean, then give the one-line fix. See the `negError`
-  example in `Phrasebook/LinearAlgebra.lean`.
-- Write Mathlib identifiers as Verso roles, not plain backticks, so
-  the rendered page links to the declaration and shows its type on
-  hover. Use `` {name}`Foo.bar` `` for a declaration name; it hides
-  implicit arguments, so don't write `` {name}`@Foo` ``. Use
-  `` {lean}`expr` `` for an expression Lean should elaborate in
-  context, for example to show implicit arguments being filled in.
-  Plain backticks are for text that isn't a Lean identifier.
-- Put anything that should hover in Verso prose, not a Lean comment.
-  A `-- Set G` comment is plain text; writing `` {name}`Set` `` in a
-  sentence gives the same information with a link and a type.
-- Use one notation per object, throughout the entry. Don't use `𝕜`
-  for the base field and `k` for a smoothness exponent in the same
-  file, and don't write the same object two ways (`ω` here, `⊤`
-  there). Use Mathlib's conventional notation (`𝕜` for a base field,
-  not `k`).
-- Write mathematical variables in prose with Verso inline math,
-  `` $`n` ``. Don't mix bare backticks and inline math for variables.
-- Write "Mathlib" with a capital M.
+* * Form
+  * Meaning
 
-## Patterns that work well in longer entries
+* * `first`
+  * the first form
 
-Entries toward the upper end of the page budget often benefit from
-these structural patterns. Kevin Buzzard's
-`Phrasebook/EllipticCurve.lean` is a worked example of all of them:
+* * `second`
+  * the second form
 
-- *Learning objectives upfront.* Open with a "By the end of this
-  entry, you should be able to: ..." bullet list. The reader can
-  decide immediately whether the entry covers what they need.
-- *A single running example.* Pick one concrete object (a specific
-  elliptic curve, group, polynomial) and refer back to it across
-  sections instead of inventing fresh notation each time.
-- *Goal-state annotations inside proofs.* Inline `-- ⊢ goal`
-  comments at the steps where the goal matters.
-- *Live demos with `#eval` and `#check`.* These show Lean acting as
-  a computer algebra system or type-checker, not just a proof
-  assistant.
-- *Show what Mathlib does well.* Prefer examples that are short and
-  idiomatic. When something is missing or still awkward to use, say so
-  and link the in-progress work (an open PR, a project repository, 
-  an arXiv paper); don't spend the entry cataloguing what's missing.
-- *Document non-keyboard unicode.* When a snippet uses a character
-  the reader cannot easily type (`⧸`, `⊓`, `𝓝`, `≃ₐ`), give the
-  abbreviation (`\/`, `\inf`, `\nhds`, `\~-\_a`).
-- *Reuse `variable` declarations within a `leanSection`.* Declare
-  the running context once and let later examples in the same
-  section use it.
-- *End with exercises* when the topic invites follow-up work.
+:::
+```
 
-## Writing pitfalls
+### Expected errors
 
-Concrete things to get right:
+Use a named `+error` block and a matching `leanOutput` block. Copy the error
+text from the build output; the linter rejects stale output.
 
-- Introduce notation before use. If you write `s ∈ l`, the reader
-  should already know `l : Filter α` and `s : Set α`.
-- Avoid the pattern `` `code` ({name}`X`)``. The parenthesised name
-  reads as part of the term expression. Put the Mathlib name as the
-  subject of a sentence instead: `The {name}`X` relation, written
-  `code`, means ...`.
-- Don't reuse type variables (`α`, `β`) as math placeholders.
-- Be specific in example comments. Write `-- u : ℕ → ℝ converges to
-  x as n → ∞`, not `-- u converges to x`.
-- A "Variants" list should not repeat the canonical example you just
-  showed. List actual variants.
-- When you cite a dual or paired concept, define it directly. Saying
-  "the dual is X" without saying what X means is a non-answer.
-- Use one term consistently for each concept. Do not switch between
-  "deleted limit", "classical deleted limit", and
-  "deleted-neighbourhood limit".
-- Say whether a claim is true in Mathlib now or is future work. "You
-  should expect good coverage" states a current fact; if it's a goal,
-  say so.
-- If a list of recipes or variants isn't complete, say so and link the
-  full set. Get the count right: don't write "three recipes" above a
-  list of five.
+````text
+```lean +error (name := exampleError)
+-- Code that should fail.
+```
+```leanOutput exampleError
+-- Exact error text.
+```
+````
 
-## Verso mechanics
-
-Verso is not Markdown. The conventions to know:
-
-- Bold is `*x*`, single asterisk. The linter rejects `**x**`.
-- Italics is `_x_`.
-- Tables are a directive, not Markdown pipes. A minimal table:
-
-   ```
-   ::: table +header
-
-   * * Column 1
-     * Column 2
-
-   * * `cell` row 1
-     * description
-
-   * * `cell` row 2
-     * description
-
-   :::
-   ```
-
-   Markdown `| ... |` pipes render as literal text inside a paragraph.
-
-- Code blocks that should elaborate go inside a `leanSection`:
-
-   ```
-   ::: leanSection
-   ```lean -show
-   open Filter Topology
-   ```
-   ```lean
-   example (x : ℕ) : x + 0 = x := Nat.add_zero x
-   ```
-   :::
-   ```
-
-   The `-show` flag hides setup code from the rendered output. Hide
-   only boilerplate (`open`s, `variable` blocks, imports). If a line
-   matters to the example, show it.
-
-- Keep code lines short. A line wider than the page gives the rendered
-  code block a horizontal scroll bar that hides its end. Wrap long
-  signatures and `variable` blocks across several lines.
-
-- Show an expected error with `+error (name := foo)` and a matching
-  `leanOutput foo` block:
-
-   ```
-   ::: leanSection
-   ```lean +error (name := nhdsNotOpened)
-   example : Filter ℝ := 𝓝 (0 : ℝ)
-   ```
-   ```leanOutput nhdsNotOpened
-   Unknown identifier `𝓝`
-   ```
-   :::
-   ```
-
-   The linter rejects any drift from the actual error text, so copy
-   it verbatim from the build output.
-
-## Cross-references
-
-- Tag every page, and every section you might link to. A tag is cheap and
-  makes the heading a stable link target; an untagged section cannot be
-  referenced later without editing it first. When in doubt, add the tag.
-- Tag a section with a metadata block right under the heading:
-
-   ```
-   # My section
-   %%%
-   tag := "my-section"
-   %%%
-   ```
-
-- Link to a tagged section with `{ref "my-section"}[My section]`.
-- A sibling reference should always be a hyperlink, never plain text.
-- `{name}`Foo.bar`` produces an in-document link to the Mathlib
-  identifier with hover info. It does not produce an external
-  `leanprover-community.github.io` URL; that is a Verso limitation.
-- After rendering, click every sibling reference and hover every
-  `{name}` reference in the changed page to confirm they resolve.
-
-## Pedagogical idioms vs Mathlib idioms
-
-Some entries exist to translate a non-Mathlib idiom (for example, ε-δ
-statements from textbooks) into the Mathlib idiom.
-
-When you write such an entry, say so in the intro: tell the reader to
-stay in the Mathlib idiom and reach for the translation entry only
-when bringing in classical input. Do not link a translation entry
-from a recipes entry as if it were another tool.
-
-## Before opening a PR
-
-- `lake build Phrasebook.X` succeeds with no `error` diagnostics.
-- `lake exe phrasebook` succeeds and renders to `_out/html-multi/`.
-- Open the rendered page in a browser. A clean source build does not
-  catch Markdown-pipe tables, ambiguous parenthetical patterns,
-  unrendered code blocks, or broken cross-references. Generic
-  Markdown previewers do not behave like Verso.
-- Remove leftovers from editing: `TODO`/`XXX` markers, stray characters
-  (an unmatched `}` at the end of a comment), and copy-paste mistakes.
-  Duplicated `variable` blocks and mismatched `leanOutput` names are the
-  common ones. Check that each example still matches the prose around it.
+For prose, bold is `*bold*` and italics is `_italic_`; Markdown's `**bold**`
+is rejected by the linter.

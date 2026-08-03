@@ -35,7 +35,8 @@ and then list how your chapter goes beyond that level.
 
 ## Development guide
 
-To write a new phrasebook entry, see [How to write a how-to](docs/how-to-write-a-how-to.md).
+For a step-by-step path from an idea to a rendered first entry, see
+[Writing your first phrasebook entry](docs/how-to-write-a-how-to.md).
 
 To build this documentation on your machine, run:
 
@@ -76,5 +77,4 @@ code block. Then, in [`TextbookTemplateMain.lean`](TextbookTemplateMain.lean), t
 custom build step `buildExercises` traverses the entire book prior to HTML
 generation, collecting the exercise blocks. The collected blocks are assembled
 into files and written to the `example-code` subdirectory of the output.
-
 

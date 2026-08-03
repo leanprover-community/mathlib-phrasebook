@@ -4,29 +4,36 @@ Before writing or editing a phrasebook entry:
 
 1. Read [`docs/how-to-write-a-how-to.md`](docs/how-to-write-a-how-to.md).
 2. Read the project [`README.md`](README.md).
+3. Start from `Phrasebook/Template.lean` for a new entry.
+
+Make each section answer one question a reader might bring from a
+formalization project. Put the usable Lean pattern before background, and
+introduce every required namespace, notation, variable, instance, and
+hypothesis before the example that needs it.
 
 ## Verify the rendered page
 
-Source build success is not enough. Before declaring a page ready,
-look at the rendered HTML in a browser, or export it to PDF, or
-attach screenshots. Markdown-pipe tables, ambiguous parenthetical
-patterns, and other layout issues build cleanly from source but only
-become visible in the rendered output.
+Run the relevant module build and render the complete phrasebook:
 
-## AI-tells to avoid
+```bash
+lake build Phrasebook.YourTopic
+lake exe phrasebook
+```
 
-Edit these out before declaring a page ready. They read as AI slop:
+Inspect the result in `_out/html-multi/` in a browser. Source build success is
+not enough: table syntax, long code lines, unrendered blocks, and broken
+cross-references may only become visible in the rendered output.
 
-- Em-dashes (`—`). Use parens, semicolons, or sentence breaks. If a
-  sentence wants an em-dash, it has two ideas; split it.
-- Structural metaphors: "bridge", "gate", "smoke test", "tapestry",
-  "weave". Name the actual artifact and the actual translation.
-- Vague flourishes: "comprehensive", "leverage", "navigate"
-  (metaphorical), "delve", "ensure" (when meaning "make sure"),
-  "robust", "in essence", "earn their keep".
-- Forward references to gotchas you have not shown yet. Either
-  explain now or do not mention.
-- Overclaims: "every time", "almost every proof", "the only way".
-  Soften to "usually", "most", "often".
-- Anthropomorphising definitions ("captures", "encodes"). Say what
-  the definition is.
+## Final editing pass
+
+Edit these out before declaring a page ready:
+
+- Structural metaphors such as "bridge", "gate", "smoke test", "tapestry",
+  and "weave". Name the actual artifact or translation.
+- Vague flourishes such as "comprehensive", "leverage", "navigate"
+  (metaphorical), "delve", "robust", and "in essence".
+- Forward references to problems that are not explained later.
+- Overclaims such as "every time", "almost every proof", and "the only way".
+- Anthropomorphic descriptions such as a definition "capturing" or
+  "encoding" something. State what the definition is.
+- Placeholders, editing markers, duplicated setup, and copy-paste leftovers.
