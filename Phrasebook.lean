@@ -14,6 +14,7 @@ import Phrasebook.Meta.VersionString
 -- and to the `{include 1 ...}` lines below.
 import Phrasebook.AdditiveCombinatorics
 import Phrasebook.Asymptotics
+import Phrasebook.CliffordExterior
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
 import Phrasebook.ErgodicMaps
@@ -21,12 +22,14 @@ import Phrasebook.Filters
 import Phrasebook.GroupActions
 import Phrasebook.Groups
 import Phrasebook.HaarMeasure
+import Phrasebook.HSpaces
 import Phrasebook.LieAlgebras
 import Phrasebook.LinearAlgebra
 import Phrasebook.NumberFields
 import Phrasebook.Polynomials
 import Phrasebook.RootSystems
 import Phrasebook.Schemes
+import Phrasebook.TVS
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
 -- import Phrasebook.Template
 
@@ -60,6 +63,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 
 {include 1 Phrasebook.Asymptotics}
 
+{include 1 Phrasebook.CliffordExterior}
+
 {include 1 Phrasebook.CoveringSpaces}
 
 {include 1 Phrasebook.DifferentialCalculus}
@@ -74,6 +79,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 
 {include 1 Phrasebook.HaarMeasure}
 
+{include 1 Phrasebook.HSpaces}
+
 {include 1 Phrasebook.LieAlgebras}
 
 {include 1 Phrasebook.LinearAlgebra}
@@ -85,6 +92,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.RootSystems}
 
 {include 1 Phrasebook.Schemes}
+
+{include 1 Phrasebook.TVS}
 
 # Index
 %%%
