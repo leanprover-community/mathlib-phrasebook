@@ -251,6 +251,8 @@ It is the algebra homomorphism extending the algebra map
 Use `aeval` (not `eval`) whenever the point of evaluation lives in a ring different
 from the coefficient ring, for instance, evaluating a polynomial in `ℤ[X]` at a
 real number, or at a matrix.
+
+See {ref "ring extensions"}[the chapter on ring extensions] for more details on algebras.
 :::
 
 # Roots
