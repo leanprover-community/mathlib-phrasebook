@@ -22,6 +22,7 @@ import Phrasebook.Filters
 import Phrasebook.GroupActions
 import Phrasebook.Groups
 import Phrasebook.HaarMeasure
+import Phrasebook.HausdorffMeasure
 import Phrasebook.HSpaces
 import Phrasebook.LieAlgebras
 import Phrasebook.LinearAlgebra
@@ -29,6 +30,7 @@ import Phrasebook.NumberFields
 import Phrasebook.Polynomials
 import Phrasebook.RootSystems
 import Phrasebook.Schemes
+import Phrasebook.TrigonometricFunctions
 import Phrasebook.TVS
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
 -- import Phrasebook.Template
@@ -79,6 +81,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 
 {include 1 Phrasebook.HaarMeasure}
 
+{include 1 Phrasebook.HausdorffMeasure}
+
 {include 1 Phrasebook.HSpaces}
 
 {include 1 Phrasebook.LieAlgebras}
@@ -94,6 +98,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.Schemes}
 
 {include 1 Phrasebook.TVS}
+
+{include 1 Phrasebook.TrigonometricFunctions}
 
 # Index
 %%%
