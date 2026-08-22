@@ -32,7 +32,7 @@ open MeasureTheory MeasureTheory.Measure
 
 # Basic construction
 
-A metric space $`X` carries a natural measureable space structure, the Borel $`σ`-algebra,
+A metric space $`X` carries a natural measurable space structure, the Borel $`σ`-algebra,
 and for each non-negative real number $`d`, a measure, the $`d`-dimensional Hausdorff measure.
 
 
@@ -60,7 +60,7 @@ of the Hausdorff measure. Mathlib's definition uses the _unnormalised_ conventio
 be seen by the absence of any scale factors in the formula appearing in
 {name}`hausdorffMeasure_apply`: the measure is just an infimum of sums of powers of diameters.
 
-Another way to witness the choice of scaling is to note that in $`ℝ^n` with the sup norm,
+Another way to witness the choice of scaling is to note that in $`\mathbb{R}^n` with the sup norm,
 the unit cube has measure 1 for the $`n`-dimensional Hausdorff measure:
 ```lean
 open Fintype Set in
