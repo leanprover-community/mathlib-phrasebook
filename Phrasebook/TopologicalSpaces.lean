@@ -21,7 +21,7 @@ tag := "topological-spaces"
 %%%
 
 The goal of this chapter is to give an introduction to the language of topology in Mathlib
-that requires minimal background. In particular, we do not assume the reading is familiar with
+that requires minimal background. In particular, we do not assume the reader is familiar with
 filters. For an in depth tutorial of topology in Mathlib,
 see the topology chapter of [Mathematics in
 Lean](https://leanprover-community.github.io/mathematics_in_lean/C11_Topology.html).
@@ -90,7 +90,7 @@ If {lean}`f` is a function from {lean}`X` to {lean}`Y`, then to say "`f` is cont
 ```
 
 Note that {name}`Continuous` is unbundled, as opposed to how many types of functions are implemented
-in mathlib, such as {name}`LinearMap`.
+in Mathlib, such as {name}`LinearMap`.
 
 ```lean
 example (hf : Continuous f) (hg : Continuous g) :
