@@ -365,20 +365,8 @@ example (f : Y ⟶ X) [IsClosedImmersion f] :
   f.ker
 ```
 And conversely, every ideal sheaf determines a closed immersion.
-```lean -show
--- `overEquivIdealSheafData` is stated under this option in
--- `Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean`, so quoting it here
--- needs it too. Kept off the rest of the page.
-set_option backward.isDefEq.respectTransparency.types false
-```
 ```lean
-example :
-    (MorphismProperty.Over @IsClosedImmersion ⊤ X)ᵒᵖ ≌
-      X.IdealSheafData :=
-  IsClosedImmersion.overEquivIdealSheafData X
-```
-```lean -show
-set_option backward.isDefEq.respectTransparency.types true
+#check IsClosedImmersion.overEquivIdealSheafData
 ```
 
 # Properties of morphisms
@@ -501,23 +489,16 @@ instance :
   eq_affineLocally' := by
     ext X Y f
     rw [flat_iff, affineLocally_iff_affineOpens_le]
-    simp only [Scheme.affineOpens, Set.mem_setOf_eq,
+    simp only [Scheme.affineOpens, Set.mem_ofPred_eq,
       Subtype.forall]
     grind
 ```
 After this, we get some meta properties for free, for example that flat is local
 on the target:
-```lean -show
--- The `Flat` instances this one is derived from carry the same option in
--- `Mathlib/AlgebraicGeometry/Morphisms/Flat.lean`. Kept off the rest of the page.
-set_option backward.isDefEq.respectTransparency.types false
-```
 ```lean
 example : IsZariskiLocalAtTarget @Flat :=
-  inferInstance
-```
-```lean -show
-set_option backward.isDefEq.respectTransparency.types true
+  HasRingHomProperty.instIsZariskiLocalAtTarget
+    @Flat (Q := @RingHom.Flat)
 ```
 
 With these preparations, we can now prove that a morphism that is stalkwise flat is flat:
