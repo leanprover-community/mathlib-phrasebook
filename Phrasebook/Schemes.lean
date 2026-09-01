@@ -365,8 +365,24 @@ example (f : Y ⟶ X) [IsClosedImmersion f] :
   f.ker
 ```
 And conversely, every ideal sheaf determines a closed immersion.
+```lean -show
+section
+
+local instance closedImmersionOverCategory (X : Scheme.{u}) :
+    Category.{u, u + 1} (MorphismProperty.Over
+      @IsClosedImmersion ⊤ X) :=
+  MorphismProperty.Comma.instCategory
+    (Functor.id Scheme.{u}) (Functor.fromPUnit.{0} X)
+      @IsClosedImmersion ⊤ ⊤
+```
 ```lean
-#check IsClosedImmersion.overEquivIdealSheafData
+example :
+    (MorphismProperty.Over @IsClosedImmersion ⊤ X)ᵒᵖ ≌
+      X.IdealSheafData :=
+  IsClosedImmersion.overEquivIdealSheafData X
+```
+```lean -show
+end
 ```
 
 # Properties of morphisms
