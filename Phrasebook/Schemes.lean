@@ -503,9 +503,7 @@ instance :
 After this, we get some meta properties for free, for example that flat is local
 on the target:
 ```lean
--- This backwards compatibility option is unfortunately required here because of as yet unrepaired defects in Mathlib.
--- For now, the fact that you have to use this here just something the phrasebook has to honestly admit.
--- We encourage you to come to the Lean Zulip and help repair these issues!
+-- See the comment above about this `set_option`.
 set_option backward.isDefEq.respectTransparency.types false in
 example : IsZariskiLocalAtTarget @Flat :=
   inferInstance
