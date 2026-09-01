@@ -365,24 +365,15 @@ example (f : Y ⟶ X) [IsClosedImmersion f] :
   f.ker
 ```
 And conversely, every ideal sheaf determines a closed immersion.
-```lean -show
-section
-
-local instance closedImmersionOverCategory (X : Scheme.{u}) :
-    Category.{u, u + 1} (MorphismProperty.Over
-      @IsClosedImmersion ⊤ X) :=
-  MorphismProperty.Comma.instCategory
-    (Functor.id Scheme.{u}) (Functor.fromPUnit.{0} X)
-      @IsClosedImmersion ⊤ ⊤
-```
 ```lean
+-- This backwards compatibility option is unfortunately required here because of as yet unrepaired defects in Mathlib.
+-- For now, the fact that you have to use this here just something the phrasebook has to honestly admit.
+-- We encourage you to come to the Lean Zulip and help repair these issues!
+set_option backward.isDefEq.respectTransparency.types false in
 example :
     (MorphismProperty.Over @IsClosedImmersion ⊤ X)ᵒᵖ ≌
       X.IdealSheafData :=
   IsClosedImmersion.overEquivIdealSheafData X
-```
-```lean -show
-end
 ```
 
 # Properties of morphisms
@@ -512,9 +503,12 @@ instance :
 After this, we get some meta properties for free, for example that flat is local
 on the target:
 ```lean
+-- This backwards compatibility option is unfortunately required here because of as yet unrepaired defects in Mathlib.
+-- For now, the fact that you have to use this here just something the phrasebook has to honestly admit.
+-- We encourage you to come to the Lean Zulip and help repair these issues!
+set_option backward.isDefEq.respectTransparency.types false in
 example : IsZariskiLocalAtTarget @Flat :=
-  HasRingHomProperty.instIsZariskiLocalAtTarget
-    @Flat (Q := @RingHom.Flat)
+  inferInstance
 ```
 
 With these preparations, we can now prove that a morphism that is stalkwise flat is flat:
