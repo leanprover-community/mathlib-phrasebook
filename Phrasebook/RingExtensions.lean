@@ -18,7 +18,7 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Ring extensions" =>
 %%%
-tag := "ring extensions"
+tag := "ring-extensions"
 %%%
 
 ```lean -show
@@ -30,7 +30,7 @@ We assume that you have read [Mathematics in Lean chapter 9 on Groups and Rings]
 We will explain how Mathlib represents the following sentence:
 "Let {lean}`R`, {lean}`S` and {lean}`T` be commutative rings, such that {lean}`R` is included in {lean}`S` and {lean}`S` is included in {lean}`T`."
 Although we focus on commutative rings for simplicity, everything holds unless mentioned otherwise for semirings and fields.
-See {ref "generalized ring extensions"}[The non-unital, non-associative case] for info on generalizing the assumptions further.
+See {ref "generalized-ring-extensions"}[The non-unital, non-associative case] for info on generalizing the assumptions further.
 
 # Algebras
 
@@ -182,7 +182,7 @@ mapping between elements of {lean}`s` and the corresponding elements of {lean}`s
 
 # The non-unital, non-associative case
 %%%
-tag := "generalized ring extensions"
+tag := "generalized-ring-extensions"
 %%%
 
 Since {lean}`Algebra R S` assumes {lean}`R` is a commutative semiring and {lean}`S` is a semiring,
