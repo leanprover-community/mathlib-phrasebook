@@ -28,6 +28,7 @@ import Phrasebook.LieAlgebras
 import Phrasebook.LinearAlgebra
 import Phrasebook.NumberFields
 import Phrasebook.Polynomials
+import Phrasebook.RingExtensions
 import Phrasebook.RootSystems
 import Phrasebook.Schemes
 import Phrasebook.TrigonometricFunctions
@@ -92,6 +93,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.NumberFields}
 
 {include 1 Phrasebook.Polynomials}
+
+{include 1 Phrasebook.RingExtensions}
 
 {include 1 Phrasebook.RootSystems}
 
