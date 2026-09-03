@@ -116,11 +116,40 @@ To state that a function is a homeomorphism, use {name}`IsHomeomorph`.
 The bundled versions of continous maps and homeomorphisms are {name}`ContinuousMap` (which can be
 written using the notation {lean}`C(X, Y)`) and {name}`Homeomorph` (which can be written as {lean}`X ≃ₜ Y`).
 These are useful when you want to put some structure on the collection of all continuous maps.
-For example, the vector space structure on {lean}`C(ℝ, ℝ)`
+For example, the vector space structure on {lean}`C(ℝ, ℝ)`.
 
 ```lean
 #synth Module ℝ C(ℝ, ℝ)
 ```
+
+```lean -show
+variable (hf : Continuous f)
+```
+
+The proof that a {name}`ContinuousMap` is continuous is {name}`map_continuous`. Given
+a function {lean}`f` and a proof it is continuous {lean}`(hf : Continuous f)`, you can construct the corresponding
+{lean}`ContinuousMap` as {lean}`ContinuousMap.mk f hf` or simply `⟨f, hf⟩`.
+
+```lean
+#check (⟨f, hf⟩ : C(X, Y))
+```
+
+```lean -show
+variable (hf : IsHomeomorph f)
+```
+
+```lean -show
+variable (hf : IsHomeomorph f)
+```
+
+{name}`Homeomorph` is a bit different as it bundles together both the function and its inverse, so
+there is more data contained here than just a function and a proof of {name}`IsHomeomorph`.
+To upgrade an {name}`Equiv` to a {name}`Homeomorph`, use
+{name}`Equiv.toHomeomorph`. This is the prefered way of constructing homeomorphisms.
+Given a proof of {lean}`(hf : IsHomeomorph f)`, you can construct the corresponding {name}`Homeomorph`
+as {lean}`hf.homeomorph` but this should only be done when you don't have a constructive way of
+defining the inverse of {lean}`f`. To go from a {name}`Homeomorph` to a {name}`ContinuousMap`, use
+{name}`map_continuous`.
 
 Some other function properties are {name}`IsOpenMap`, {name}`IsClosedMap`,
 {name}`Topology.IsEmbedding`, {name}`Topology.IsOpenEmbedding`,
