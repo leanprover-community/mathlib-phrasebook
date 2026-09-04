@@ -21,9 +21,21 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Template: How to write X using Mathlib" =>
+#doc (Manual) "Topic" =>
 
-This page explains how to express X using the definitions in Mathlib.
-We assume basic knowledge of both Lean and X.
+%%%
+tag := "topic"
+%%%
 
-Please complete me. You can use `Phrasebook/LinearAlgebra.lean` as a cheat sheet.
+This page explains how to express or use this topic in Mathlib.
+It assumes that the reader knows the mathematics and some Lean.
+
+# The first task
+
+%%%
+tag := "topic-first-task"
+%%%
+
+Start with the Lean form that answers the reader's first question, then explain
+the details they need to adapt it. Replace this text, the title, and both tags
+when copying the template.
