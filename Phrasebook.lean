@@ -31,6 +31,7 @@ import Phrasebook.Polynomials
 import Phrasebook.RingExtensions
 import Phrasebook.RootSystems
 import Phrasebook.Schemes
+import Phrasebook.TopologicalSpaces
 import Phrasebook.TrigonometricFunctions
 import Phrasebook.TVS
 -- You can use `Phrasebook.Template` as a starting point for your own entry.
@@ -99,6 +100,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.RootSystems}
 
 {include 1 Phrasebook.Schemes}
+
+{include 1 Phrasebook.TopologicalSpaces}
 
 {include 1 Phrasebook.TVS}
 
