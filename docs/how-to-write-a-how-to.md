@@ -69,7 +69,7 @@ When a mistake is likely to puzzle the reader, an example showing the error
 and its correction can help. For instance, the
 [linear algebra entry](../Phrasebook/LinearAlgebra.lean) shows why an
 `AddCommMonoid` assumption does not suffice to negate a vector, and gives
-the assumption needed to do so. The [output examples below](#expected-errors)
+the assumption needed to do so. The [output examples below](#showing-leans-output)
 explain how to include Lean's messages in the text.
 
 It is also helpful to mention missing theorems or known difficulties that
@@ -140,32 +140,63 @@ intended.
 
 ## Verso quick reference
 
-Verso is not Markdown. These are the pieces most entries need.
+The phrasebook uses Verso to check the Lean examples and generate the website.
+In the template, the text after `#doc (Manual) "Topic" =>` is written in
+Verso's markup. Headings, lists, and links have familiar Markdown syntax;
+the examples below show how to include Lean code and mathematical notation.
 
-### Checked code and hidden setup
+### Lean code and variables
 
-Put related code in a `leanSection`. A `-show` block is elaborated but hidden
-in the rendered page, so use it for boilerplate only:
+A block beginning with three backticks followed by `lean` contains code
+that Verso checks when the file is compiled. Variables and opened namespaces
+remain available to later code blocks and inline expressions. To limit
+their scope, put `::: leanSection` before the text and `:::` after it,
+as you would use `section` and `end` in a Lean file:
 
 ````text
 ::: leanSection
-```lean -show
-open Filter Topology
+```lean
+variable (n : ℕ)
 ```
 ```lean
-example (x : ℕ) : x + 0 = x := Nat.add_zero x
+#check n + 1
 ```
 :::
 ````
 
+Here `n` is available in both blocks, but its declaration does not affect
+the text after `:::`.
+
+Adding `-show` to a code block hides it in the website while still checking
+it. This can supply a variable used only in prose, where its type is stated
+in words:
+
+````text
+::: leanSection
+```lean -show
+variable (x : ℝ)
+```
+For a real number {lean}`x`, its absolute value is {lean}`|x|`.
+:::
+````
+
+For a code example that the reader will copy, show the `variable` and `open`
+commands it needs along with the example.
+
 ### Identifiers and mathematical expressions
 
-- Write a declaration as `` {name}`Foo.bar` ``. It links to the declaration
+- A reference such as `` {name}`Nat.add_zero` `` links to the declaration
   and shows its type on hover.
-- Write an expression Lean should elaborate as `` {lean}`f x` ``.
-- Write a mathematical variable in prose with inline math, `` $`x` ``.
-- Use plain backticks only for text that is not a Lean identifier or
-  expression.
+- An expression such as `` {lean}`n + 1` `` is checked by Lean, using the
+  variables available at that point in the text.
+- Inline mathematics is written in LaTeX, for example `` $`x` `` or
+  `` $`\sum_{i=0}^n i` ``.
+- Plain backticks display text verbatim, for example an editor input
+  sequence such as `` `\nhds` ``.
+
+### Emphasis
+
+Write `*bold*` for bold text and `_italic_` for italic text.
 
 ### Tags and links
 
@@ -182,7 +213,8 @@ Link to it with `{ref "your-topic-first-kind"}[the first kind of X]`.
 
 ### Tables
 
-Use a Verso table, not Markdown pipes:
+Verso has its own syntax for tables. For example, a table comparing two
+notations for linear maps can be written as:
 
 ```text
 ::: table +header
@@ -190,28 +222,50 @@ Use a Verso table, not Markdown pipes:
 * * Form
   * Meaning
 
-* * `first`
-  * the first form
+* * `M →ₗ[R] N`
+  * an R-linear map from M to N
 
-* * `second`
-  * the second form
+* * `M ≃ₗ[R] N`
+  * an R-linear equivalence between M and N
 
 :::
 ```
 
-### Expected errors
+### Showing Lean's output
 
-Use a named `+error` block and a matching `leanOutput` block. Copy the error
-text from the build output; the linter rejects stale output.
+To display the result of a command such as `#check`, `#eval`, or `#synth`,
+give the code block a name and use that name in a `leanOutput` block:
 
 ````text
-```lean +error (name := exampleError)
--- Code that should fail.
+```lean (name := sumOutput)
+#eval (2 : ℕ) + 2
 ```
-```leanOutput exampleError
--- Exact error text.
+```leanOutput sumOutput
+4
 ```
 ````
 
-For prose, bold is `*bold*` and italics is `_italic_`; Markdown's `**bold**`
-is rejected by the linter.
+Copy the message Lean displays in the editor into the `leanOutput` block.
+Verso checks that this text agrees with Lean's actual output. If it changes,
+you will see an error at the block in the editor or when compiling the file.
+
+To include code that produces an error, add `+error`:
+
+````text
+```lean +error (name := boolError)
+#check (true : ℕ)
+```
+```leanOutput boolError
+Type mismatch
+  true
+has type
+  Bool
+but is expected to have type
+  ℕ
+```
+````
+
+The `+error` option tells Verso that the failure is intentional, so the
+surrounding document can still compile. An example like this would be
+followed by the correction: here, a natural number such as `1` can be used
+in place of `true`.
