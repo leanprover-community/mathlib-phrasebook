@@ -37,7 +37,7 @@ If the entry translates a familiar but non-idiomatic formulation into the
 usual Mathlib formulation, say that in the introduction. Show the translation,
 then tell the reader which formulation to use in subsequent work.
 
-## 2. Make a compiling skeleton
+## 2. Create the file and view it in a browser
 
 Copy the repository's starter file and give the copy a module name for your
 topic:
@@ -53,25 +53,44 @@ first useful section is enough to establish the shape of the entry.
 
 Register the page in `Phrasebook.lean` in two places:
 
-1. Add `import Phrasebook.YourTopic` with the other page imports.
+1. Add `import Phrasebook.YourTopic` with the other imports.
 2. Add `{include 1 Phrasebook.YourTopic}` where the page should appear in the
    book.
 
-Check the skeleton immediately:
+On a new checkout, first download the compiled dependencies:
+
+```bash
+lake exe cache get
+```
+
+Then check that your file compiles and generate the HTML:
 
 ```bash
 lake build Phrasebook.YourTopic
 lake exe phrasebook
 ```
 
-On a new checkout, run `lake exe cache get` first. To view the result, run:
+If either command reports errors, they need to be fixed before you can view
+the updated page. The first command checks your file; the second builds the
+complete phrasebook and writes the HTML to `_out/html-multi/`.
+
+To view it, start a local web server:
 
 ```bash
 python3 -m http.server 8000 -d _out/html-multi
 ```
 
-and open <http://localhost:8000>. Confirm that the new page appears in the
-table of contents before writing more.
+and open <http://localhost:8000>. Your page should appear in the table of
+contents. If it is missing, check that both the `import` and `{include ...}`
+lines are present in `Phrasebook.lean`, then run `lake exe phrasebook` again
+and refresh the browser.
+
+As you edit, run `lake exe phrasebook` in another terminal and refresh the
+browser to see your changes. This also recompiles files that have changed;
+you can leave the web server running and do not need to fetch the cache
+again. Viewing the page helps you see whether the code and prose are readable
+together. Follow the links you have added to check that they lead where you
+intended.
 
 ## 3. Finish one useful section
 
