@@ -1,15 +1,16 @@
 # Writing your first phrasebook entry
 
-This guide takes you from a question that came up in a Lean project to a
-rendered phrasebook entry. By the end, you should have a small page that
-answers that question with checked Lean examples and is ready for review.
+If you have worked out how to use a part of Mathlib, a phrasebook entry is
+an opportunity to share that experience. This guide discusses choosing a
+question to answer, writing examples, and adding your contribution to the
+book. An entry may occupy one page or several pages in the generated website.
 
 The project [README](../README.md) explains what belongs in the phrasebook.
 The short version is: write for a reader who knows the mathematics and some
 Lean, is in the middle of a project, and wants to know how to express or use
 one mathematical idea in Mathlib.
 
-## 1. Start with the reader's question
+## Choose a question
 
 Good entries usually begin with a problem you actually encountered. Write the
 question down in mathematical language before looking at Mathlib's names. For
@@ -22,22 +23,66 @@ A phrasebook entry may link to existing introductory material
 and start where it stops.
 
 When preparing a phrasebook entry, you should have in mind
+
 * the type of problem the reader is working on
 * the background knowledge they already have or don't have
 * what they are trying to achieve
 * what new skills they will have after reading the entry.
 
-Begin by turning this into a short outline. Typically a phrasebook entry will have a few sections that can be
-consulted independently. Name each section after the task it solves, using
-words a mathematician would search for. For example, prefer "State that a sequence
-converges" to "The `Tendsto` definition". Page titles can simply name the
-mathematical topic, as the existing chapters do.
+An entry about convergence might have sections on stating convergence,
+proving convergence, and using it in a proof. Such headings help a reader
+find the part they need without knowing the names of Mathlib's definitions.
+A heading such as "The `Tendsto` definition" is less helpful to someone
+who has not yet learnt how Mathlib expresses convergence.
 
-If the entry translates a familiar but non-idiomatic formulation into the
-usual Mathlib formulation, say that in the introduction. Show the translation,
-then tell the reader which formulation to use in subsequent work.
+A section can have prerequisites: for example, composing linear maps
+requires knowing how to declare vector spaces and linear maps. A link to
+the section that explains those declarations lets a reader find the
+necessary background without reading the whole entry in order.
 
-## 2. Create the file and view it in a browser
+## Write examples the reader can adapt
+
+For the question "How do I state that a sequence converges?", an example
+could be the following, in a file that imports `Mathlib`:
+
+```lean
+open Filter Topology
+
+variable (u : ℕ → ℝ) (a : ℝ)
+  (hu : Tendsto u atTop (𝓝 a))
+```
+
+Here `hu` is the assumption that the real sequence `u` converges to `a`.
+The accompanying text should explain the notation: `atTop` specifies that
+the index tends to infinity, and `𝓝 a` is the neighbourhood filter of `a`.
+It can also say how to type `𝓝` in the editor: `\nhds` followed by a space.
+The reader can then substitute their own sequence and limit. The `open`
+commands are shown because they are needed to use these names and notation.
+
+What the reader needs to know depends on the question. An entry on ring
+extensions might introduce a single algebra first, and the compatibility
+assumptions for a tower in a later section. Introduce each convention where
+it is used. Explanations of why Mathlib chose a particular definition belong
+in separate documentation, which the entry can link to.
+
+When a mistake is likely to puzzle the reader, an example showing the error
+and its correction can help. For instance, the
+[linear algebra entry](../Phrasebook/LinearAlgebra.lean) shows why an
+`AddCommMonoid` assumption does not suffice to negate a vector, and gives
+the assumption needed to do so. The [output examples below](#expected-errors)
+explain how to include Lean's messages in the text.
+
+It is also helpful to mention missing theorems or known difficulties that
+affect the reader's project. Describe what is available and what remains to
+be done; if there is work in progress, link to it. This can help someone
+decide whether to use the current library or contribute the missing result.
+
+When reading over your draft, consider someone arriving at a section with
+the question in its heading. Can they find the relevant example, understand
+its assumptions, and use it in their own file? This is also a useful question
+to ask a reviewer when you open a pull request.
+
+## Create the file and view it in a browser
 
 Copy the repository's starter file and give the copy a module name for your
 topic:
@@ -46,10 +91,11 @@ topic:
 cp Phrasebook/Template.lean Phrasebook/YourTopic.lean
 ```
 
-In the new file, replace the copyright holder, author, title, tag, scope
-statement, and first section. The scope statement should say what the page
-helps the reader do and what it assumes. Leave later ideas out for now: the
-first useful section is enough to establish the shape of the entry.
+In the copy, fill in your name in the copyright and author lines. Choose a
+title and tags for your topic, then replace the introduction and first
+section with your text. The introduction tells the reader what questions
+the entry answers and what background it assumes. Tags are names used in
+links; their syntax is described [below](#tags-and-links).
 
 Register the page in `Phrasebook.lean` in two places:
 
@@ -91,101 +137,6 @@ you can leave the web server running and do not need to fetch the cache
 again. Viewing the page helps you see whether the code and prose are readable
 together. Follow the links you have added to check that they lead where you
 intended.
-
-## 3. Finish one useful section
-
-Start the section with the Lean form the reader came to find. Introduce its
-required variables, imports, namespaces, and notation before the example, then
-explain only what the reader needs to adapt it.
-
-A first section will often have this shape:
-
-````text
-# State the first kind of X
-%%%
-tag := "your-topic-first-kind"
-%%%
-
-To state ..., write:
-
-::: leanSection
-```lean -show
--- Put boilerplate needed by the visible example here.
-```
-```lean
--- Put a small, usable example here.
-```
-:::
-
-The important arguments are ...
-````
-
-The example should compile in the context established immediately above it.
-A reader copying examples in order should not discover a missing `open`,
-variable, typeclass assumption, or hypothesis.
-
-As you write:
-
-- Put the usable pattern before background about why Mathlib is designed that
-  way. Link to longer explanations instead of delaying the answer.
-- Use one notation and one term for each object throughout the entry.
-- Put `-- New goal: ...` comments inside a proof when the next step is not
-  obvious. Make comments precise enough to stand on their own.
-- Use a small expected-error example when seeing the actual error helps the
-  reader recognize and fix a common mistake.
-- Give the editor abbreviation for unusual Unicode used in code, such as
-  `⧸` (`\/`), `⊓` (`\inf`), `𝓝` (`\nhds`), or `≃ₐ` (`\~-\_a`).
-- Say whether descriptions of Mathlib's coverage are true now or are future
-  work.
-
-Render again after this first section. Check the code width, prose flow,
-identifier links, and any error output before repeating the pattern for the
-remaining sections.
-
-## 4. Complete the entry as a collection of answers
-
-Add the remaining sections from your outline. Each section should make sense
-to a reader who arrived there from search or the table of contents. State any
-prerequisites it needs and avoid relying on a long narrative from earlier
-sections.
-
-When several names or notations need a compact lookup, add a reference table
-after the examples as a summary. Do not make the reader decode the table
-before seeing how the main patterns are used.
-
-If the entry becomes too large to navigate easily, split it into focused child
-pages. The parent should briefly introduce the topic, link the children, and
-optionally summarize them in a table. Import each child from the parent file
-and include it with `{include 1 Phrasebook.YourTopic.Child}`; only the parent
-needs to be registered in `Phrasebook.lean`.
-
-Before polishing sentences, read only the title, introduction, and headings.
-They should tell a coherent story about what the reader can now do. Then check
-each section separately: its first example should answer the task named in its
-heading.
-
-Useful models in the repository are:
-
-- `Phrasebook/LinearAlgebra.lean` for checked examples, expected errors, and
-  concise explanations.
-- `Phrasebook/Filters/Tendsto.lean` for task-oriented sections.
-- `Phrasebook/Filters.lean` for a parent page that links focused child pages.
-
-## 5. Check the rendered entry before opening a PR
-
-- `lake build Phrasebook.YourTopic` succeeds without unexpected errors.
-- `lake exe phrasebook` succeeds.
-- The page appears in the table of contents at the intended location.
-- Every section's heading states a reader task or recognizable mathematical
-  topic.
-- Examples compile with only the setup shown earlier in their section.
-- Long code lines do not require horizontal scrolling.
-- Every sibling reference works, and every `{name}` reference links to a
-  declaration and shows useful hover information.
-- The rendered output contains no raw table syntax, broken code blocks, or
-  stale expected-error text.
-- Placeholders, `TODO`/`XXX` markers, duplicated setup, and copy-paste
-  leftovers are gone.
 
 ## Verso quick reference
 
