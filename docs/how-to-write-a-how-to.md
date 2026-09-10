@@ -91,11 +91,9 @@ topic:
 cp Phrasebook/Template.lean Phrasebook/YourTopic.lean
 ```
 
-In the copy, fill in your name in the copyright and author lines. Choose a
-title and tags for your topic, then replace the introduction and first
-section with your text. The introduction tells the reader what questions
-the entry answers and what background it assumes. Tags are names used in
-links; their syntax is described [below](#tags-and-links).
+Fill in your name in the copyright and author lines. The template marks the
+title, tags, and text to replace. Tags are names used in links; their syntax
+is described [below](#tags-and-links).
 
 Register the page in `Phrasebook.lean` in two places:
 

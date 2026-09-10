@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Your Name Here. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Your Name here
+Authors: Your Name Here
 -/
 
 import VersoManual
@@ -21,21 +21,22 @@ open Phrasebook
 
 set_option pp.rawOnError true
 
+-- Replace "Topic" with the mathematical topic of your contribution.
 #doc (Manual) "Topic" =>
 
 %%%
-tag := "topic"
+tag := "topic" -- Choose a tag that is not already used in the book.
 %%%
 
-This page explains how to express or use this topic in Mathlib.
-It assumes that the reader knows the mathematics and some Lean.
+Replace this paragraph with an introduction saying what questions the entry
+answers and what mathematical and Lean background it assumes.
 
 # The first task
 
 %%%
-tag := "topic-first-task"
+tag := "topic-first-task" -- Choose a distinct tag for this section.
 %%%
 
-Start with the Lean form that answers the reader's first question, then explain
-the details they need to adapt it. Replace this text, the title, and both tags
-when copying the template.
+Replace "The first task" with a heading for your first section. In place of
+this paragraph, give a Lean example answering the question in the heading
+and explain how to use it.
