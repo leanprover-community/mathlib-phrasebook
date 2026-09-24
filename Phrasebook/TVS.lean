@@ -50,20 +50,6 @@ example : IsTopologicalAddGroup E :=
 we could also assume {name}`IsTopologicalAddGroup` instead of {name}`ContinuousAdd` but
 we usually make the superficially weaker assumption.
 
-# Continuous Linear Maps
-
-If $`F` is another TVS:
-```lean
-variable (F : Type*) [AddCommGroup F] [Module 𝕜 F]
-  [TopologicalSpace F]
-  [ContinuousAdd F] [ContinuousSMul 𝕜 F]
-```
-we can speak of the continuous linear maps between $`E` and $`F`. The relevant definition is
-{name}`ContinuousLinearMap` and it has special notation as follows:
-```lean
-#check E →L[𝕜] F
-```
-
 ```lean -show
 end Temporary
 ```
@@ -74,8 +60,10 @@ end Temporary
 section Temporary
 ```
 
-Mathlib contains an extensive theory of locally convex spaces. The basic way to instantiate
-a LCTVS is as follows:
+Locally convex topological vector spaces (LCTVS) come in different forms. Mathlib distinguishes
+between the topological notion and spaces whose topology is induced by a family of seminorms.
+Mathlib contains an extensive theory of all of these different notions. The basic way to instantiate
+a real or complex LCTVS is as follows:
 ```lean
 variable (E 𝕜 : Type*) [NormedField 𝕜]
   [AddCommGroup E] [Module 𝕜 E]
@@ -84,8 +72,10 @@ variable (E 𝕜 : Type*) [NormedField 𝕜]
   [NormedSpace ℝ 𝕜] [Module ℝ E] [IsScalarTower ℝ 𝕜 E]
   [LocallyConvexSpace ℝ E]
 ```
+
 For coefficients more general than $`ℝ` or $`ℂ` there is also {name}`PolynormableSpace`.
 ```lean -show
+
 end Temporary
 ```
 
@@ -107,9 +97,34 @@ example
     [NormedSpace ℝ 𝕜] [Module ℝ E] [IsScalarTower ℝ 𝕜 E] :
     LocallyConvexSpace ℝ E := hp.toLocallyConvexSpace
 ```
+
+```lean -show
+end Temporary
+section Temporary
+```
+and conversely, every locally convex space is polynormable:
+
+```lean
+open scoped ComplexOrder
+
+variable (E 𝕜 : Type*) [RCLike 𝕜]
+  [AddCommGroup E] [TopologicalSpace E]
+  [IsTopologicalAddGroup E]
+  [Module 𝕜 E] [ContinuousSMul 𝕜 E]
+  [Module ℝ E] [ContinuousSMul ℝ E]
+  [IsScalarTower ℝ 𝕜 E] [LocallyConvexSpace 𝕜 E]
+
+example : PolynormableSpace 𝕜 E := by infer_instance
+```
+
 ```lean -show
 end Temporary
 ```
+
+## Notable results
+* The *Hahn-Banach Theorem*: {name}`StrongDual.exists_extension`
+* The *Banach-Steinhaus Theorem*: {name}`WithSeminorms.banach_steinhaus` and
+  {name}`PolynormableSpace.banach_steinhaus`
 
 # Banach and Hilbert spaces
 
@@ -153,7 +168,7 @@ example (x y : E) :
 end Temporary
 ```
 
-# Notable results
+## Notable results
 
 The following are some notable results in Mathlib's theory library of topological
 vector spaces:
@@ -161,3 +176,48 @@ vector spaces:
 - The *Hahn-Banach Theorem*: {name}`exists_extension_norm_eq`
 - The *Lax-Milgram theorem*: {name}`IsCoercive.continuousLinearEquivOfBilin`
 - The *Banach-Steinhaus theorem*: {name}`banach_steinhaus`
+
+# Continuous linear maps
+
+```lean -show
+section Temporary
+```
+
+If $`E` and $`F` are two topological vector spaces:
+```lean
+variable (𝕜 E F : Type*) [NormedField 𝕜]
+  [AddCommGroup E] [Module 𝕜 E] [TopologicalSpace E]
+  [ContinuousAdd E] [ContinuousSMul 𝕜 E]
+  [AddCommGroup F] [Module 𝕜 F] [TopologicalSpace F]
+  [ContinuousAdd F] [ContinuousSMul 𝕜 F]
+```
+we can speak of the continuous linear maps between $`E` and $`F`. The relevant definition is
+{name}`ContinuousLinearMap` and it has special notation as follows:
+```lean
+#check E →L[𝕜] F
+```
+
+## Topologies on continuous linear maps
+
+The space of continuous linear maps is naturally equipped with topology of *bounded* convergence.
+This topology coincides with the operator norm topology in case linear maps on Banach spaces.
+
+tba: code here
+
+Mathlib also knows about the following topologies:
+
+- *Simple*: {name}`PointwiseConvergenceCLM`
+- *Compact*: {name}`CompactConvergenceCLM`
+- *Weak operator topology*: {name}`ContinuousLinearMapWOT`
+
+## Topological dual
+
+In the special case that $`F` is the base field $`𝕜`, we have the abbreviation {lean}`StrongDual 𝕜 E`
+for the {lean}`E →L[𝕜] 𝕜`. This space naturally carries the topology of bounded convergence, which
+is also known as the strong topology. To obtain the
+
+{name}`WeakDual.isCompact_polar`
+
+```lean -show
+end Temporary
+```
