@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # v4
-      - uses: leanprover/lean-action@6fe4ae6a449c9758f51250ee249ebbc7ec37ee48 #v1
+      - uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865 # v1.6.1
       - name: Build Verso docs
         run:
           lake exe phrasebook
