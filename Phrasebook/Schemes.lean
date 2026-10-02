@@ -366,6 +366,14 @@ example (f : Y ⟶ X) [IsClosedImmersion f] :
 ```
 And conversely, every ideal sheaf determines a closed immersion.
 ```lean
+-- Unfortunately we have a defeq mismatch between
+-- the type of `@IsClosedImmersion : (X ⟶ Y) → Prop` and
+-- `MorphismProperty`, so currently we need to enable
+-- this backwards compatibility option.
+-- The long-term solution is to fix Mathlib: please ask on
+-- the Lean Zulip if you want to help.
+set_option backward.isDefEq.respectTransparency.types false
+  in
 example :
     (MorphismProperty.Over @IsClosedImmersion ⊤ X)ᵒᵖ ≌
       X.IdealSheafData :=
@@ -492,13 +500,17 @@ instance :
   eq_affineLocally' := by
     ext X Y f
     rw [flat_iff, affineLocally_iff_affineOpens_le]
-    simp only [Scheme.affineOpens, Set.coe_setOf,
-      Set.mem_setOf_eq, Subtype.forall]
+    simp only [Scheme.affineOpens, Set.mem_ofPred_eq,
+      Subtype.forall]
     grind
 ```
 After this, we get some meta properties for free, for example that flat is local
 on the target:
 ```lean
+-- This is the same defeq issue with `MorphismProperty`,
+-- as the `set_option` above.
+set_option backward.isDefEq.respectTransparency.types false
+  in
 example : IsZariskiLocalAtTarget @Flat :=
   inferInstance
 ```
