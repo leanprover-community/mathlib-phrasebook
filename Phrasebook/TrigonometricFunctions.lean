@@ -160,6 +160,6 @@ example (hx : |x| ≤ 1) :
   cos_bound hx
 
 example (hx : |x| ≤ 1) :
-    |sin x - (x - x ^ 3 / 6)| ≤ |x| ^ 4 * (5 / 96) :=
+    |sin x - (x - x ^ 3 / 6)| ≤ |x| ^ 5 / 100 :=
   sin_bound hx
 ```
