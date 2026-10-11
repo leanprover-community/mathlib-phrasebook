@@ -266,7 +266,7 @@ example {M : ℝ} (hMp : 0 ≤ M) (hM : ∀ x, ‖f x‖ ≤ M * ‖x‖) :
     ‖f‖ ≤ M := f.opNorm_le_bound hMp hM
 ```
 
-Mathlib also knows about the following topologies:
+Mathlib also knows about the following topologies on type synonyms of continuous linear maps:
 
 - *Pointwise convergence* (or strong operator topology): {name}`PointwiseConvergenceCLM`
 - *Compact convergence*: {name}`CompactConvergenceCLM`
