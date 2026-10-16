@@ -17,6 +17,7 @@ import Phrasebook.Asymptotics
 import Phrasebook.CliffordExterior
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
+import Phrasebook.Distribution
 import Phrasebook.ErgodicMaps
 import Phrasebook.Filters
 import Phrasebook.GroupActions
@@ -104,6 +105,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.TopologicalSpaces}
 
 {include 1 Phrasebook.TVS}
+
+{include 1 Phrasebook.Distribution}
 
 {include 1 Phrasebook.TrigonometricFunctions}
 
