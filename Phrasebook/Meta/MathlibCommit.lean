@@ -25,5 +25,5 @@ def mathlibCommit : RoleExpander
       | .git url rev _ _ =>
         pure (rev.take 7, s!"{url}/commits/{rev}")
       | _ => throwError "expected Mathlib to be required from git"
-    pure #[← ``(Verso.Doc.Inline.link $(quote #[← ``(Verso.Doc.Inline.text $(quote commit.toString))]) $(quote url))]
+    pure #[← ``(Verso.Doc.Inline.link $(quote #[← ``(Verso.Doc.Inline.code $(quote commit.toString))]) $(quote url))]
   | _, _ => throwError "Unexpected arguments"
