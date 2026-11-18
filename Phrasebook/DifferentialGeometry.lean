@@ -19,8 +19,6 @@ open Verso.Genre.Manual.InlineLean
 
 open Phrasebook
 
-set_option pp.rawOnError true
-
 set_option verso.code.warnLineLength 80
 
 #doc (Manual) "How to do differential geometry using Mathlib" =>
@@ -288,9 +286,10 @@ Let us highlight some particular kinds of smooth maps, that are often used in th
 Diffeomorphisms are the isomorphisms in the category of smooth manifolds: `f : M → N` is a $`Ckn` diffeomorphism if it is $`C^k` and has an inverse map which is again $`C^k`. Diffeomorphisms in Lean are bundled, i.e. include a choice of inverse as part of their data.
 ```lean
 #check Diffeomorph
+```
 
--- If `f` is a diffeomorphism, its differential is invertible.
--- (This follows easily from the chain rule.)
+If `f` is a diffeomorphism, its differential is invertible. (This follows easily from the chain rule.)
+```lean
 #check Diffeomorph.mfderivToContinuousLinearEquiv
 ```
 
@@ -370,7 +369,7 @@ variable {𝕜 E M H : Type*} [NontriviallyNormedField 𝕜]
   {I : ModelWithCorners 𝕜 E H} [ChartedSpace H M] [IsManifold I k M]
   {E' : Type*} [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
   {H' : Type*} [TopologicalSpace H'] (J : ModelWithCorners 𝕜 E' H')
-  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J k N]
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N]
 variable {f : M → N} {s : Set M} {x : M}
 
 #check (mfderiv% f x : TangentSpace I x →L[𝕜] TangentSpace J (f x))
@@ -401,7 +400,6 @@ example [IsManifold I 1 M] [IsManifold J 1 N]
     CMDiff[Bundle.TotalSpace.proj ⁻¹' s] ∞ (tangentMap[s] f) :=
  hf.contMDiffOn_tangentMapWithin le_rfl hs
 
-omit [IsManifold J k N] in
 example [AddGroup N] [LieAddGroup J k N] {f g : M → N}
     (hf : CMDiff k f) (hg : CMDiff k g) : CMDiff k (f + g) := hf.add hg
 ```
@@ -468,9 +466,9 @@ variable {B F : Type*} [TopologicalSpace B] [TopologicalSpace F]
 -- let `s` be a section of `E → B`
 variable {s : Π (b : B), E b}
 ```
--- TODO: mention trivializations etc!
+TODO: mention trivializations, and standard constructions
 
-Mathlib has no theory of smooth fiber bundles yet. TODO: are there other constructions to mention?
+Mathlib has no theory of smooth fiber bundles yet.
 
 A vector bundle is a fiber bundle whose standard fiber is a normed space.
 ```lean

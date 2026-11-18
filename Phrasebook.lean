@@ -18,6 +18,7 @@ import Phrasebook.CategoryTheory
 import Phrasebook.CliffordExterior
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
+import Phrasebook.DifferentialGeometry
 import Phrasebook.ErgodicMaps
 import Phrasebook.Filters
 import Phrasebook.GroupActions
