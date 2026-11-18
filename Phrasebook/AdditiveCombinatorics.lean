@@ -3,7 +3,11 @@ Copyright (c) 2026 Yaël Dillies. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Yaël Dillies
 -/
-import AddCombi
+-- TODO: this was `import AddCombi` instead of more precise imports,
+-- but `AddCombi` has kept a few definitions that are also upstream in Mathlib.
+import AddCombi.Mathlib.Algebra.Notation.Indicator
+import AddCombi.BSG
+-- import AddCombi
 import Mathlib
 import Phrasebook.Meta.Lean
 import VersoManual
