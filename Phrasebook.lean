@@ -74,6 +74,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 
 {include 1 Phrasebook.CoveringSpaces}
 
+{include 1 Phrasebook.DifferentialGeometry}
+
 {include 1 Phrasebook.DifferentialCalculus}
 
 {include 1 Phrasebook.ErgodicMaps}
