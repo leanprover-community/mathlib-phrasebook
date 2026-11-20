@@ -21,7 +21,9 @@ rev = "master"
 
 [[lean_lib]]
 name = "Phrasebook"
+allowNonModules = true
 
 [[lean_exe]]
 name = "phrasebook"
 root = "Main"
+allowNonModules = true

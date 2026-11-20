@@ -113,8 +113,7 @@ a single term abstractly, for instance to use its linearity in the coefficient.
 open Polynomial
 variable {R : Type*} [Semiring R] (p : R[X]) (n : ℕ)
 ```
-The coefficient of degree {lean}`n` of a polynomial {lean}`p` is {name}`Polynomial.coeff`,
-written {lean}`p.coeff n`:
+The coefficient of degree {lean}`n` of a polynomial {lean}`p` is written {lean}`p.coeff n`:
 ```lean
 example : R := p.coeff n
 ```
@@ -132,13 +131,13 @@ For instance, the coefficients of `C r + C 2 * X ^ 2 + X ^ 3` are
 ```lean
 example (r : R) :
     (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 0 = r := by
-  simp [coeff_add, coeff_X_pow, coeff_C]
+  simp [coeff_X_pow, coeff_C]
 example (r : R) :
     (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 2 = 2 := by
-  simp [coeff_add, coeff_C_mul, coeff_X_pow]
+  simp [coeff_C_mul, coeff_X_pow]
 example (r : R) :
     (C r + C 2 * X ^ 2 + X ^ 3 : R[X]).coeff 3 = 1 := by
-  simp [coeff_add, coeff_C_mul, coeff_X_pow]
+  simp [coeff_C_mul, coeff_X_pow]
 ```
 :::
 

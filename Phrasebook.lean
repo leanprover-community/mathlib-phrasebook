@@ -14,6 +14,7 @@ import Phrasebook.Meta.VersionString
 -- and to the `{include 1 ...}` lines below.
 import Phrasebook.AdditiveCombinatorics
 import Phrasebook.Asymptotics
+import Phrasebook.CategoryTheory
 import Phrasebook.CliffordExterior
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
@@ -66,6 +67,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.AdditiveCombinatorics}
 
 {include 1 Phrasebook.Asymptotics}
+
+{include 1 Phrasebook.CategoryTheory}
 
 {include 1 Phrasebook.CliffordExterior}
 
