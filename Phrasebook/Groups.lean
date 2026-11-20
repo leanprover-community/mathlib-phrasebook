@@ -89,7 +89,7 @@ variable [IsCyclic G]
 variable [Group.IsPerfect G]
 -- `G` is a p-group (π-group): (not a class)
 variable {p : ℕ} (h : IsPGroup p G)
--- `G` is a p-group for a prime `p`:
+-- `G` is a p-group for a prime `p`: (not a class)
 variable {p : ℕ} (hp : p.Prime) (h : IsPGroup p G)
 -- `G` is a Z-group:
 variable [IsZGroup G]
