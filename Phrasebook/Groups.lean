@@ -97,9 +97,9 @@ variable [IsZGroup G]
 variable [Group.FG G]
 -- `G` is finitely presented:
 variable [Group.IsFinitelyPresented G]
--- `G` is vritually nilpotent: (not a class)
+-- `G` is virtually nilpotent: (not a class)
 variable (h : Group.IsVirtuallyNilpotent G)
--- `G` is vritually cyclic:
+-- `G` is virtually cyclic:
 variable [Group.IsVirtuallyCyclic G]
 -- `G` is a torsion group:
 variable (h : IsMulTorsion G)
