@@ -18,6 +18,7 @@ import Phrasebook.CategoryTheory
 import Phrasebook.CliffordExterior
 import Phrasebook.CoveringSpaces
 import Phrasebook.DifferentialCalculus
+import Phrasebook.DifferentialGeometry
 import Phrasebook.ErgodicMaps
 import Phrasebook.Filters
 import Phrasebook.GroupActions
@@ -73,6 +74,8 @@ This document has been last updated at *{now}[]* using Lean *{versionString}[]* 
 {include 1 Phrasebook.CliffordExterior}
 
 {include 1 Phrasebook.CoveringSpaces}
+
+{include 1 Phrasebook.DifferentialGeometry}
 
 {include 1 Phrasebook.DifferentialCalculus}
 
