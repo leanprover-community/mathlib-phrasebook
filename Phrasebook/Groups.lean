@@ -47,11 +47,10 @@ example (x y z : G) :
 
 We can witness the same mathematics in additive notation as follows:
 ```lean
-variable {A : Type*} [AddGroup A] {a b : A}
+variable {A : Type*} [AddGroup A] {a b c : A}
 
-example (x y z : A) :
-    (x + y) + z = x + (y + z) :=
-  add_assoc x y z
+example : (a + b) + c = a + (b + c) :=
+  add_assoc a b c
 ```
 
 Commutators of elements are defined with inverses on the right side:
