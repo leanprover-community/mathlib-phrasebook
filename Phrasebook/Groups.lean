@@ -117,6 +117,12 @@ variable [RootableBy G ℕ]
 variable [DivisibleBy A ℕ]
 ```
 
+You can also assert that a group is commutative using `IsMulCommutative G`
+(or `IsAddCommutative A` for additive groups), and it is a class,
+but to assume a commutative group prefer using the bundled `[CommGroup G]`.
+The predicate is intended for proofs about commutativity,
+such as {name}`IsPGroup.isMulCommutative_of_card_eq_prime_sq` or {name}`commutator_eq_bot_iff`.
+
 Use {name}`Group.nilpotencyClass` to get the nilpotency class of a group
 (or zero if the group is not nilpotent).
 
@@ -256,6 +262,8 @@ so you can also use any property about groups:
 variable [IsCyclic H]
 -- `H` is nilpotent:
 variable [Group.IsNilpotent H]
+-- `H` is commutative:
+variable [IsMulCommutative H]
 ```
 
 Some ways to create well-known subgroups:
