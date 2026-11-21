@@ -104,7 +104,7 @@ variable [Group.IsFinitelyPresented G]
 variable (h : Group.IsVirtuallyNilpotent G)
 -- `G` is virtually cyclic:
 variable [Group.IsVirtuallyCyclic G]
--- `G` is a torsion group:
+-- `G` is a torsion group: (not a class)
 variable (h : IsMulTorsion G)
 -- `G` is torsion-free:
 variable [IsMulTorsionFree G]
