@@ -395,7 +395,7 @@ You can use the `simp` lemma {name}`Sylow.coe_coe` to normalize it to the direct
 # Notable results
 
 The following are some notable results in Mathlib's group theory library:
-- *Lagrange's theorem* {name}`Subgroup.card_subgroup_dvd_card`
-- *Sylow's first theorem* {name}`Sylow.exists_subgroup_card_pow_prime`
-- *Simplicity of the alternating group* {name}`alternatingGroup.isSimpleGroup`
-- The *Schur-Zassenhaus theorem* {name}`Subgroup.exists_left_complement'_of_coprime`
+- *Lagrange's theorem*: {name}`Subgroup.card_subgroup_dvd_card`
+- *Sylow's first theorem*: {name}`Sylow.exists_subgroup_card_pow_prime`
+- *Simplicity of the alternating group*: {name}`alternatingGroup.isSimpleGroup`
+- The *Schur-Zassenhaus theorem*: {name}`Subgroup.exists_left_complement'_of_coprime`
