@@ -25,6 +25,9 @@ set_option pp.rawOnError true
 
 We describe Mathlib's group theory in the sections below.
 
+See [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#monoids-and-groups)
+for a detailed explanation of group theory in Mathlib.
+
 # Basics
 
 Mathlib contains a theory of groups. Moreover it supports both multiplicative and additive
@@ -140,6 +143,9 @@ variable {G : Type*} [Group G] [Finite G]
 ```
 
 # Subgroups
+
+See [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#subgroups)
+for a detailed explanation of subgroups in Mathlib.
 
 For a group `G`, {name}`Subgroup` `G` is the type of subgroups of `G`.
 Let `H` and `K` be subgroups of `G`:
@@ -330,6 +336,9 @@ variable [(H.subgroupOf K).Normal]
 ```
 
 # Quotients
+
+See [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C09_Groups_and_Rings.html#quotient-groups)
+for a detailed explanation of quotient groups in Mathlib.
 
 For every subgroup `H` of a group `G`, `G ⧸ H` is the type of cosets of `H` in `G`.
 
